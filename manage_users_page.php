@@ -94,22 +94,31 @@ if (!empty($searchQuery)) {
             </div>
             <div id="editModal" class="modal">
                 <div class="modal-content">
-                    <input type="text" name="username" placeholder="Username" required>
-                    <input type="password" name="password" placeholder="Password" required>
-                    <div class="email-role-group">
-                        <input type="email" name="email" placeholder="Email" required>
-                        <select name="user_role" required>
-                            <option value="Teacher">Teacher</option>
-                            <option value="Scheduler">Scheduler</option>
-                            <option value="Student">Student</option>
-                        </select>
-                    </div>
+                    <h2 class="modal-title">Edit User Details</h2>
+                    <input type="text" name="username" placeholder="Username" id="modal_username" required>
+                    <input type="password" name="password" placeholder="Password" id="modal_password" required>
+                    <input type="email" name="email" placeholder="Email" id="modal_email" required>
+                    <select name="user_role" id= "modal_role" required>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Scheduler">Scheduler</option>
+                        <option value="Student">Student</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                    <p id="modal_notification" style="color: green; display: none;"></p>
                     <button onclick="saveChanges()" class="save-btn">Save changes</button>
                     <button onclick="closeModal()" class="save-btn">Close</button>
                 </div>
             </div>
         </div>
         <script>
+
+        let originalUserData = {
+            userID: '',
+            username: '',
+            email: '',
+            user_role: ''
+        };
+
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.overlay');
@@ -118,7 +127,7 @@ if (!empty($searchQuery)) {
             overlay.classList.toggle('hidden');
         }
         function searchUser() {
-        const query = document.getElementById('search').value;
+        const query = document.getElementById('searchBox').value;
         window.location.href = `your_page.php?search=${query}`;
         }
         function clearAndSearch() {
@@ -127,22 +136,74 @@ if (!empty($searchQuery)) {
         }
         function deleteUser(userId) {
             if (confirm('Are you sure you want to delete this user?')) {
-                window.location.href = `delete_user_process.php?id=${userId}`;
+                window.location.href = `process_delete_user.php?id=${userId}`;
             }
         }
         function openEditModal(userId) {
-            // Fetch user data from the server (you need to replace this with actual AJAX code)
-            const user = { /* fetch user data based on userId */ };
+            fetch(`process_user_by_id.php?id=${userId}`)
+            .then(response => response.json())
+            .then(user => {    
+                console.log("Retrieved user:", user);
+                document.getElementById('editModal').style.display = "block";
+                document.getElementById('modal_username').value = user.username;
+                document.getElementById('modal_email').value = user.email;
+                document.getElementById('modal_role').value = user.user_role;
 
-            document.getElementById('editModal').style.display = "block";
-            document.getElementById('username').value = user.username; // make sure this is fetched
-            document.getElementById('email').value = user.email;  // make sure this is fetched
+                originalUserData.userID = userId;
+                originalUserData.username = user.username;
+                originalUserData.email = user.email;
+                originalUserData.user_role = user.user_role;
+            })
+            .catch(error => console.error('Error:', error));
+
         }
 
         function closeModal() {
             document.getElementById('editModal').style.display = "none";
+            document.getElementById('modal_notification').innerText = '';
+            document.getElementById('modal_notification').style.display = 'none';
+            location.reload();
         }
         
+        function saveChanges() {
+            const currentUsername = document.getElementById('modal_username').value;
+            const currentEmail = document.getElementById('modal_email').value;
+            const currentRole = document.getElementById('modal_role').value;
+            const password = document.getElementById('modal_password').value;
+
+            // Check if anything changed or if the password field is not empty
+            if (currentUsername !== originalUserData.username ||
+                currentEmail !== originalUserData.email ||
+                currentRole !== originalUserData.user_role ||
+                password !== '') {
+                    console.log('Changes detected, saving...');
+                    const userId = originalUserData.userID;
+                    const formData = new FormData();
+                    formData.append('userId', userId);
+                    formData.append('username', currentUsername);
+                    formData.append('email', currentEmail);
+                    formData.append('user_role', currentRole);
+                    formData.append('password', password);
+
+                    fetch('process_edit_user.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        // Handle response here (e.g., show a success message or handle errors)
+                    })
+                    .catch(error => console.error('Error:', error));
+
+                    document.getElementById('modal_notification').innerText = 'Changes saved successfully!';
+                    document.getElementById('modal_notification').style.display = 'block';
+            } else {
+                console.log('No changes detected');
+                document.getElementById('modal_notification').innerText = 'No changes to save.';
+                document.getElementById('modal_notification').style.display = 'block';
+            }
+        }
         </script>
 
     </div>

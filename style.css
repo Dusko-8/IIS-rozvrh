@@ -519,9 +519,11 @@ table td a:hover {
     cursor: pointer;
 }
 
-/* Form Fields in Modal */
-input[type="text"],
-input[type="email"] {
+/* Form Fields in Modal by ID */
+#modal_username,
+#modal_email, 
+#modal_password,
+#modal_role {
     width: calc(100% - 30px);
     padding: 12px 15px;
     margin-bottom: 10px;
@@ -531,16 +533,21 @@ input[type="email"] {
     transition: border 0.3s;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus {
+#modal_username:focus,
+#modal_email:focus,
+#modal_password:focus,
+#modal_role:focus {
     border-color: #007BFF;
     outline: none;
 }
+
+
 
 /* Modal Buttons */
 .save-btn {
     width: calc(100% - 30px);  /* Making the button width bigger */
     padding: 12px 15px;
+    margin: 10px;
     background-color: #007BFF;
     border: none;
     border-radius: 5px;
@@ -553,4 +560,3 @@ input[type="email"]:focus {
 .save-btn:hover {
     background-color: #0056b3;
 }
-

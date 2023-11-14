@@ -1,11 +1,10 @@
 ﻿<?php
 $host = 'localhost';
-$db   = 'xsluka00';
-$user = 'xsluka00';
-$pass = 'do2bonpe';
-$port = '/var/run/mysql/mysql.sock';
+$db   = 'iis';
+$user = 'root';
+$pass = '';
 
-$dsn = "mysql:host=$host;dbname=$db;port=$port";
+$dsn = "mysql:host=$host;dbname=$db";
 
 try {
     $pdo = new PDO($dsn, $user, $pass);
