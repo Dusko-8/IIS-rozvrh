@@ -14,7 +14,7 @@ CREATE TABLE USERS (
     /*Attributes*/
     username VARCHAR(250) NOT NULL UNIQUE,
     hashed_password VARCHAR(255) NOT NULL,  
-    email VARCHAR(250) NOT NULL UNIQUE,
+    email VARCHAR(250) NOT NULL ,
     user_role ENUM('Admin', 'Guarantor', 'Teacher', 'Scheduler', 'Student', 'Unregistered') NOT NULL
 );
 CREATE TABLE ROOM (

@@ -16,7 +16,7 @@ $user_role = $_SESSION['user_role'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../Styles/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -32,7 +32,7 @@ $user_role = $_SESSION['user_role'];
 
     <div class="main-container">
         <!-- Sidebar Menu -->
-        <?php include 'sidebar_component.php'; ?>
+        <?php include '../Components/sidebar_component.php'; ?>
         <!-- Content Area -->
         <div class="content">
             <!-- Your main content goes here -->
@@ -44,11 +44,10 @@ $user_role = $_SESSION['user_role'];
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.overlay');
-            const menuTitle = document.querySelector('.menu-title');  // Target the menu title
 
             sidebar.classList.toggle('hidden');
-            overlay.classList.toggle('hidden');
-            menuTitle.classList.toggle('aligned');  // Toggle the alignment class
+            // Toggle the 'show' class for the overlay
+            overlay.classList.toggle('show');
         }
         </script>
 

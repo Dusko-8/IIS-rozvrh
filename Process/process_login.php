@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
 
-require 'db_connect.php';
+require '../Database/db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -14,16 +14,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $_POST['username'];
             $_SESSION['user_role'] = $user['user_role']; // Store the user role in the session
-            header('Location: main_page.php');
+            header('Location: ../Pages/main_page.php');
             exit;
         } else {
             $_SESSION['error'] = "Invalid username or password!";
-            header('Location: login_page.php');
+            header('Location: ../Pages/login_page.php');
             exit;
         }
     } else {
         $_SESSION['error'] = "Both fields are required!";
-        header('Location: login_page.php');
+        header('Location: ../Pages/login_page.php');
         exit;
     }
 }

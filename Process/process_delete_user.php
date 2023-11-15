@@ -1,17 +1,17 @@
 ﻿<?php
 session_start();
 
-require 'db_connect.php';
+require '../Database/db_connect.php';
 
 // Check if the user is not logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: login_page.php');
+    header('Location: ../Pages/login_page.php');
     exit;
 }
 
 // Check if the user role is not Admin
 if ($_SESSION['user_role'] !== 'Admin') {
-    header('Location: main_page.php');
+    header('Location: ../Pages/main_page.php');
     exit;
 }
 
