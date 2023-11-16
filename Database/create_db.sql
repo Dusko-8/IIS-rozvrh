@@ -51,7 +51,8 @@ CREATE TABLE SUBJECTS (
     /*Attributes*/
     title VARCHAR(50) NOT NULL,
     abbervation VARCHAR(250) NOT NULL,
-    credits INT NOT NULL
+    credits INT NOT NULL,
+    subj_description VARCHAR(500)
 );
 
 CREATE TABLE ACTIVITY (
@@ -118,11 +119,27 @@ INSERT INTO DAY_TIME(week_day, time_range) VALUES
 ('Piatok', '15:00-17:00');
 
 -- Inserting mock data into SUBJECTS
-INSERT INTO SUBJECTS(guarantor_ID, title, abbervation, credits) VALUES
-(1, 'Mathematics', 'MATH', 3),
-(2, 'Physics', 'PHYS', 4),
-(1, 'Chemistry', 'CHEM', 2);
-
+INSERT INTO SUBJECTS(guarantor_ID, title, abbervation, credits, subj_description) VALUES
+(1, 'Mathematics', 'MATH', 3, 'Fundamental course covering algebra, calculus, and geometry'),
+(2, 'Physics', 'PHYS', 4, 'Comprehensive study of matter, energy, and motion'),
+(3, 'Biology', 'BIOL', 4, 'Exploration of living organisms and life processes'),
+(4, 'History', 'HIST', 3, 'In-depth analysis of historical events and periods'),
+(5, 'English Literature', 'ENGL', 3, 'Study of classic and contemporary literary works'),
+(6, 'Computer Science', 'COMP', 5, 'Course on programming, algorithms, and system design'),
+(7, 'Art History', 'ARTH', 2, 'Survey of art movements and key artists through history'),
+(8, 'Economics', 'ECON', 3, 'Understanding economic theories, models, and applications'),
+(9, 'Psychology', 'PSYC', 3, 'Introduction to mental processes and behavior studies'),
+(10, 'Chemistry', 'CHEM', 2, 'Introduction to chemical reactions and compounds'),
+(11, 'Mathematics', 'MATH', 3, 'Fundamental course covering algebra, calculus, and geometry'),
+(12, 'Physics', 'PHYS', 4, 'Comprehensive study of matter, energy, and motion'),
+(13, 'Biology', 'BIOL', 4, 'Exploration of living organisms and life processes'),
+(14, 'History', 'HIST', 3, 'In-depth analysis of historical events and periods'),
+(15, 'English Literature', 'ENGL', 3, 'Study of classic and contemporary literary works'),
+(16, 'Computer Science', 'COMP', 5, 'Course on programming, algorithms, and system design'),
+(17, 'Art History', 'ARTH', 2, 'Survey of art movements and key artists through history'),
+(18, 'Economics', 'ECON', 3, 'Understanding economic theories, models, and applications'),
+(19, 'Psychology', 'PSYC', 3, 'Introduction to mental processes and behavior studies'),
+(20, 'Chemistry', 'CHEM', 2, 'Introduction to chemical reactions and compounds');
 -- Inserting mock data into PREFERED_SLOTS_TEACHER
 INSERT INTO PREFERED_SLOTS_TEACHER(guarantor_ID, day_time_ID, preference) VALUES
 (1, 1, 'Preferuje'),

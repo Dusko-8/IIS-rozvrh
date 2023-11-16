@@ -39,6 +39,7 @@ if (!empty($searchQuery)) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    
     <!-- Sidebar Toggle Icon -->
     <div class="sidebar-toggle" onclick="toggleSidebar()">
         <i class="fa-solid fa-bars"></i>
@@ -52,6 +53,11 @@ if (!empty($searchQuery)) {
          <!-- Content Area -->
         <div class="content">
         <div class="title">Manage Users</div>
+        <?php if (isset($_GET['deletion']) && $_GET['deletion'] == 'failed'): ?>
+            <div class="alert alert-danger">
+                User deletion failed. Please try again.
+            </div>
+        <?php endif; ?>
          <!-- Search Bar -->
          <div class="search-form">
              <!-- Search Box -->

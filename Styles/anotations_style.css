@@ -1,0 +1,103 @@
+﻿body {
+    display: flex;
+    flex-direction: column; /* Stacks children vertically */
+    align-items: center; /* Center-aligns children horizontally */
+    justify-content: flex-start; /* Aligns children to the start of the page vertically */
+    height: auto; /* Adjust height to content */
+    padding-top: 20px; /* Add some padding at the top */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #9dc5eb, #f0f0f0);
+}
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the space between cards */
+    justify-content: center;
+    overflow-y: auto; /* Adds vertical scrolling */
+    max-height: 75vh; /* Sets a maximum height */   
+    width: 100%; /* Take full width */
+    max-width: 1200px; /* Set a max width if needed */
+    margin: 0 auto; /* Center it horizontally */
+    padding: 20px; /* Add padding */
+}
+
+.card {
+    border: 1px solid #ccc; /* Example border */
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: Adds a shadow for depth */
+    width: 300px; /* Adjust the width as needed */
+    background: whitesmoke;
+    border-radius: 10px;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #333; /* Title color */
+}
+
+.card p {
+    margin: 10px 0;
+}
+
+/* Specific styles for different paragraphs if needed */
+.card p:nth-child(2) {
+    font-style: italic; /* Example for abbreviation */
+}
+
+.card p:nth-child(4) {
+    font-size: 0.9em; /* Example for description */
+}
+
+.title {
+    text-align: center;
+    font-size: 2em;  /* Adjust the font size as you like */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #333;  /* Change color as you like */
+    font-weight: bold;
+    text-transform: uppercase;  /* Makes the text uppercase */
+}
+
+/* Search Bar Styling */
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.search-input[type="text"] {
+    padding: 10px;
+    border: none;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    width: 70%;
+}
+
+.search-btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.login-button-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.login-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}

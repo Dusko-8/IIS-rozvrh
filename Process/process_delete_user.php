@@ -27,9 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         
         // Execute the prepared statement
         if ($stmt->execute()) {
-            header("Location: your_page.php?message=User+Deleted");
+            header("Location: ../Pages/manage_users_page.php");
         } else {
-            header("Location: your_page.php?message=Delete+Failed");
+            header("Location: ../Pages/manage_users_page.php?deletion=failed");
         }
     }
 }

@@ -27,6 +27,19 @@ body {
     margin-bottom: 10px;
 }
 
+.alert {
+    padding: 10px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.alert-danger {
+    background-color: #e57373; /* Lighter red for danger alerts */
+}
+
 label {
     display: block;
     margin-top: 5px;
