@@ -13,7 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user && password_verify($_POST['password'], $user['hashed_password'])) {
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $_POST['username'];
-            $_SESSION['user_role'] = $user['user_role']; // Store the user role in the session
+            $_SESSION['user_role'] = $user['user_role']; // Store the user role in the session 
+            if($user['user_role'] == 'Student')
+            {
+                header('Location: ../Pages/Student/student_yearly.php');
+                exit;
+            }
             header('Location: ../Pages/main_page.php');
             exit;
         } else {
