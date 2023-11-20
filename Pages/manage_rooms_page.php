@@ -212,25 +212,6 @@ if (!empty($searchQuery)) {
                 });
         }
 
-        function openAddNewRoomModal() {
-            // Clear any previous data in the form fields
-            document.getElementById('modal_roomName').value = '';
-            document.getElementById('modal_capacity').value = '';
-            document.getElementById('modal_roomLocation').value = '';
-            document.getElementById('modal_roomId').value = ''; // Clear or set to a value indicating a new room
-
-            // Hide any existing notifications
-            document.getElementById('modal_notification').innerText = '';
-            document.getElementById('modal_notification').style.display = 'none';
-
-            // Show the modal
-            document.getElementById('editModal').style.display = "block";
-
-            // Optionally, update the modal title to indicate adding a new room
-            document.querySelector('.modal-title').innerText = "Add New Room";
-        }
-
-
 
         function closeModal() {
             document.getElementById('editModal').style.display = "none";
@@ -285,6 +266,7 @@ if (!empty($searchQuery)) {
                 document.getElementById('modal_notification').style.display = 'block';
             }
         }
+
         function openAddRoomModal() {
             document.getElementById('addRoomModal').style.display = "block";
             document.getElementById('add_roomName').value = '';

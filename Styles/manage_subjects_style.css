@@ -1,0 +1,61 @@
+﻿/* Form Fields in Modal by ID */
+.alert {
+    padding: 10px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: rgb(134, 229, 115); 
+}
+
+#modal_title,
+#modal_abbervation,
+#modal_credits,
+#modal_guarantor, 
+#modal_description
+{
+    width: calc(100% - 30px);
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+#modal_title:focus,
+#modal_abbervation:focus,
+#modal_guarantor:focus,
+#modal_credits:focus,
+#modal_description:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+#add_title,
+#add_abbervation, 
+#add_credits,
+#add_guarantor,
+#add_description
+{
+    width: calc(100% - 30px);
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+#add_title:focus,
+#add_abbervation:focus,
+#add_description:focus,
+#add_guarantor:focus,
+#add_credits:focus {
+    border-color: #007BFF;
+    outline: none;
+}
