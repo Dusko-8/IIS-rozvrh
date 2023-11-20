@@ -1,0 +1,53 @@
+﻿/* Form Fields in Modal by ID */
+.alert {
+    padding: 10px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: rgb(134, 229, 115); 
+}
+
+#modal_roomName,
+#modal_capacity, 
+#modal_roomLocation
+{
+    width: calc(100% - 30px);
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+#modal_roomName:focus,
+#modal_capacity:focus,
+#modal_roomLocation:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+#add_roomName,
+#add_capacity, 
+#add_roomLocation
+{
+    width: calc(100% - 30px);
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border 0.3s;
+}
+
+#add_roomName:focus,
+#add_capacity:focus,
+#add_roomLocation:focus {
+    border-color: #007BFF;
+    outline: none;
+}

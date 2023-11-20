@@ -52,21 +52,18 @@ if (!empty($searchQuery)) {
         <?php include '../Components/sidebar_component.php'; ?>
          <!-- Content Area -->
         <div class="content">
-        <div class="title">Manage Users</div>
-        <?php if (isset($_GET['deletion']) && $_GET['deletion'] == 'failed'): ?>
-            <div class="alert alert-danger">
-                User deletion failed. Please try again.
+            <div class="title">Manage Users</div>
+            <?php if (isset($_GET['deletion']) && $_GET['deletion'] == 'failed'): ?>
+                <div class="alert alert-danger">
+                    User deletion failed. Please try again.
+                </div>
+            <?php endif; ?>
+             <!-- Search Bar -->
+            <div class="search-form">
+                <input type="text" id="searchBox" value="<?php echo htmlspecialchars($searchQuery); ?>" class="search-input" placeholder="Search by username...">
+                <button onclick="searchUser()" class="search-btn">Search</button>
+                <button onclick="clearAndSearch()" class="search-btn">Clear</button>
             </div>
-        <?php endif; ?>
-         <!-- Search Bar -->
-         <div class="search-form">
-             <!-- Search Box -->
-            <input type="text" id="searchBox" value="<?php echo htmlspecialchars($searchQuery); ?>" class="search-input" placeholder="Search by username...">
-            <!-- Search Button -->
-            <button onclick="searchUser()" class="search-btn">Search</button>
-            <!-- Clear Button -->
-            <button onclick="clearAndSearch()" class="search-btn">Clear</button>
-        </div>
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -103,16 +100,26 @@ if (!empty($searchQuery)) {
                     <form id="editUserForm">
                         <h2 class="modal-title">Edit User Details</h2>
                         <input type="hidden" name="userId" id="modal_userId">
+                                    
+                        <label for="modal_username">Username</label>
                         <input type="text" name="username" placeholder="Username" id="modal_username" required>
+                                    
+                        <label for="modal_password">Password</label>
                         <input type="password" name="password" placeholder="Password" id="modal_password">
+                                    
+                        <label for="modal_email">Email</label>
                         <input type="email" name="email" placeholder="Email" id="modal_email" required>
+                                    
+                        <label for="modal_role">User Role</label>
                         <select name="user_role" id="modal_role" required>
                             <option value="Teacher">Teacher</option>
                             <option value="Scheduler">Scheduler</option>
                             <option value="Student">Student</option>
                             <option value="Admin">Admin</option>
                         </select>
+                                    
                         <p id="modal_notification" style="color: green; display: none;"></p>
+                                    
                         <button type="submit" class="save-btn">Save changes</button>
                         <button type="button" onclick="closeModal()" class="save-btn">Close</button>
                     </form>
@@ -141,7 +148,7 @@ if (!empty($searchQuery)) {
         }
         function clearAndSearch() {
             document.getElementById('searchBox').value = '';
-            searchUser(); // This will perform a search with an empty query, effectively clearing it.
+            searchUser(); 
         }
         function deleteUser(userId) {
             if (confirm('Are you sure you want to delete this user?')) {

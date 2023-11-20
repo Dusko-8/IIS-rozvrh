@@ -13,7 +13,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION
 // Check if the request is a POST request
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userId = $_POST['userId'];
-    error_log("User ID :$userId");
     $username = $_POST['username'];
     $email = $_POST['email'];
     $userRole = $_POST['user_role'];
@@ -23,8 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $pdo->prepare("SELECT username FROM USERS WHERE user_ID = ?");
     $stmt->execute([$userId]);
     $currentUsername = $stmt->fetchColumn();
-
-    error_log("Current Username: $currentUsername, New Username: $username");
 
     // Check if the new username already exists, excluding the current user
     if (strcasecmp($username, $currentUsername) !== 0) {
