@@ -70,9 +70,9 @@ CREATE TABLE ACTIVITY (
     subject_ID INT REFERENCES SUBJECTS(subject_ID),
     room_ID INT REFERENCES ROOM(room_ID),
     teacher_ID INT REFERENCES USERS(user_ID),
-    preference_ID INT REFERENCES PREFERED_SLOTS_ACTIVITY(activity_slot_ID),
     day_time_ID INT REFERENCES DAY_TIME(day_time_ID),
     /*Attributes*/
+    duration INT NOT NULL,
     repetition ENUM ('každý', 'párny', 'nepárny', 'jednorázovo') NOT NULL,
     activity_date DATE NULL, -- YYYY-MM-DD
     activity_type VARCHAR(150) NOT NULL
@@ -147,11 +147,11 @@ INSERT INTO PREFERED_SLOTS_TEACHER(guarantor_ID, day_time_ID, preference) VALUES
 
 -- Inserting mock data into ACTIVITY
 -- NOTE: This assumes an adjusted definition of ACTIVITY
-INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, preference_ID, day_time_ID, repetition, activity_type) VALUES
-(1, 1, 1, 1, 1, 'každý', 'Lecture'),
-(2, 2, 2, 2, 2, 'párny', 'Tutorial'),
-(3, 3, 1, 1, 3, 'nepárny', 'Lecture'),
-(1, 1, 1, 1, 5, 'každý', 'Lecture');
+INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, activity_type, duration) VALUES
+(1, 1, 1, 1, 'každý', 'Lecture', 2),
+(2, 2, 2, 2, 'párny', 'Tutorial', 2),
+(3, 3, 1, 3, 'nepárny', 'Lecture', 2),
+(1, 1, 1, 5, 'každý', 'Lecture', 2);
 
 -- Inserting mock data into PREFERED_SLOTS_ACTIVITY
 -- NOTE: Assuming some activity IDs from the ACTIVITY mock data
