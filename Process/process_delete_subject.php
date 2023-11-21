@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 
 require '../Database/db_connect.php';
@@ -19,19 +19,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
         
-        // Prepare a delete statement
-        $stmt = $pdo->prepare("DELETE FROM USERS WHERE user_ID = :id");
+        // Prepare a delete statement for the subject
+        $stmt = $pdo->prepare("DELETE FROM SUBJECTS WHERE subject_ID = :id");
         
         // Bind variables to the prepared statement as parameters
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        
-        if ($stmt->execute()) {
-            $_SESSION['alert_success'] = "User deleted successfully";
-        } else {
-            $_SESSION['alert_failure'] = "Faild to delete user, try again.";
-        }
 
-        header("Location: ../Pages/manage_users_page.php");
+        if ($stmt->execute()) {
+            $_SESSION['alert_success'] = "Room deleted successfully";
+        } else {
+            $_SESSION['alert_failure'] = "Faild to delete room, try again.";
+        }
+        header("Location: ../Pages/manage_subjects_page.php");
     }
 }
 ?>

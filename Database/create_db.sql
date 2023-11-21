@@ -23,7 +23,7 @@ CREATE TABLE ROOM (
     room_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     /*Attributes*/
     room_name VARCHAR(50) NOT NULL,
-    capacity VARCHAR(250) NOT NULL,
+    capacity INT NOT NULL,
     room_location VARCHAR(250) NOT NULL
 );
 CREATE TABLE DAY_TIME (
@@ -100,13 +100,14 @@ INSERT INTO USERS(username, hashed_password, email, user_role) VALUES
 ('user6', '$2y$10$w9/9kGvCHssBMQUOUmJjyuOVYgOq4durbCIOXI6gpY3hz/4SGYswe', 'user6@email.com', 'Unregistered');  /*password6*/
 
 -- Inserting mock data into ROOM
-INSERT INTO ROOM(room_name, capacity, room_location) VALUES
-('RoomA', '50', 'M216'),
-('RoomB', '30', 'L216'),
-('RoomC', '20', 'K303'),
-('RoomD', '50', 'M210'),
-('RoomE', '30', 'S210'),
-('RoomF', '20', 'A110');
+INSERT INTO ROOM (room_name, capacity, room_location) VALUES
+('RoomA', 50, 'M216'),
+('RoomB', 30, 'L216'),
+('RoomC', 20, 'K303'),
+('RoomD', 50, 'M210'),
+('RoomE', 30, 'S210'),
+('RoomF', 20, 'A110');
+
 
 -- Inserting mock data into DAY_TIME
 INSERT INTO DAY_TIME(week_day, time_range) VALUES
