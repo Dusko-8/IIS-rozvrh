@@ -51,15 +51,16 @@ if (!empty($searchQuery)) {
         <div class="content">
             <div class="title">Manage Rooms</div>
             <!-- Alert for Room Deletion -->
-            <?php if (isset($_GET['deletion']) && $_GET['deletion'] == 'failed'): ?>
+            <?php if (isset($_SESSION['alert_failure'])): ?>
                 <div class="alert alert-danger">
-                    Room deletion failed. Please try again.
+                    <?= $_SESSION['alert_failure']; ?>
                 </div>
+                <?php unset($_SESSION['alert_failure']); ?>
             <?php endif; ?>
 
-            <?php if (isset($_GET['success']) && $_GET['success'] == 'success'): ?>
+            <?php if (isset($_SESSION['alert_success'])): ?>
                 <div class="alert alert-success">
-                    Room has been added successfully.
+                    <?= $_SESSION['alert_success']; ?>
                 </div>
                 <script>
                     // Automatically close the success message after 5 seconds
@@ -67,6 +68,7 @@ if (!empty($searchQuery)) {
                         document.querySelector('.alert-success').style.display = 'none';
                     }, 5000); // 5000 milliseconds (5 seconds)
                 </script>
+                <?php unset($_SESSION['alert_success']); ?>
             <?php endif; ?>
 
             <!-- Search Bar for Rooms -->
@@ -300,7 +302,7 @@ if (!empty($searchQuery)) {
                     document.getElementById('add_modal_notification').innerText = data.success;
                     document.getElementById('add_modal_notification').style.display = 'block';
                     closeAddRoomModal();
-                    window.location.href = '../Pages/manage_rooms_page.php?success=success';
+                    location.reload();
                 } else if (data.error) {
                     // If there was an error adding the room
                     document.getElementById('add_modal_notification').innerText = data.error;

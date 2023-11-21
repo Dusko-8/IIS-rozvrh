@@ -14,9 +14,14 @@
             <?php unset($_SESSION['error']); // Unset the error message ?>
         <?php endif; ?>
         <form action="../Process/process_login.php" method="post">
-            <div class="error" id="error-msg"></div> <!-- Error message placeholder -->
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <div class="error" id="error-msg"></div> 
+            
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
             <button type="submit">Login</button>
         </form>
         <div class="btn-group">

@@ -1,29 +1,21 @@
-﻿
-
-
-
-<?php
+﻿<?php
 session_start();
-
 require '../Database/db_connect.php';
-
-
 
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : "";
 $subjects = [];
 
 if (!empty($searchQuery)) {
-    $stmt = $pdo->prepare("SELECT * FROM SUBJECTS WHERE title LIKE :title");
+    // Fetching subjects with guarantor's name
+    $stmt = $pdo->prepare("SELECT SUBJECTS.*, USERS.username as guarantor_name FROM SUBJECTS LEFT JOIN USERS ON SUBJECTS.guarantor_ID = USERS.user_ID WHERE SUBJECTS.title LIKE :title");
     $stmt->execute(['title' => '%'.$searchQuery.'%']);
     $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
-    $stmt = $pdo->prepare("SELECT * FROM SUBJECTS");
+    // Fetching all subjects with guarantor's name
+    $stmt = $pdo->prepare("SELECT SUBJECTS.*, USERS.username as guarantor_name FROM SUBJECTS LEFT JOIN USERS ON SUBJECTS.guarantor_ID = USERS.user_ID");
     $stmt->execute();
     $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -65,10 +57,14 @@ if (!empty($searchQuery)) {
     <?php foreach ($subjects as $subject): ?>
         <div class="card">
             <h3><?= htmlspecialchars($subject['title']) ?></h3>
-            <p><?= htmlspecialchars($subject['abbervation']) ?></p>
-            <p><?= htmlspecialchars($subject['credits']) ?> Credits</p>
-            <p><?= htmlspecialchars($subject['subj_description']) ?></p>
-            <?print_r($subjects);?>
+            <hr> <!-- Horizontal line after title -->
+            <p><strong>Abbreviation:</strong> <?= htmlspecialchars($subject['abbervation']) ?></p>
+            <hr>
+            <p><strong>Credits:</strong> <?= htmlspecialchars($subject['credits']) ?> Credits</p>
+            <hr>
+            <p><strong>Description:</strong> <?= htmlspecialchars($subject['subj_description']) ?></p>
+            <hr>
+            <p><strong>Guarantor:</strong> <?= htmlspecialchars($subject['guarantor_name']) ?></p>
         </div>
     <?php endforeach; ?>
 </div>

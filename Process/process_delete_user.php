@@ -25,12 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Bind variables to the prepared statement as parameters
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         
-        // Execute the prepared statement
         if ($stmt->execute()) {
-            header("Location: ../Pages/manage_users_page.php");
+            $_SESSION['alert_success'] = "User deleted successfully";
         } else {
-            header("Location: ../Pages/manage_users_page.php?deletion=failed");
+            $_SESSION['alert_failure'] = "Faild to delete user, try again.";
         }
+
+        header("Location: ../Pages/manage_users_page.php");
     }
 }
 ?>

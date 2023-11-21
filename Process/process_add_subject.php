@@ -66,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $pdo->commit();
+        $_SESSION['alert_success'] = "Subject added successfully";
         echo json_encode(["success" => "Subject added successfully"]);
     } catch (PDOException $e) {
         $pdo->rollBack();

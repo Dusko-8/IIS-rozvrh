@@ -27,12 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         
         // Execute the prepared statement
         if ($stmt->execute()) {
-            // Redirect back to the manage rooms page with a success message
-            header("Location: ../Pages/manage_rooms_page.php?deletion=success");
+            $_SESSION['alert_success'] = "Room deleted successfully";
         } else {
-            // Redirect back with a failure message
-            header("Location: ../Pages/manage_rooms_page.php?deletion=failed");
+            $_SESSION['alert_failure'] = "Faild to delete room, try again.";
         }
+        header("Location: ../Pages/manage_rooms_page.php");
     }
 }
 ?>

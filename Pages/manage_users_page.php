@@ -36,6 +36,7 @@ if (!empty($searchQuery)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
     <link rel="stylesheet" href="../Styles/style.css">
+    <link rel="stylesheet" href="../Styles/manage_users_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -53,10 +54,24 @@ if (!empty($searchQuery)) {
          <!-- Content Area -->
         <div class="content">
             <div class="title">Manage Users</div>
-            <?php if (isset($_GET['deletion']) && $_GET['deletion'] == 'failed'): ?>
+            <?php if (isset($_SESSION['alert_failure'])): ?>
                 <div class="alert alert-danger">
-                    User deletion failed. Please try again.
+                    <?= $_SESSION['alert_failure']; ?>
                 </div>
+                <?php unset($_SESSION['alert_failure']); ?>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['alert_success'])): ?>
+                <div class="alert alert-success">
+                    <?= $_SESSION['alert_success']; ?>
+                </div>
+                <script>
+                    // Automatically close the success message after 5 seconds
+                    setTimeout(function () {
+                        document.querySelector('.alert-success').style.display = 'none';
+                    }, 5000); // 5000 milliseconds (5 seconds)
+                </script>
+                <?php unset($_SESSION['alert_success']); ?>
             <?php endif; ?>
              <!-- Search Bar -->
             <div class="search-form">

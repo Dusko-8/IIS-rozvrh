@@ -24,15 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         
         // Bind variables to the prepared statement as parameters
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        
-        // Execute the prepared statement
+
         if ($stmt->execute()) {
-            // Redirect back to the manage subjects page with a success message
-            header("Location: ../Pages/manage_subjects_page.php?deletion=success");
+            $_SESSION['alert_success'] = "Room deleted successfully";
         } else {
-            // Redirect back with a failure message
-            header("Location: ../Pages/manage_subjects_page.php?deletion=failed");
+            $_SESSION['alert_failure'] = "Faild to delete room, try again.";
         }
+        header("Location: ../Pages/manage_subjects_page.php");
     }
 }
 ?>

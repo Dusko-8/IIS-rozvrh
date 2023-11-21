@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $email = $_POST['email'];
     $user_role = $_POST['user_role'];
+    $password_confirmation = $_POST['password_confirmation'];
 
     $stmt = $pdo->prepare('SELECT COUNT(*) FROM USERS WHERE username = ?');
     $stmt->execute([$username]);
@@ -17,7 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($usernameExists) {
         $error = "Username already exists. Please choose another.";
-    } elseif (!isValidPassword($password)) {
+    }elseif($password !== $password_confirmation) {
+        $error = "Passwords do not match.";
+    }elseif (!isValidPassword($password)) {
         $error = "Password must be at least 5 characters long, include a number and a capital letter.";
     } else {
         try {
@@ -44,10 +47,14 @@ function isValidPassword($password) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
     <link rel="stylesheet" href="../Styles/style.css">
+    <link rel="stylesheet" href="../Styles/register_page_style.css">
 </head>
 
 <body>
     <div class="register-container">
+    <div class="login-button-container">
+        <a href="../Pages/login_page.php" class="login-button">Log In</a>
+    </div>
         <h2>Register</h2>
         <?php if($error): ?>
             <div class="error">
@@ -60,6 +67,9 @@ function isValidPassword($password) {
 
             <label for="modal_password">Password:</label>
             <input type="password" id="modal_password" name="password" placeholder="Password" required>
+
+            <label for="modal_password_confirmation">Confirm Password:</label>
+            <input type="password" id="modal_password" name="password_confirmation" placeholder="Confirm Password" required>
 
             <label for="modal_email">Email:</label>
             <input type="email" id="modal_email" name="email" placeholder="Email" required value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">

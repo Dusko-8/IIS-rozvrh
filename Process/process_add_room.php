@@ -52,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $pdo->commit();
+        $_SESSION['alert_success'] = "Room added successfully";
         echo json_encode(["success" => "Room added successfully"]);
     } catch (PDOException $e) {
         $pdo->rollBack();
