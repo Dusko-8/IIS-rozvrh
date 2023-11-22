@@ -40,7 +40,7 @@ CREATE TABLE PREFERED_SLOTS_TEACHER (
     guarantor_ID INT REFERENCES USER(user_ID),
     day_time_ID INT REFERENCES DAY_TIME(day_time_ID),
     /*Attributes*/
-    preference ENUM('Preferuje', 'Nepreferuje')NOT NULL
+    preference ENUM('Prefers', 'Disprefers')NOT NULL
 );
 
 CREATE TABLE STUDENT_ACTIVITIES(
@@ -70,10 +70,10 @@ CREATE TABLE ACTIVITY (
     subject_ID INT REFERENCES SUBJECTS(subject_ID),
     room_ID INT REFERENCES ROOM(room_ID),
     teacher_ID INT REFERENCES USERS(user_ID),
-    preference_ID INT REFERENCES PREFERED_SLOTS_ACTIVITY(activity_slot_ID),
     day_time_ID INT REFERENCES DAY_TIME(day_time_ID),
     /*Attributes*/
-    repetition ENUM ('každý', 'párny', 'nepárny', 'jednorázovo') NOT NULL,
+    duration INT NOT NULL,
+    repetition ENUM ('everyWeek', 'evenWeek', 'oddWeek', 'oneTime') NOT NULL,
     activity_date DATE NULL, -- YYYY-MM-DD
     activity_type VARCHAR(150) NOT NULL
 );
@@ -87,7 +87,7 @@ CREATE TABLE PREFERED_SLOTS_ACTIVITY (
     teacher_ID INT REFERENCES USER(user_ID),
     day_time_ID INT REFERENCES DAY_TIME(day_time_ID),
     /*Attributes*/
-    preference ENUM('Preferuje', 'Nepreferuje')NOT NULL
+    preference ENUM('Prefers', 'Disprefers')NOT NULL
 );
 
 -- Inserting mock data into USER
@@ -142,24 +142,29 @@ INSERT INTO SUBJECTS(guarantor_ID, title, abbervation, credits, subj_description
 (10, 'Chemistry', 'CHEM', 2, 'Introduction to chemical reactions and compounds');
 -- Inserting mock data into PREFERED_SLOTS_TEACHER
 INSERT INTO PREFERED_SLOTS_TEACHER(guarantor_ID, day_time_ID, preference) VALUES
-(1, 1, 'Preferuje'),
-(2, 2, 'Nepreferuje'),
-(1, 3, 'Preferuje');
+(1, 1, 'Prefers'),
+(2, 2, 'Disprefers'),
+(1, 3, 'Prefers');
 
 -- Inserting mock data into ACTIVITY
 -- NOTE: This assumes an adjusted definition of ACTIVITY
-INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, preference_ID, day_time_ID, repetition, activity_type) VALUES
-(1, 1, 1, 1, 1, 'každý', 'Lecture'),
-(2, 2, 2, 2, 2, 'párny', 'Tutorial'),
-(3, 3, 1, 1, 3, 'nepárny', 'Lecture'),
-(1, 1, 1, 1, 5, 'každý', 'Lecture');
+INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, activity_type, duration) VALUES
+(1, 1, 1, 1, 'everyWeek', 'Lecture', 2),
+(2, 2, 2, 2, 'evenWeek', 'Tutorial', 2),
+(3, 3, 1, 3, 'oddWeek', 'Lecture', 2),
+(1, 1, 1, 5, 'everyWeek', 'Lecture', 2);
+-- One time Activity
+INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, activity_type, duration, activity_date) VALUES
+(7, 1, 1, 13, 'oneTime', 'Lecture', 2, '2023-11-24');
 
 -- Inserting mock data into PREFERED_SLOTS_ACTIVITY
 -- NOTE: Assuming some activity IDs from the ACTIVITY mock data
 INSERT INTO PREFERED_SLOTS_ACTIVITY(activity_ID, room_ID, teacher_ID, day_time_ID, preference) VALUES
-(1, 1, 1, 1, 'Preferuje'),
-(2, 2, 2, 2, 'Nepreferuje'),
-(3, 3, 1, 3, 'Preferuje');
+(1, 1, 1, 1, 'Prefers'),
+(1, 1, 1, 2, 'Prefers'),
+(1, 1, 1, 3, 'Disprefers'),
+(2, 2, 2, 2, 'Disprefers'),
+(3, 3, 1, 3, 'Prefers');
 
 -- Mock data for student's subjects
 INSERT INTO STUDENT_ACTIVITIES(student_ID, activity_ID) VALUES

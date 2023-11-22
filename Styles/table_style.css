@@ -8,33 +8,30 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background-color: #fff; /* White background for the table */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
+    transition: background-color 0.3s, color 0.3s;
     border: 1px solid #ddd;
-    padding: 12px; /* Increased padding for better spacing */
+    padding: 12px;
     text-align: center;
 }
 
 th {
-    background-color: #3498db; /* Blue header */
-    color: #fff; /* White text for header */
+    background-color: #3498db;
+    color: #fff;
 }
 
 .time-header {
     font-weight: bold;
-    color: #333; /* Dark gray text for time headers */
+    color: #333;
 }
 
 th:hover {
     background-color: #2980b9;
     color: #fff;
-}
-
-th, td {
-    transition: background-color 0.3s, color 0.3s;
 }
 
 h2 {
@@ -79,8 +76,7 @@ form:hover {
 }
 
 label {
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin: 10px 0 5px;
     display: block;
     font-weight: bold;
 }
@@ -96,39 +92,18 @@ textarea {
     border-radius: 5px;
     box-sizing: border-box;
     transition: border-color 0.3s;
-}
-
-select:focus {
     border-color: #3498db;
 }
 
-select option {
-    background-color: #fff; 
-    color: #333; 
-    padding: 10px;
-}
-
-
-select option:checked {
-    background-color: #3498db;
-    color: #fff;
-}
-
-select option:hover {
-    background-color: #3498db;
-    color: #fff;
-}
-
-
-input[type="text"]:focus,
-input[type="password"]:focus,
-select:focus,
-textarea:focus {
-    border-color: #3498db;
-}
-
-textarea {
-    height: 100px;
+input[type="date"] {
+    padding: 8px; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    display: block;
+    margin: auto;
+    text-align: center;
 }
 
 input[type="submit"] {
@@ -144,8 +119,81 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #2980b9;
 }
+
+select:focus {
+    border-color: #3498db;
+}
+
+select option,
+select option:checked,
+select option:hover {
+    background-color: #fff;
+    color: #333;
+}
+
+textarea {
+    height: 100px;
+}
+
 .error {
     color: red;
     text-align: center;
     margin-bottom: 10px;
+}
+
+.alert {
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: rgb(134, 229, 115); 
+}
+
+.preference-box-green {
+    border: 1px solid #80ff80;
+    background-color: #ccffcc;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+    border-radius: 8px; 
+}
+
+.preference-box-red {
+    border: 1px solid #ff8080;
+    background-color: #ffcccc;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.cell-button {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #006b22;
+    background-color: #66ff96;
+    color: #ffffff;
+    padding: 10px;
+    margin: 0;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 12px;
+}
+
+.cell-button:hover {
+    background-color: #006b22;
+    color: #ecf0f1;
+}
+
+.cell-button:active {
+    background-color: #003d13;
 }
