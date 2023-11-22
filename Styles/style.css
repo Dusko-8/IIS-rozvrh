@@ -496,27 +496,6 @@ table td a:hover {
     cursor: pointer;
 }
 
-/* Form Fields in Modal by ID */
-#modal_username,
-#modal_email, 
-#modal_password,
-#modal_role {
-    width: calc(100% - 30px);
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border 0.3s;
-}
-
-#modal_username:focus,
-#modal_email:focus,
-#modal_password:focus,
-#modal_role:focus {
-    border-color: #007BFF;
-    outline: none;
-}
 
 
 

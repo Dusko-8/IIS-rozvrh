@@ -116,14 +116,14 @@ if (!empty($searchQuery)) {
                         <h2 class="modal-title">Edit Room Details</h2>
                         <input type="hidden" name="roomId" id="modal_roomId">
                                     
-                        <label for="modal_roomName">Room Name</label>
-                        <input type="text" name="roomName" placeholder="Room Name" id="modal_roomName" required>
+                        <label for="modal_roomName">* Room Name</label>
+                        <input type="text" name="roomName" placeholder="Room Name" id="modal_roomName" required maxlength="50">
                                     
-                        <label for="modal_capacity">Capacity</label>
-                        <input type="number" name="capacity" placeholder="Capacity" id="modal_capacity" required min="1">
+                        <label for="modal_capacity">* Capacity</label>
+                        <input type="number" name="capacity" placeholder="Capacity" id="modal_capacity" required min="2">
                                     
-                        <label for="modal_roomLocation">Location</label>
-                        <input type="text" name="roomLocation" placeholder="Location" id="modal_roomLocation" required>
+                        <label for="modal_roomLocation">* Location</label>
+                        <input type="text" name="roomLocation" placeholder="Location (e.g., L103)" id="modal_roomLocation" required pattern="[A-Z]{1}[0-9]{3}" maxlength="4">
                                     
                         <p id="modal_notification" style="color: green; display: none;"></p>
                                     
@@ -137,14 +137,14 @@ if (!empty($searchQuery)) {
                     <form id="addRoomForm">
                         <h2 class="modal-title">Add New Room</h2>
 
-                        <label for="add_roomName">Room Name</label>
-                        <input type="text" name="roomName" placeholder="Room Name" id="add_roomName" required>
+                        <label for="add_roomName">* Room Name</label>
+                        <input type="text" name="roomName" placeholder="Room Name" id="add_roomName" required maxlength="50">
 
-                        <label for="add_capacity">Capacity</label>
-                        <input type="number" name="capacity" placeholder="Capacity" id="add_capacity" required min="1">
+                        <label for="add_capacity">* Capacity</label>
+                        <input type="number" name="capacity" placeholder="Capacity" id="add_capacity" required min="2">
 
-                        <label for="add_roomLocation">Location</label>
-                        <input type="text" name="roomLocation" placeholder="Location" id="add_roomLocation" required>
+                        <label for="add_roomLocation">* Location</label>
+                        <input type="text" name="roomLocation" placeholder="Location (e.g., L103)" id="add_roomLocation" required pattern="[A-Z]{1}[0-9]{3}" maxlength="4">
 
                         <p id="add_modal_notification" style="color: green; display: none;"></p>
 
