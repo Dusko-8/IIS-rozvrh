@@ -230,7 +230,7 @@ try {
                 }
             };
             
-            xhr.open('GET', 'fetch_slots.php?subject=' + selectedSubject, true);
+            xhr.open('GET', '../../Process/StudentProcess/fetch_slots.php?subject=' + selectedSubject, true);
             xhr.send();
         }
     </script>

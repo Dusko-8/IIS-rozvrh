@@ -14,6 +14,10 @@ if($day == 'Sunday' || $day == 'Saturday'){
     echo '<div class="error">Please only choose work days (Mon-Fri).</div>';
     exit;
 }
+if($timestamp < time()){
+    echo '<div class="error">Please select a time in the future.</div>';
+    exit;
+}
 
 $stmt = $pdo->prepare(   "SELECT s.abbervation, dt.week_day, dt.time_range, a.activity_type, a.activity_ID, a.repetition, a.activity_date " .
                         "FROM ROOM AS r " .

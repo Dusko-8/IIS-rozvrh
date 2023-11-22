@@ -26,6 +26,4 @@ if($activities != []){
     echo '<button type="submit">' . 'Add ' . $activity['activity_type'] . '</button>';
     echo '</form>';
 }
-
-
 ?>
