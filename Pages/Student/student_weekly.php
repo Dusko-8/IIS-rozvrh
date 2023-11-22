@@ -138,10 +138,10 @@ try {
             function isDateFitting($date, $repetition){
                 $currentDate = date("Y-m-d");
 
-                if($repetition == 'každý'){
+                if($repetition == 'everyWeek'){
                     return true;
 
-                }else if($repetition == 'párny'){
+                }else if($repetition == 'evenWeek'){
                     $weekNumber = date("W", strtotime($currentDate));
 
                     if ($weekNumber % 2 == 0) {
@@ -149,7 +149,7 @@ try {
                     }
                     return false;
                     
-                }else if($repetition == 'nepárny'){
+                }else if($repetition == 'oddWeek'){
                     $weekNumber = date("W", strtotime($currentDate));
 
                     if (!($weekNumber % 2 == 0)) {

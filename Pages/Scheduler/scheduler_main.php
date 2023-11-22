@@ -30,6 +30,31 @@ $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </form>
         <div id="preference"></div>
         <script>
+            function addOneTimeActivity(day, time, roomID, duration, activityID, date){
+                var baseUrl = '../../Process/SchedulerProcess/onetime_activity_time_set.php';
+
+                var encodedDay = encodeURIComponent(day);
+                var encodedTime = encodeURIComponent(time);
+                var encodedRoom = encodeURIComponent(roomID);
+                var encodedDuration = encodeURIComponent(duration);
+                var encodedActivity = encodeURIComponent(activityID);
+                var encodedDate = encodeURIComponent(date); 
+                console.log(date);
+                var url = baseUrl+'?day='+encodedDay+'&time='+encodedTime+'&room='+encodedRoom+'&duration='+encodedDuration+'&activity='+encodedActivity+'&date='+encodedDate;
+                window.location.href = url;
+            } 
+            function buttonClick(day, timeSlot, roomID, duration, activityID){
+                var baseUrl = '../../Process/SchedulerProcess/activity_time_set.php';
+
+                var encodedDay = encodeURIComponent(day);
+                var encodedTime = encodeURIComponent(timeSlot);
+                var encodedRoom = encodeURIComponent(roomID);
+                var encodedDuration = encodeURIComponent(duration);
+                var encodedActivity = encodeURIComponent(activityID);
+
+                var url = baseUrl+'?day='+encodedDay+'&time='+encodedTime+'&room='+encodedRoom+'&duration='+encodedDuration+'&activity='+encodedActivity;
+                window.location.href = url;
+            }
             function loadAvailableSlots() {
                 var selectedActivity = document.getElementById('activities').value;
                 var xhr = new XMLHttpRequest();
@@ -41,6 +66,36 @@ $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 };
 
                 xhr.open('GET', 'get_preferences.php?activity_id=' + selectedActivity, true);
+                xhr.send();
+            }
+            function loadRoomSchedule(phpFile){
+                var selectedRoom = document.getElementById('rooms').value;
+                var selectedActivity = document.getElementById('activities').value;
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        document.getElementById('room_schedule').innerHTML = '';
+                        document.getElementById('room_schedule').innerHTML = xhr.responseText;
+                    }
+                };
+
+                xhr.open('GET', phpFile + '?room_id=' + selectedRoom + '&activity_id=' + selectedActivity, true);
+                xhr.send();
+            }
+
+            function loadDateSchedule(){
+                var selectedRoom = document.getElementById('rooms').value;
+                var selectedActivity = document.getElementById('activities').value;
+                var selectedDate = document.getElementById('activityDate').value;
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        document.getElementById('room_date_schedule').innerHTML = '';
+                        document.getElementById('room_date_schedule').innerHTML = xhr.responseText;
+                    }
+                };
+
+                xhr.open('GET', 'get_room_date_schedule.php?room_id=' + selectedRoom + '&activity_id=' + selectedActivity + '&date=' + selectedDate, true);
                 xhr.send();
             }
         </script>
