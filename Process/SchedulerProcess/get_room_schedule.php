@@ -63,7 +63,7 @@ foreach ($daysOfWeek as $day) {
         if($index + $duration < 10){
             if( (isCellEmpty($cellContent[$index]) && isCellEmpty($cellContent[$index + $duration - 1])) ||
                 (cellAreOpositeWeeks($repetition, $cellContent[$index + $duration - 1]))){
-                echo '<button class="cell-button" onclick="buttonClick(\'' .$day. '\', \'' .$timeSlot. '\', \'' .$selectedRoom. '\', \'' .$duration. '\', \'' .$selectedActivity. '\')">Add Here</button>';
+                echo '<button class="cell-button" onclick="addActivity(\'' .$day. '\', \'' .$timeSlot. '\', \'' .$selectedRoom. '\', \'' .$duration. '\', \'' .$selectedActivity. '\')">Add Here</button>';
             }
         }
         if($cellContent[$index] != ""){
@@ -122,40 +122,3 @@ function getNextTimeSlot($timeSlot) {
     return $currentTime->format('H:i');
 }
 ?>
-<style>
-    table { 
-        width: 100%; 
-        border-collapse: 
-        collapse; 
-    }
-    
-    th, td {
-        padding: 1;
-        margin: 0;
-        height: 100%;
-    }
-
-    .cell-button {
-        width: 100%;
-        height: 100%;
-        border: 1px solid #006b22;
-        background-color: #66ff96;
-        color: #ffffff;
-        padding: 10px;
-        margin: 0;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        border-radius: 12px;
-    }
-
-    .cell-button:hover {
-        background-color: #006b22;
-        color: #ecf0f1;
-    }
-
-    .cell-button:active {
-        background-color: #003d13;
-    }
-</style>

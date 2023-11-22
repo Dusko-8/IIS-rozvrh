@@ -39,6 +39,7 @@ $stmt->execute([
     ':activityID' => $activityID,
 ]);
 
+$_SESSION['alert_success'] = 'Successfully changed activity time and room';
 header('Location: ../../Pages/Scheduler/scheduler_main.php');
 exit;
 ?>

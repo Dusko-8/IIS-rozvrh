@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../../Database/db_connect.php';
+
 $selectedRoom = $_GET['room_id'];
 $selectedActivity = $_GET['activity_id'];
 $selectedDate = $_GET['date'];
@@ -115,47 +116,3 @@ function getNextTimeSlot($timeSlot) {
     return $currentTime->format('H:i');
 }
 ?>
-
-<style>
-    .error {
-        color: red;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    table { 
-        width: 100%; 
-        border-collapse: 
-        collapse; 
-    }
-    
-    th, td {
-        padding: 1;
-        margin: 0;
-        height: 100%;
-    }
-
-    .cell-button {
-        width: 100%;
-        height: 100%;
-        border: 1px solid #006b22;
-        background-color: #66ff96;
-        color: #ffffff;
-        padding: 10px;
-        margin: 0;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        border-radius: 12px;
-    }
-
-    .cell-button:hover {
-        background-color: #006b22;
-        color: #ecf0f1;
-    }
-
-    .cell-button:active {
-        background-color: #003d13;
-    }
-</style>

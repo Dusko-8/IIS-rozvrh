@@ -18,6 +18,17 @@ $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <link rel="stylesheet" href="../../Styles/table_style.css">
     </head>
     <body>
+            <?php if (isset($_SESSION['alert_success'])): ?>
+                <div class="alert alert-success">
+                    <?= $_SESSION['alert_success']; ?>
+                </div>
+                <script>
+                    setTimeout(function () {
+                        document.querySelector('.alert-success').style.display = 'none';
+                    }, 5000);
+                </script>
+                <?php unset($_SESSION['alert_success']); ?>
+            <?php endif; ?>
 
         <form id="schedulerForm">
             <label for='activities'>Activities:</label>
@@ -29,6 +40,7 @@ $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </select>
         </form>
         <div id="preference"></div>
+
         <script>
             function addOneTimeActivity(day, time, roomID, duration, activityID, date){
                 var baseUrl = '../../Process/SchedulerProcess/onetime_activity_time_set.php';
@@ -43,7 +55,7 @@ $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 var url = baseUrl+'?day='+encodedDay+'&time='+encodedTime+'&room='+encodedRoom+'&duration='+encodedDuration+'&activity='+encodedActivity+'&date='+encodedDate;
                 window.location.href = url;
             } 
-            function buttonClick(day, timeSlot, roomID, duration, activityID){
+            function addActivity(day, timeSlot, roomID, duration, activityID){
                 var baseUrl = '../../Process/SchedulerProcess/activity_time_set.php';
 
                 var encodedDay = encodeURIComponent(day);
@@ -65,7 +77,7 @@ $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     }
                 };
 
-                xhr.open('GET', 'get_preferences.php?activity_id=' + selectedActivity, true);
+                xhr.open('GET', '../../Process/SchedulerProcess/get_preferences.php?activity_id=' + selectedActivity, true);
                 xhr.send();
             }
             function loadRoomSchedule(phpFile){
@@ -95,7 +107,7 @@ $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     }
                 };
 
-                xhr.open('GET', 'get_room_date_schedule.php?room_id=' + selectedRoom + '&activity_id=' + selectedActivity + '&date=' + selectedDate, true);
+                xhr.open('GET', '../../Process/SchedulerProcess/get_room_date_schedule.php?room_id=' + selectedRoom + '&activity_id=' + selectedActivity + '&date=' + selectedDate, true);
                 xhr.send();
             }
         </script>

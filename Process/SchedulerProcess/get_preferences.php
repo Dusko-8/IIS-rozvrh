@@ -58,9 +58,9 @@ else{
 echo '<form id="roomForm">';
 echo '<label>Rooms:</label>';
 if($isOneTime){
-    echo '<select name="rooms" id="rooms" required onchange="loadRoomSchedule(\'get_time_select.php\')">';
+    echo '<select name="rooms" id="rooms" required onchange="loadRoomSchedule(\'../../Process/SchedulerProcess/get_time_select.php\')">';
 }else{
-    echo '<select name="rooms" id="rooms" required onchange="loadRoomSchedule(\'get_room_schedule.php\')">';
+    echo '<select name="rooms" id="rooms" required onchange="loadRoomSchedule(\'../../Process/SchedulerProcess/get_room_schedule.php\')">';
 }
 
 echo '<option value="" disabled selected>Select room</option>';
@@ -73,24 +73,3 @@ echo '</form>';
 echo '<div id="room_schedule"></div>';
 
 ?>
-<style>
-    .preference-box-green {
-        border: 1px solid #80ff80;
-        background-color: #ccffcc;
-        padding: 10px;
-        margin: 10px;
-        width: 200px;
-        text-align: center;
-        border-radius: 8px; 
-    }
-
-    .preference-box-red {
-        border: 1px solid #ff8080;
-        background-color: #ffcccc;
-        padding: 10px;
-        margin: 10px;
-        width: 200px;
-        text-align: center;
-        border-radius: 8px;
-    }
-</style>
