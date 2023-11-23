@@ -190,11 +190,12 @@ try {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById('time').outerHTML = xhr.responseText;
+                    document.getElementById('time').innerHTML = '';
+                    document.getElementById('time').innerHTML = xhr.responseText;
                 }
             };
             
-            xhr.open('GET', 'fetch_slots.php?subject=' + selectedSubject, true);
+            xhr.open('GET', '../../Process/StudentProcess/fetch_slots.php?subject=' + selectedSubject, true);
             xhr.send();
         }
     </script>

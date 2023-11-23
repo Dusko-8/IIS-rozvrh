@@ -138,10 +138,10 @@ try {
             function isDateFitting($date, $repetition){
                 $currentDate = date("Y-m-d");
 
-                if($repetition == 'každý'){
+                if($repetition == 'everyWeek'){
                     return true;
 
-                }else if($repetition == 'párny'){
+                }else if($repetition == 'evenWeek'){
                     $weekNumber = date("W", strtotime($currentDate));
 
                     if ($weekNumber % 2 == 0) {
@@ -149,7 +149,7 @@ try {
                     }
                     return false;
                     
-                }else if($repetition == 'nepárny'){
+                }else if($repetition == 'oddWeek'){
                     $weekNumber = date("W", strtotime($currentDate));
 
                     if (!($weekNumber % 2 == 0)) {
@@ -225,11 +225,12 @@ try {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById('time').outerHTML = xhr.responseText;
+                    document.getElementById('time').innerHTML = '';
+                    document.getElementById('time').innerHTML = xhr.responseText;
                 }
             };
             
-            xhr.open('GET', 'fetch_slots.php?subject=' + selectedSubject, true);
+            xhr.open('GET', '../../Process/StudentProcess/fetch_slots.php?subject=' + selectedSubject, true);
             xhr.send();
         }
     </script>
