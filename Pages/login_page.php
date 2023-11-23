@@ -16,10 +16,10 @@
         <form action="../Process/process_login.php" method="post">
             <div class="error" id="error-msg"></div> 
             
-            <label for="username">Username:</label>
+            <label for="username">Username</label>
             <input type="text" id="username" name="username" placeholder="Username" required>
 
-            <label for="password">Password:</label>
+            <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Password" required>
 
             <button type="submit">Login</button>

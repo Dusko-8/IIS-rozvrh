@@ -15,12 +15,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $pdo->prepare('SELECT COUNT(*) FROM USERS WHERE username = ?');
     $stmt->execute([$username]);
     $usernameExists = $stmt->fetchColumn() > 0;
-
+    if (strlen($username) > 50) {
+        echo json_encode(["error" => "Username must be 50 characters or fewer"]);
+        exit;
+    }
+    
+    $validRoles = ['Teacher', 'Scheduler', 'Guarantor', 'Student', 'Admin'];
+    if (!in_array($userRole, $validRoles)) {
+        echo json_encode(["error" => "Invalid user role"]);
+        exit;
+    }
     if ($usernameExists) {
         $error = "Username already exists. Please choose another.";
-    }elseif($password !== $password_confirmation) {
+    }elseif (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 50) {
+        $error = "Invalid email format or too long";
+    }
+    elseif($password !== $password_confirmation) {
         $error = "Passwords do not match.";
-    }elseif (!isValidPassword($password)) {
+    }elseif (!isValidPassword($password) || strlen($password) > 255) {
         $error = "Password must be at least 5 characters long, include a number and a capital letter.";
     } else {
         try {
@@ -39,6 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function isValidPassword($password) {
     return strlen($password) >= 5 && preg_match('/[A-Z]/', $password) && preg_match('/[0-9]/', $password);
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,27 +76,28 @@ function isValidPassword($password) {
             </div>
         <?php endif; ?>
         <form action="register_page.php" method="post">
-            <label for="modal_username">Username:</label>
+            <label for="modal_username">Username</label>
             <input type="text" id="modal_username" name="username" placeholder="Username" required value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
 
-            <label for="modal_password">Password:</label>
+            <label for="modal_password">Password</label>
             <input type="password" id="modal_password" name="password" placeholder="Password" required>
 
-            <label for="modal_password_confirmation">Confirm Password:</label>
+            <label for="modal_password_confirmation">Confirm Password</label>
             <input type="password" id="modal_password" name="password_confirmation" placeholder="Confirm Password" required>
 
-            <label for="modal_email">Email:</label>
+            <label for="modal_email">Email</label>
             <input type="email" id="modal_email" name="email" placeholder="Email" required value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
 
-            <label for="modal_role">Role:</label>
+            <label for="modal_role">Role</label>
             <select id="modal_role" name="user_role" required>
                 <option value="Teacher" <?php echo (isset($_POST['user_role']) && $_POST['user_role'] == 'Teacher') ? 'selected' : ''; ?>>Teacher</option>
                 <option value="Scheduler" <?php echo (isset($_POST['user_role']) && $_POST['user_role'] == 'Scheduler') ? 'selected' : ''; ?>>Scheduler</option>
                 <option value="Student" <?php echo (isset($_POST['user_role']) && $_POST['user_role'] == 'Student') ? 'selected' : ''; ?>>Student</option>
             </select> 
-
+ 
             <button type="submit">Register</button>
         </form>
     </div>
 </body>
 </html>
+ 

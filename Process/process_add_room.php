@@ -17,17 +17,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $roomLocation = $_POST['roomLocation'];
 
     // Ensure capacity is a number
-    $capacity = filter_var($capacity, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
+    $capacity = filter_var($_POST['capacity'], FILTER_VALIDATE_INT, ["options" => ["min_range" => 2]]);
     if (!$capacity) {
-        echo json_encode(["error" => "Capacity must be a positive integer greater than zero"]);
+        echo json_encode(["error" => "Capacity must be an integer greater than or equal to 2"]);
         exit;
     }
-    // Cast capacity to an integer to ensure it matches the database type
     $capacity = (int) $capacity;
 
+    if (strlen($roomName) > 50) {
+        echo json_encode(["error" => "Room name must be 50 characters or fewer"]);
+        exit;
+    }
     // Validate that no input is empty
     if (empty($roomName) || empty($capacity) || empty($roomLocation)) {
         echo json_encode(["error" => "All fields are required"]);
+        exit;
+    }
+    if (!preg_match('/^[A-Z]{1}[0-9]{3}$/', $roomLocation)) {
+        echo json_encode(["error" => "Invalid room location format"]);
         exit;
     }
 

@@ -29,6 +29,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
     }
+    if (empty($title) || strlen($title) > 50) { // Adjust the length as per your requirements
+        echo json_encode(["error" => "Invalid title format max 50 characters"]);
+        exit;
+    }
+    if (!preg_match('/^[A-Z]{3,4}$/', $abbervation)) {
+        echo json_encode(["error" => "Abbreviation must be 3 or 4 uppercase letters"]);
+        exit;
+    }
+    if (strlen($subj_description) > 500) {
+        echo json_encode(["error" => "Description must be 500 characters or fewer"]);
+        exit;
+    }
     // Ensure credits is a number
     $credits = filter_var($credits, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
     if (!$credits) {
@@ -39,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $credits = (int) $credits;
 
     // Validate that no input is empty
-    if (empty($subjectId) || empty($title) || empty($abbervation) || empty($credits) || empty($subj_description)) {
+    if (empty($subjectId) || empty($title) || empty($abbervation) || empty($credits)) {
         echo json_encode(["error" => "All fields are required"]);
         exit;
     }
