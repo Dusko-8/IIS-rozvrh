@@ -37,7 +37,7 @@ CREATE TABLE PREFERED_SLOTS_TEACHER (
     /*PK*/
     teacher_slot_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     /*FK*/
-    user_ID INT REFERENCES USER(user_ID),
+    user_ID INT REFERENCES USERS(user_ID),
     day_time_ID INT REFERENCES DAY_TIME(day_time_ID),
     /*Attributes*/
     preference ENUM('Prefers', 'Disprefers')NOT NULL
@@ -47,7 +47,7 @@ CREATE TABLE STUDENT_ACTIVITIES(
     /*PK*/
     student_subjects_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     /*FK*/
-    student_ID INT REFERENCES USER(user_ID),
+    student_ID INT REFERENCES USERS(user_ID),
     activity_ID int REFERENCES ACTIVITY(activity_ID)
 );
 
@@ -55,7 +55,7 @@ CREATE TABLE SUBJECTS (
     /*PK*/
     subject_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     /*FK*/
-    guarantor_ID INT REFERENCES USER(user_ID),
+    guarantor_ID INT REFERENCES USERS(user_ID),
     /*Attributes*/
     title VARCHAR(50) NOT NULL,
     abbervation VARCHAR(4) NOT NULL UNIQUE,
@@ -84,13 +84,13 @@ CREATE TABLE PREFERED_SLOTS_ACTIVITY (
     /*FK*/
     activity_ID INT REFERENCES ACTIVITY(activity_ID),
     room_ID INT REFERENCES ROOM(room_ID),
-    teacher_ID INT REFERENCES USER(user_ID),
+    teacher_ID INT REFERENCES USERS(user_ID),
     day_time_ID INT REFERENCES DAY_TIME(day_time_ID),
     /*Attributes*/
     preference ENUM('Prefers', 'Disprefers')NOT NULL
 );
 
--- Inserting mock data into USER
+-- Inserting mock data into USERS
 INSERT INTO USERS(username, hashed_password, email, user_role) VALUES
 ('Admin', '$2y$10$9mSWZYKjJW9YW9tgdYZa9uUuNVr9zhzcT0iOzruQo9w5KGqizrAv2', 'user1@email.com', 'Admin'),     /*password1*/
 ('Guarantor', '$2y$10$KJYI.m9s/DRAtarK3SVD3efnyNygYdyjKFf1XoFNZdQEphb1/lLtG', 'user2@email.com', 'Guarantor'), /*password2*/
