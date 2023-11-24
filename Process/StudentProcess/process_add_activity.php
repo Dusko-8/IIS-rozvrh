@@ -1,7 +1,7 @@
 <?php
 session_start();
-
 require '../../Database/db_connect.php';
+
 if($_SESSION['pageNum'] == 1){
     $return = 'Location: ../../Pages/Student/student_weekly.php';
 }else{
@@ -43,7 +43,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
     } else {
-        $_SESSION['error'] = "Chose activity time please.";
+        if(isset($_POST['activity'])){
+            $_SESSION['error'] = "User failed to load. Please log in again.";
+        }else{
+            $_SESSION['error'] = "Chose activity time please.";
+        }
+        
         header($return);
         exit;
     }
