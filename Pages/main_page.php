@@ -1,5 +1,6 @@
 ﻿<?php
 session_start();
+require_once '../Process/process_session_check.php';
 
 // Check if user is not logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {

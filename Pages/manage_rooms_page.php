@@ -2,7 +2,7 @@
 session_start();
 
 require '../Database/db_connect.php';
-
+require_once '../Process/process_session_check.php';
 // Access Control Checks
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['user_role'] !== 'Admin') {
     header('Location: ../Pages/login_page.php');

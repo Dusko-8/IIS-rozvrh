@@ -1,6 +1,7 @@
 ﻿<?php
 session_start();
 require '../Database/db_connect.php';
+require_once '../Process/process_session_check.php';
 
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : "";
 $subjects = [];
