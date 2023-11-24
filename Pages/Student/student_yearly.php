@@ -19,7 +19,8 @@ try {
 
     if ($result) {
         $user_id = $result['user_ID'];
-
+        $_SESSION['user_ID'] = $user_id;
+        
         $stmt = $pdo->prepare("SELECT SUBJECTS.abbervation, ACTIVITY.repetition, ACTIVITY.activity_ID, ACTIVITY.activity_type, DAY_TIME.week_day, DAY_TIME.time_range
                                 FROM ACTIVITY 
                                 JOIN STUDENT_ACTIVITIES ON STUDENT_ACTIVITIES.activity_ID = ACTIVITY.activity_ID
@@ -50,6 +51,17 @@ try {
         <link rel="stylesheet" href="../../Styles/table_style.css">
     </head>
     <body>
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success">
+            <?= $_SESSION['success']; ?>
+        </div>
+        <script>
+            setTimeout(function () {
+                document.querySelector('.alert-success').style.display = 'none';
+            }, 5000);
+        </script>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
     <h2>Yearly Calendar</h2>
 
     <div class="buttons-container">

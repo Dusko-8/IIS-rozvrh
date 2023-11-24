@@ -37,7 +37,7 @@ CREATE TABLE PREFERED_SLOTS_TEACHER (
     /*PK*/
     teacher_slot_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     /*FK*/
-    guarantor_ID INT REFERENCES USER(user_ID),
+    user_ID INT REFERENCES USER(user_ID),
     day_time_ID INT REFERENCES DAY_TIME(day_time_ID),
     /*Attributes*/
     preference ENUM('Prefers', 'Disprefers')NOT NULL
@@ -141,9 +141,9 @@ INSERT INTO SUBJECTS(guarantor_ID, title, abbervation, credits, subj_description
 (9, 'Psychology', 'PSYC', 3, 'Introduction to mental processes and behavior studies'),
 (10, 'Chemistry', 'CHEM', 2, 'Introduction to chemical reactions and compounds');
 -- Inserting mock data into PREFERED_SLOTS_TEACHER
-INSERT INTO PREFERED_SLOTS_TEACHER(guarantor_ID, day_time_ID, preference) VALUES
-(1, 1, 'Prefers'),
-(2, 2, 'Disprefers'),
+INSERT INTO PREFERED_SLOTS_TEACHER(user_ID, day_time_ID, preference) VALUES
+(3, 1, 'Prefers'),
+(3, 2, 'Disprefers'),
 (1, 3, 'Prefers');
 
 -- Inserting mock data into ACTIVITY

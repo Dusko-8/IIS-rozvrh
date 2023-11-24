@@ -17,9 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if($user['user_role'] == 'Student'){
                 header('Location: ../Pages/Student/student_yearly.php');
                 exit;
-            }
-            else if($user['user_role'] == 'Scheduler'){
+            }else if($user['user_role'] == 'Scheduler'){
                 header('Location: ../Pages/Scheduler/scheduler_main.php');
+                exit;
+            }else if($user['user_role'] == 'Teacher'){
+                header('Location: ../Pages/Teacher/teacher_main.php');
                 exit;
             }
             header('Location: ../Pages/main_page.php');
