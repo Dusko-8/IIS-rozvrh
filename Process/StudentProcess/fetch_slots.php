@@ -1,7 +1,7 @@
 <?php
 session_start();
 require '../../Database/db_connect.php';
-// Fetch slots based on the selected subject (replace with your actual database logic)
+// Fetch slots based on the selected subject
 $selectedSubject = $_GET['subject'];
 $activities = [];
 echo '<form id="addActivity" action="../../Process/StudentProcess/process_add_activity.php" method="post">';
@@ -26,6 +26,4 @@ if($activities != []){
     echo '<button type="submit">' . 'Add ' . $activity['activity_type'] . '</button>';
     echo '</form>';
 }
-
-
 ?>
