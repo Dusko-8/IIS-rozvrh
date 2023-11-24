@@ -13,10 +13,10 @@ CREATE TABLE USERS (
     /*PK*/
     user_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     /*Attributes*/
-    username VARCHAR(250) NOT NULL UNIQUE,
+    username VARCHAR(50) NOT NULL UNIQUE,
     hashed_password VARCHAR(255) NOT NULL,  
-    email VARCHAR(250) NOT NULL ,
-    user_role ENUM('Admin', 'Guarantor', 'Teacher', 'Scheduler', 'Student', 'Unregistered') NOT NULL
+    email VARCHAR(50) NOT NULL ,
+    user_role ENUM('Admin', 'Guarantor', 'Teacher', 'Scheduler', 'Student') NOT NULL
 );
 CREATE TABLE ROOM (
     /*PK*/
@@ -24,7 +24,7 @@ CREATE TABLE ROOM (
     /*Attributes*/
     room_name VARCHAR(50) NOT NULL,
     capacity INT NOT NULL,
-    room_location VARCHAR(250) NOT NULL
+    room_location VARCHAR(4) NOT NULL
 );
 CREATE TABLE DAY_TIME (
     /*PK*/
@@ -58,7 +58,7 @@ CREATE TABLE SUBJECTS (
     guarantor_ID INT REFERENCES USER(user_ID),
     /*Attributes*/
     title VARCHAR(50) NOT NULL,
-    abbervation VARCHAR(250) NOT NULL UNIQUE,
+    abbervation VARCHAR(4) NOT NULL UNIQUE,
     credits INT NOT NULL,
     subj_description VARCHAR(500)
 );
@@ -92,12 +92,12 @@ CREATE TABLE PREFERED_SLOTS_ACTIVITY (
 
 -- Inserting mock data into USER
 INSERT INTO USERS(username, hashed_password, email, user_role) VALUES
-('user1', '$2y$10$9mSWZYKjJW9YW9tgdYZa9uUuNVr9zhzcT0iOzruQo9w5KGqizrAv2', 'user1@email.com', 'Admin'),     /*password1*/
-('user2', '$2y$10$KJYI.m9s/DRAtarK3SVD3efnyNygYdyjKFf1XoFNZdQEphb1/lLtG', 'user2@email.com', 'Guarantor'), /*password2*/
-('user3', '$2y$10$iPVH5GDLM3YYMD5v53xrWu9qoNEyV11SzAzi4sWhJzAxQN/ZgPnqu', 'user3@email.com', 'Teacher'),   /*password3*/
-('user4', '$2y$10$m3D3CAvaD9AjCla2qtnrNu4bHwFxn93ufVqBcFlTAUANzwMwVbeYG', 'user4@email.com', 'Scheduler'),  /*password4*/
-('user5', '$2y$10$BjA2J9QWBIqO49t5JEi3n.0ihgNljwGN4ZrJyhFzdr/KkMVPBaie2', 'user5@email.com', 'Student'),  /*password5*/
-('user6', '$2y$10$w9/9kGvCHssBMQUOUmJjyuOVYgOq4durbCIOXI6gpY3hz/4SGYswe', 'user6@email.com', 'Unregistered');  /*password6*/
+('Admin', '$2y$10$9mSWZYKjJW9YW9tgdYZa9uUuNVr9zhzcT0iOzruQo9w5KGqizrAv2', 'user1@email.com', 'Admin'),     /*password1*/
+('Guarantor', '$2y$10$KJYI.m9s/DRAtarK3SVD3efnyNygYdyjKFf1XoFNZdQEphb1/lLtG', 'user2@email.com', 'Guarantor'), /*password2*/
+('Teacher', '$2y$10$iPVH5GDLM3YYMD5v53xrWu9qoNEyV11SzAzi4sWhJzAxQN/ZgPnqu', 'user3@email.com', 'Teacher'),   /*password3*/
+('Scheduler', '$2y$10$m3D3CAvaD9AjCla2qtnrNu4bHwFxn93ufVqBcFlTAUANzwMwVbeYG', 'user4@email.com', 'Scheduler'),  /*password4*/
+('Student', '$2y$10$BjA2J9QWBIqO49t5JEi3n.0ihgNljwGN4ZrJyhFzdr/KkMVPBaie2', 'user5@email.com', 'Student'),  /*password5*/
+
 
 -- Inserting mock data into ROOM
 INSERT INTO ROOM (room_name, capacity, room_location) VALUES

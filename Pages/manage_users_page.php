@@ -2,7 +2,7 @@
 session_start();
 
 require '../Database/db_connect.php';
-
+require_once '../Process/process_session_check.php';
 // Check if the user is not logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: ../Pages/login_page.php');
