@@ -51,6 +51,17 @@ try {
         <link rel="stylesheet" href="../../Styles/table_style.css">
     </head>
     <body>
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success">
+            <?= $_SESSION['success']; ?>
+        </div>
+        <script>
+            setTimeout(function () {
+                document.querySelector('.alert-success').style.display = 'none';
+            }, 5000);
+        </script>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
     <h2>Weekly Calendar</h2>
 
     <div class="buttons-container">
