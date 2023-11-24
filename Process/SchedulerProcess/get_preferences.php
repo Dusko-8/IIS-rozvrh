@@ -5,6 +5,7 @@ require '../../Database/db_connect.php';
 $selectedActivity = $_GET['activity_id'];
 $preferences = [];
 $allRooms = [];
+$teacherPreferences = [];
 
 $stmt = $pdo->prepare("SELECT r.room_name, r.room_location, dt.week_day, dt.time_range, psa.preference " .
                         "FROM  PREFERED_SLOTS_ACTIVITY AS psa " .
@@ -18,6 +19,14 @@ $preferences = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt = $pdo->prepare("SELECT * FROM ROOM");
 $stmt->execute();
 $allRooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $pdo->prepare("SELECT dt.week_day, dt.time_range, pst.preference FROM PREFERED_SLOTS_TEACHER AS pst " . 
+                        "NATURAL JOIN USERS AS u " . 
+                        "NATURAL JOIN ACTIVITY AS a " .
+                        "JOIN DAY_TIME AS dt ON dt.day_time_ID = a.day_time_ID " .
+                        "WHERE a.activity_ID = :id");
+$stmt->execute([':id' => $selectedActivity]);
+$teacherPreferences = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $stmt = $pdo->prepare("SELECT repetition, activity_date FROM ACTIVITY WHERE activity_id = :id");
 $stmt->execute([':id' => $selectedActivity]);
@@ -45,6 +54,18 @@ foreach ($preferences as $p) {
     echo '</div>';
 }
 echo '</div>';
+
+echo '<h2>Teacher Preferences:</h2>';
+echo '<div style="text-align: center;">';
+foreach ($teacherPreferences as $tp) {
+    $boxClass = ($tp['preference'] == 'Prefers') ? 'preference-box-green' : 'preference-box-red';
+
+    echo '<div style="display: inline-block; margin: 10px;" class="' . $boxClass . '">';
+    echo $tp['week_day'] . "( " . $tp['time_range'] . " )";
+    echo '</div>';
+}
+echo '</div>';
+
 $stmt = $pdo->prepare("SELECT r.room_name FROM ACTIVITY AS a JOIN ROOM as r ON r.room_ID = a.room_ID WHERE a.activity_ID = :id");
 $stmt->execute([':id' => $selectedActivity]);
 if($stmt->rowCount() > 0){

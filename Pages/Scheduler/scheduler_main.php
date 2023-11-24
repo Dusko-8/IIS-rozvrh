@@ -30,6 +30,18 @@ $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php unset($_SESSION['alert_success']); ?>
             <?php endif; ?>
 
+            <?php if (isset($_SESSION['alert_error'])): ?>
+                <div class="alert alert-error">
+                    <?= $_SESSION['alert_error']; ?>
+                </div>
+                <script>
+                    setTimeout(function () {
+                        document.querySelector('.alert-error').style.display = 'none';
+                    }, 5000);
+                </script>
+                <?php unset($_SESSION['alert_error']); ?>
+            <?php endif; ?>
+
         <form id="schedulerForm">
             <label for='activities'>Activities:</label>
             <select name="activities" id="activities" required onchange="loadAvailableSlots()">

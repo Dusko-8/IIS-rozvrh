@@ -154,6 +154,10 @@ textarea {
     background-color: rgb(134, 229, 115); 
 }
 
+.alert-error {
+    background-color: red; 
+}
+
 .preference-box-green {
     border: 1px solid #80ff80;
     background-color: #ccffcc;
