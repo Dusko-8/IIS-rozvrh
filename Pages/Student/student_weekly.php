@@ -197,7 +197,6 @@ try {
 
         <!-- Right side -->
         <div style="width: 48%;">
-            <!-- Duplicate the content here with appropriate styling -->
             <h2>Remove subject</h2>
             <?php if (isset($_SESSION['error2'])): ?>
                 <div class="error"><?php echo $_SESSION['error2']; ?></div>
