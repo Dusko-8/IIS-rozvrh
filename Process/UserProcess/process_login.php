@@ -28,11 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit;
             }
             else if($user['user_role'] == 'Guarantor'){
-                header('Location: ../../Pages/Gurantor/guaranted_sub_page.php');
+                header('Location: ../../Pages/Guarantor/guaranted_sub_page.php');
                 exit;
             }else {
                 $_SESSION['error'] = "Invalid username or password!";
-                header('Location: ../../Pages/login_page.php');
+                header('Location: ../../Pages/User/login_page.php');
                 exit;
             }
             

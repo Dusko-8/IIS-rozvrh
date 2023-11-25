@@ -7,7 +7,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 if ($_SESSION['user_role'] !== 'Admin' and $_SESSION['user_role'] !== 'Guarantor') {
-    header('Location: ../Pages/main_page.php');
+    header('Location: ../../Pages/User/anotations_page.php');
     exit;
 }
 
