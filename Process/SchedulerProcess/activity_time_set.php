@@ -58,6 +58,7 @@ $timeRange = $time . '-' . $endTime;
 $stmt = $pdo->prepare("SELECT day_time_ID FROM ACTIVITY WHERE activity_ID = :id");
 $stmt->execute([':id' => $activityID]);
 if($stmt->rowCount() > 0){
+    //if activity has time and room => it gets updated
     $timeID = $stmt->fetch(PDO::FETCH_ASSOC);
     $timeID = $timeID['day_time_ID'];
     $stmt = $pdo->prepare("UPDATE DAY_TIME SET week_day = :day, time_range = :time WHERE day_time_ID = :id");
@@ -75,6 +76,7 @@ if($stmt->rowCount() > 0){
 
     $dayTimeID = $timeID;
 }else{
+    //if activity doesnt have time and room => new time gets created for this activity
     $stmt = $pdo->prepare("INSERT INTO DAY_TIME (week_day, time_range) VALUES (:day, :timeRange)");
     $stmt->execute([
         ':day' => $day,
@@ -90,7 +92,7 @@ if($stmt->rowCount() > 0){
     $dayTimeID = $pdo->lastInsertId();
 }
 
-
+//SET <<FK>> FOR ACTIVITY
 $stmt = $pdo->prepare("UPDATE ACTIVITY SET day_time_id = :timeID, room_ID = :roomID WHERE activity_ID = :activityID");
 $stmt->execute([
     ':timeID' => $dayTimeID,
@@ -98,12 +100,14 @@ $stmt->execute([
     ':activityID' => $activityID,
 ]);
 
+//check if data was changed
 if($stmt->rowCount() == 0){
     $_SESSION['alert_error'] = 'An error occurred while processing your request. Please try again.3';
     header('Location: ../../Pages/Scheduler/scheduler_main.php');
     exit;
 }
 
+//return success
 $_SESSION['alert_success'] = 'Successfully changed activity time and room';
 header('Location: ../../Pages/Scheduler/scheduler_main.php');
 exit;

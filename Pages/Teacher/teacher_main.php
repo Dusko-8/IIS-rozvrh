@@ -6,12 +6,15 @@ $days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 $times = ["8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
 $preferences = [];
 
+//GET USER ID
 $stmt = $pdo->prepare("SELECT user_ID FROM USERS WHERE username = :username");
 $stmt->execute([':username' => $_SESSION['username']]);
 $userID = $stmt->fetch(PDO::FETCH_ASSOC);
 $userID = $userID['user_ID'];
 $_SESSION['user_ID'] = $userID;
 
+
+//GET TEACHER PREFERENCES
 $stmt = $pdo->prepare("SELECT pst.teacher_slot_ID, pst.preference, dt.week_day, dt.time_range " . 
                         "FROM PREFERED_SLOTS_TEACHER AS pst " .
                         "NATURAL JOIN DAY_TIME AS dt " .
@@ -32,7 +35,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>   
-
+    <!-- SIDE BAR -->
     <?php include '../../Components/sidebar_component.php'; ?>
     <!-- Sidebar Toggle Icon -->
     <div class="sidebar-header">
@@ -54,7 +57,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
         }
     </script>
 
-
+    <!-- SUCCESS ALERT -->
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
             <?= $_SESSION['success']; ?>
@@ -67,6 +70,8 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
         <?php unset($_SESSION['success']); ?>
     <?php endif; ?>
 
+
+    <!-- ERROR ALERT -->
     <?php if (isset($_SESSION['errorAlert'])): ?>
         <div class="alert alert-error">
             <?= $_SESSION['errorAlert']; ?>
@@ -83,6 +88,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
     <div class="horizontal-container" style="gap: 100px;  align-items: flex-start;">
         <div class="vertical-container">
             <h2>Add Preference</h2>
+            <!-- ADD PREFERENCE FORM -->
             <form id="addPreferenceForm" action="../../Process/TeacherProcess/process_add_preference.php" method="post">
                 <div class="horizontal-container">
                     <div class="vertical-container">
@@ -126,6 +132,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
         </div>
         <div class="vertical-container">
             <h2>Remove Preference</h2>
+            <!-- REMOVE PREFERENCE FORM -->
             <form id="removePreferenceForm" action="../../Process/TeacherProcess/process_remove_preference.php" method="post">
                 <label for="removePref">Select workday:</label>
                 <select id="removePref" name="removePref">
@@ -140,7 +147,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
             </div>
     </div>
     
-
+    <!-- TABLE TO SHOW PREFERENCES -->
     <table>
         <thead>
             <tr>
@@ -176,6 +183,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
                 echo '</tr>';
             } 
 
+            //check if preference fits into table
             function isTimeRangeFitting($timeRange, $tableStartTime, $tableEndTime) {
                 list($startTime, $endTime) = explode('-', $timeRange);
                 $startTime = new DateTime($startTime);
@@ -195,6 +203,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
                 return false;
             }
 
+            //get next time slot
             function getNextTimeSlot($timeSlot) {
                 $currentTime = new DateTime($timeSlot);
                 $currentTime->add(new DateInterval('PT1H')); 
@@ -204,7 +213,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
         </tbody>
     </table>
 
-
+    <!-- SCRIPT FOR SLIDER UPDATING -->
     <script>
         const slider = document.getElementById('slider');
         const sliderValue = document.getElementById('sliderValue');

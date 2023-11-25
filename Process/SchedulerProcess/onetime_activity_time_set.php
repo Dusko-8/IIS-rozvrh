@@ -68,6 +68,7 @@ $timeRange = $time . '-' . $endTime;
 $stmt = $pdo->prepare("SELECT day_time_ID FROM ACTIVITY WHERE activity_ID = :id");
 $stmt->execute([':id' => $activityID]);
 
+//UPDATE IF ACTIVITY HAS TIME SET
 if ($stmt->rowCount() > 0) {
     $timeID = $stmt->fetch(PDO::FETCH_ASSOC);
     $timeID = $timeID['day_time_ID'];
@@ -86,6 +87,7 @@ if ($stmt->rowCount() > 0) {
     }
 
     $dayTimeID = $timeID;
+//CREATE NEW DAY_TIME IF ACTIVITY HAS NO TIME SET YET
 } else {
     $stmt = $pdo->prepare("INSERT INTO DAY_TIME (week_day, time_range) VALUES (:day, :timeRange)");
     $stmt->execute([
@@ -102,6 +104,7 @@ if ($stmt->rowCount() > 0) {
     $dayTimeID = $pdo->lastInsertId();
 }
 
+//UPDATE ACTIVITY WITH NEW DAY_TIME AND ROOM
 $stmt = $pdo->prepare("UPDATE ACTIVITY SET day_time_id = :timeID, room_ID = :roomID, activity_date = :aDate WHERE activity_ID = :activityID");
 $stmt->execute([
     ':timeID' => $dayTimeID,
@@ -116,6 +119,7 @@ if($stmt->rowCount() == 0){
     exit;
 }
 
+//RETURN SUCCESS
 $_SESSION['alert_success'] = 'Successfully changed activity time and room';
 header('Location: ../../Pages/Scheduler/scheduler_main.php');
 exit;

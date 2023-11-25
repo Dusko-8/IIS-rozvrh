@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../../Database/db_connect.php';
+
 $_SESSION['pageNum'] = 1;
 $user_id;
 $activities = [];
@@ -13,6 +14,7 @@ $tableQuerry = "SELECT SUBJECTS.abbervation, DAY_TIME.week_day, DAY_TIME.time_ra
                 "JOIN DAY_TIME ON DAY_TIME.day_time_ID = ACTIVITY.day_time_ID " .
                 "WHERE ACTIVITY.activity_ID = :id";
 try {
+    //Get student to view pages
     $stmt = $pdo->prepare("SELECT user_ID FROM USERS WHERE username = :username");
     $stmt->execute([':username' => $_SESSION['username']]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -20,7 +22,7 @@ try {
     if ($result) {
         $user_id = $result['user_ID'];
         $_SESSION['user_ID'] = $user_id;
-
+        //Get all activities of a student
         $stmt = $pdo->prepare("SELECT SUBJECTS.abbervation, ACTIVITY.repetition, ACTIVITY.activity_ID, ACTIVITY.activity_type, DAY_TIME.week_day, DAY_TIME.time_range
                                 FROM ACTIVITY 
                                 JOIN STUDENT_ACTIVITIES ON STUDENT_ACTIVITIES.activity_ID = ACTIVITY.activity_ID
@@ -29,7 +31,7 @@ try {
                                 WHERE STUDENT_ACTIVITIES.student_ID = :user_ID");
         $stmt->execute([':user_ID' => $user_id]);
         $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+        //Get all subjects
         $stmt = $pdo->prepare("SELECT * FROM SUBJECTS");
         $stmt->execute();
         $allSubjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -53,15 +55,13 @@ try {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>
+    <!-- SIDE BAR -->
     <?php include '../../Components/sidebar_component.php'; ?>
-    <!-- Sidebar Toggle Icon -->
     <div class="sidebar-header">
-        <!-- Sidebar Toggle -->
         <div class="sidebar-toggle" onclick="toggleSidebar()">
             <i class="fa-solid fa-bars"></i>
         </div>
     </div>
-    <!-- Overlay -->
     <div class="overlay hidden" onclick="toggleSidebar()"></div>
     <script>
         function toggleSidebar() {
@@ -74,7 +74,8 @@ try {
         }
     </script>
 
-    
+
+    <!-- SUCCESS ALERT -->
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
             <?= $_SESSION['success']; ?>
@@ -86,13 +87,13 @@ try {
         </script>
         <?php unset($_SESSION['success']); ?>
     <?php endif; ?>
-    <h2>Weekly Calendar</h2>
 
+    <!-- SWAP YEARLY AND WEEKLY SCHEDULES -->
+    <h2>Weekly Calendar</h2>
     <div class="buttons-container">
         <button id="button1" class="styled-button">Weekly Schedule</button>
         <button id="button2" class="styled-button" onclick="location.href='student_yearly.php'">Yearly Schedule</button>
     </div>
-
     <script>
         var selectedButtonId = null;
 
@@ -113,14 +114,16 @@ try {
         };
     </script>
 
-        <table>
-        <thead>
-        <tr>
-            <th></th>
-            <?php foreach ($timeSlots as $timeSlot): ?>
-                <th class="time-header"><?= $timeSlot ?></th>
-            <?php endforeach; ?>
-        </tr>
+    
+    <!-- WEEKLY TABLE -->
+    <table>
+    <thead>
+    <tr>
+        <th></th>
+        <?php foreach ($timeSlots as $timeSlot): ?>
+            <th class="time-header"><?= $timeSlot ?></th>
+        <?php endforeach; ?>
+    </tr>
     </thead>
         <tbody>
         <?php
@@ -150,6 +153,7 @@ try {
                 echo '</tr>';
             }
 
+            //checks if activity fits into table
             function isTimeRangeFitting($timeRange, $tableStartTime, $tableEndTime) {
                 list($startTime, $endTime) = explode('-', $timeRange);
                 $startTime = new DateTime($startTime);
@@ -170,6 +174,7 @@ try {
                 return false;
             }
 
+            //checks if activity is current week
             function isDateFitting($date, $repetition){
                 $currentDate = date("Y-m-d");
 
@@ -199,6 +204,7 @@ try {
                 return ($date >= $weekStartDate && $date <= $weekEndDate);
             }
 
+            //gets next time slot of table
             function getNextTimeSlot($timeSlot) {
                 $currentTime = new DateTime($timeSlot);
                 $currentTime->add(new DateInterval('PT1H'));
@@ -211,6 +217,7 @@ try {
     <div style="display: flex; justify-content: space-between; padding: 20px;">
 
         <!-- Left side -->
+        <!-- ADD SUBJECT FORM -->
         <div style="width: 48%;">
             <h2>Add subject</h2>
             <?php if (isset($_SESSION['error'])): ?>
@@ -231,6 +238,7 @@ try {
         </div>
 
         <!-- Right side -->
+        <!-- REMOVE SUBJECT FORM -->
         <div style="width: 48%;">
             <h2>Remove subject</h2>
             <?php if (isset($_SESSION['error2'])): ?>

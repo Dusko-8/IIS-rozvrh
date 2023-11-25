@@ -8,6 +8,7 @@ echo '<form id="addActivity" action="../../Process/StudentProcess/process_add_ac
 
 echo '<label id="time" for="activity">' . $selectedSubject . ":" . '</label>';
 
+//GET ALL ACTIVITES OF A SUBJECT
 $stmt = $pdo->prepare("SELECT ACTIVITY.repetition, ACTIVITY.activity_ID, ACTIVITY.activity_type, DAY_TIME.week_day, DAY_TIME.time_range " .
                         "FROM ACTIVITY " .
                         "JOIN SUBJECTS ON SUBJECTS.subject_ID = ACTIVITY.subject_ID " .
@@ -16,6 +17,7 @@ $stmt = $pdo->prepare("SELECT ACTIVITY.repetition, ACTIVITY.activity_ID, ACTIVIT
 $stmt->execute([':shortcut' => $selectedSubject]);
 $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+//SELECT ACTIVITY OF A SUBJECT
 echo '<select id="activity" name="activity">';
 echo '<option value="" disabled selected>Select time</option>';
 if($activities != []){

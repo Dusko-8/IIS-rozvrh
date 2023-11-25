@@ -2,6 +2,7 @@
 session_start();
 require '../../Database/db_connect.php';
 
+//GET DATA
 $selectedRoom = $_GET['room_id'];
 $selectedActivity = $_GET['activity_id'];
 $roomTimes = [];
@@ -11,6 +12,7 @@ $timeSlots = ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:0
 
 echo '<h2>Room schedule:</h2>';
 
+//GET ROOM TIMES
 $stmt = $pdo->prepare(   "SELECT s.abbervation, dt.week_day, dt.time_range, a.activity_type, a.activity_ID, a.repetition " .
                         "FROM ROOM AS r " .
                         "JOIN ACTIVITY AS a ON r.room_ID = a.room_ID " .
@@ -20,12 +22,15 @@ $stmt = $pdo->prepare(   "SELECT s.abbervation, dt.week_day, dt.time_range, a.ac
 $stmt->execute([':room_id' => $selectedRoom]);
 $roomTimes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+//GET ACTIVITY DURATION AND REPETITION
 $stmt = $pdo->prepare(  "SELECT a.duration, a.repetition FROM ACTIVITY AS a WHERE a.activity_ID = :id");
 $stmt->execute([':id' => $selectedActivity]);
 $result = $stmt->fetch(PDO::FETCH_ASSOC); 
 $duration = $result['duration'];
 $repetition = $result['repetition'];
 
+
+//TABLE WHERE BUTTONS FOR ACTIVITY TIME AND ROOM SET WILL BE PLACED
 echo '<table>';
 echo '<thead>';
 echo '<tr>';
@@ -58,6 +63,7 @@ foreach ($daysOfWeek as $day) {
             }
         }
     }
+    //PLACE IN CONTENT OR A BUTTON FOR ACTIVITY TIME AND ROOM SET
     foreach($timeSlots as $index => $timeSlot){
         echo '<td>';
         if($index + $duration < 10){
@@ -75,11 +81,14 @@ foreach ($daysOfWeek as $day) {
     echo '</tr>';
 echo '</tbody>';
 
+
+//CHECKS IF TABLE CELL IS EMPTY OR IS FILLED WITH CURRENT ACTIVITY
 function isCellEmpty($cell){
     if($cell == "" || stripos($cell, 'this') !== false) return true;
     return false;
 }
 
+//CHECKS IF CURRENTLY SELECTED ACTIVITY IS OPOSITE WEEK FROM THE ACTIVITY INSIDE TABLE
 function cellAreOpositeWeeks($repetition, $checkCell){
     if($repetition == 'oddWeek'){
         if(stripos($checkCell, 'evenWeek') !== false){
@@ -95,6 +104,7 @@ function cellAreOpositeWeeks($repetition, $checkCell){
     return false;
 }
 
+//CHECKS IF ACTIVITY FITS INTO TABLE
 function isTimeRangeFitting($timeRange, $tableStartTime, $tableEndTime) {
     list($startTime, $endTime) = explode('-', $timeRange);
     $startTime = new DateTime($startTime);
@@ -115,7 +125,7 @@ function isTimeRangeFitting($timeRange, $tableStartTime, $tableEndTime) {
     return false;
 }
 
-
+//RETURNS NEXT TIME SLOT
 function getNextTimeSlot($timeSlot) {
     $currentTime = new DateTime($timeSlot);
     $currentTime->add(new DateInterval('PT1H'));

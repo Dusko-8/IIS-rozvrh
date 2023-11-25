@@ -21,9 +21,10 @@ if(!isset($_POST['removePref'])){
     exit;
 }
 
+//SET ID
 $prefID = $_POST['removePref'];
 
-
+//CHECK VALIDITY
 if($prefID == null || $prefID == ""){
     $_SESSION['errorAlert'] = 'Please select a preference to remove.';
     header('Location: ../../Pages/Teacher/teacher_main.php');
@@ -37,6 +38,7 @@ if(!$prefID){
     exit;
 }
 
+//REMOVE PREFERENCE
 $stmt = $pdo->prepare("DELETE FROM PREFERED_SLOTS_TEACHER WHERE teacher_slot_ID = :prefID");
 $stmt->execute([':prefID' => $prefID]);
 
