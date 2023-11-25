@@ -9,7 +9,7 @@ if($_SESSION['pageNum'] == 1){
 }
 unset($_SESSION['pageNum']);
 
-if($_SESSION['user_role'] != 'Student'){
+if($_SESSION['user_role'] != 'Student'  && $_SESSION['user_role'] != 'Admin'){
     $_SESSION['error2'] = "You don't have rights to remove activities. Please log in with Student account";
     header($return);
     exit;

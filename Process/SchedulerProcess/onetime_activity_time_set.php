@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] != "GET") {
     exit;
 }
 
-if($_SESSION['user_role'] != 'Scheduler'){
+if($_SESSION['user_role'] != 'Scheduler' && $_SESSION['user_role'] != 'Admin'){
     $_SESSION['alert_error'] = 'You don\'t have rights to modify data. Please log in with Scheduler account.';
     header('Location: ../../Pages/Scheduler/scheduler_main.php');
     exit;

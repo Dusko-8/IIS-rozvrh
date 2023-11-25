@@ -2,13 +2,58 @@
 session_start();
 require '../../Database/db_connect.php';
 
+//CHECK PRE PROCESS
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    $_SESSION['errorAlert'] = 'POST request required.';
+    header('Location: ../../Pages/Teacher/teacher_main.php');
+    exit;
+}
+
+if($_SESSION['user_role'] != 'Teacher' && $_SESSION['user_role'] != 'Guarantor' && $_SESSION['user_role'] != 'Admin'){
+    $_SESSION['errorAlert'] = 'You don\'t have rights to modify data. Please log in with Teacher or Guarantor account.';
+    header('Location: ../../Pages/Teacher/teacher_main.php');
+    exit;
+}
+
+if(!isset($_SESSION['user_ID'], $_POST['workdays'], $_POST['hours'], $_POST['slider'], $_POST['pref'])){
+    $_SESSION['errorAlert'] = 'Data not set correctly.';
+    header('Location: ../../Pages/Teacher/teacher_main.php');
+    exit;
+}
+
+//SET DATA
 $userID = $_SESSION['user_ID'];
 $day = $_POST['workdays'];
 $startTime = $_POST['hours'];
 $duration = $_POST['slider'];
 $preference = $_POST['pref'];
-$startTime = $startTime .':00';
 
+//CHECK DATA
+$userID = filter_var($userID, FILTER_VALIDATE_INT);
+$duration = filter_var($duration, FILTER_VALIDATE_INT);
+$startTime = filter_var($startTime, FILTER_VALIDATE_INT);
+if(!$userID || !$duration || !$startTime){
+    $_SESSION['errorAlert'] = 'Invalid data.';
+    header('Location: ../../Pages/Teacher/teacher_main.php');
+    exit;
+}
+
+$validDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+if(!in_array($day, $validDays)){
+    $_SESSION['errorAlert'] = 'Invalid data.';
+    header('Location: ../../Pages/Teacher/teacher_main.php');
+    exit;
+}
+
+if($preference != 'Prefers' && $preference != 'Disprefers'){
+    $_SESSION['errorAlert'] = 'Invalid data.';
+    header('Location: ../../Pages/Teacher/teacher_main.php');
+    exit;
+}
+
+
+//PROCESS
+$startTime = $startTime .':00';
 $endTime = date('H:i', strtotime($startTime . '+' . $duration . ' hours'));
 $timeRange = $startTime . '-' . $endTime;
 
@@ -29,7 +74,7 @@ foreach($timesToCheck as $time){
     }else{
         if(rangesOverlap($time['time_range'], $timeRange, false)){
             
-            $_SESSION['error'] = 'You can not prefer and disprefer the same time. Please pick one.';
+            $_SESSION['errorAlert'] = 'You can not prefer and disprefer the same time. Please pick one.';
             header('Location: ../../Pages/Teacher/teacher_main.php');
             exit;
         }
@@ -43,6 +88,11 @@ if($update == true){
         ':id' => $dtID,
     ]);
 
+    if($stmt->rowCount() == 0){
+        $_SESSION['errorAlert'] = 'There is nothing to be changed with this request. Try selecting different time.';
+        header('Location: ../../Pages/Teacher/teacher_main.php');
+        exit;
+    }
     $_SESSION['success'] = 'Preference was updated successfully.';
     header('Location: ../../Pages/Teacher/teacher_main.php');
     exit;
@@ -52,6 +102,12 @@ if($update == true){
         ':day' => $day,
         ':timeRange' => $timeRange,
     ]);
+
+    if($stmt->rowCount() == 0){
+        $_SESSION['errorAlert'] = 'An error occurred while processing your request. Please try again.';
+        header('Location: ../../Pages/Teacher/teacher_main.php');
+        exit;
+    }
     $dayTimeID = $pdo->lastInsertId();
 }
 
@@ -61,6 +117,12 @@ $stmt->execute([
     ':dt' => $dayTimeID,
     ':pref' => $preference,
 ]);
+
+if($stmt->rowCount() == 0){
+    $_SESSION['errorAlert'] = 'An error occurred while processing your request. Please try again.';
+    header('Location: ../../Pages/Teacher/teacher_main.php');
+    exit;
+}
 
 $_SESSION['success'] = 'Preference was created successfully.';
 header('Location: ../../Pages/Teacher/teacher_main.php');
