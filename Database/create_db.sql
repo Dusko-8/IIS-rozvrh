@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS `PREFERED_SLOTS_TEACHER`;
 DROP TABLE IF EXISTS `PREFERED_SLOTS_ACTIVITY`;
 DROP TABLE IF EXISTS `DAY_TIME`;
 DROP TABLE IF EXISTS `STUDENT_ACTIVITIES`;
-DROP TABLE IF EXISTS `SUBJECT_TEACHERS`;
+DROP TABLE IF EXISTS `SUBJECT_TEACHER`;
 
 CREATE TABLE USERS (
     /*PK*/
@@ -91,7 +91,7 @@ CREATE TABLE PREFERED_SLOTS_ACTIVITY (
     preference ENUM('Prefers', 'Disprefers')NOT NULL
 );
 
-CREATE TABLE SUBJECT_TEACHERS(
+CREATE TABLE SUBJECT_TEACHER(
     /*PK*/
     sub_teach_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     /*FK*/
@@ -228,35 +228,130 @@ INSERT INTO SUBJECTS(guarantor_ID, title, abbervation, credits, subj_description
 INSERT INTO PREFERED_SLOTS_TEACHER(user_ID, day_time_ID, preference) VALUES
 (3, 1, 'Prefers'),
 (3, 2, 'Disprefers'),
-(1, 3, 'Prefers');
+(1, 3, 'Prefers'),
+(47, 6, 'Prefers'),
+(54, 12, 'Disprefers'),
+(40, 8, 'Disprefers'),
+(56, 14, 'Prefers'),
+(52, 4, 'Prefers'),
+(39, 7, 'Disprefers'),
+(45, 1, 'Prefers'),
+(41, 7, 'Disprefers'),
+(46, 6, 'Prefers'),
+(44, 11, 'Disprefers'),
+(55, 13, 'Prefers'),
+(51, 15, 'Disprefers'),
+(42, 2, 'Prefers'),
+(48, 5, 'Disprefers'),
+(49, 9, 'Prefers');
 
 -- Inserting mock data into ACTIVITY
--- NOTE: This assumes an adjusted definition of ACTIVITY
 INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, activity_type, duration) VALUES
 (1, 1, 1, 1, 'everyWeek', 'Lecture', 2),
 (2, 2, 2, 2, 'evenWeek', 'Tutorial', 2),
 (3, 3, 1, 3, 'oddWeek', 'Lecture', 2),
-(1, 1, 1, 5, 'everyWeek', 'Lecture', 2);
+(1, 1, 1, 5, 'everyWeek', 'Lecture', 2),
+(7, 18, 51, 9, 'everyWeek', 'Seminar', 3),
+(3, 13, 44, 14, 'oddWeek', 'Consultation', 3),
+(11, 4, 42, 11, 'everyWeek', 'Exercise', 4),
+(2, 9, 49, 2, 'evenWeek', 'Tutorial', 1),
+(5, 16, 39, 7, 'oddWeek', 'Seminar', 3),
+(8, 20, 53, 4, 'everyWeek', 'Demo', 4),
+(12, 2, 48, 10, 'evenWeek', 'Exercise', 3),
+(6, 14, 52, 8, 'oddWeek', 'Consultation', 4),
+(1, 7, 40, 12, 'everyWeek', 'Seminar', 2),
+(9, 17, 45, 5, 'evenWeek', 'Exam', 2),
+(4, 11, 56, 15, 'oddWeek', 'Demo', 1),
+(10, 5, 38, 6, 'everyWeek', 'Lecture', 4),
+(13, 19, 50, 13, 'evenWeek', 'Tutorial', 1),
+(14, 10, 41, 1, 'oddWeek', 'Lecture', 2),
+(1, 8, 46, 16, 'everyWeek', 'Exam', 3);
+
 -- One time Activity
 INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, activity_type, duration, activity_date) VALUES
-(7, 1, 1, 13, 'oneTime', 'Lecture', 2, '2023-11-24');
+(7, 1, 1, 13, 'oneTime', 'Lecture', 2, '2023-12-24'),
+(8, 15, 45, 9, 'oneTime', 'Lecture', 2, '2024-1-26'),
+(5, null, 39, null, 'oneTime', 'Exam', 3, '2024-1-27'),
+(12, 3, 51, 4, 'oneTime', 'Consultation', 1, '2024-1-28'),
+(2, null, 41, null, 'oneTime', 'Tutorial', 4, '2024-1-29');
 
 -- Inserting mock data into PREFERED_SLOTS_ACTIVITY
--- NOTE: Assuming some activity IDs from the ACTIVITY mock data
 INSERT INTO PREFERED_SLOTS_ACTIVITY(activity_ID, room_ID, teacher_ID, day_time_ID, preference) VALUES
 (1, 1, 1, 1, 'Prefers'),
 (1, 1, 1, 2, 'Prefers'),
 (1, 1, 1, 3, 'Disprefers'),
 (2, 2, 2, 2, 'Disprefers'),
-(3, 3, 1, 3, 'Prefers');
+(3, 3, 1, 3, 'Prefers'),
+(15, 6, 54, 10, 'Prefers'),
+(8, 16, 47, 3, 'Disprefers'),
+(2, 9, 50, 12, 'Disprefers'),
+(5, 11, 41, 8, 'Prefers'),
+(12, 20, 55, 14, 'Disprefers'),
+(18, 15, 52, 4, 'Disprefers'),
+(9, 7, 43, 1, 'Prefers'),
+(6, 2, 39, 7, 'Prefers'),
+(11, 12, 46, 6, 'Prefers'),
+(3, 19, 44, 11, 'Disprefers'),
+(14, 10, 56, 13, 'Prefers'),
+(17, 18, 51, 15, 'Disprefers'),
+(10, 5, 42, 2, 'Prefers'),
+(1, 17, 48, 5, 'Disprefers'),
+(16, 1, 49, 9, 'Prefers');
 
 -- Mock data for student's subjects
 INSERT INTO STUDENT_ACTIVITIES(student_ID, activity_ID) VALUES
 (5, 1),
 (5, 2),
-(5, 3);
+(5, 3),
+(18, 19),
+(10, 17),
+(24, 8),
+(14, 22),
+(9, 12),
+(20, 24),
+(13, 3),
+(8, 15),
+(23, 9),
+(12, 6),
+(19, 16),
+(22, 2),
+(16, 12),
+(11, 15),
+(14, 4),
+(18, 19),
+(10, 17),
+(24, 8),
+(14, 22),
+(9, 12),
+(20, 24),
+(13, 3),
+(8, 15),
+(23, 9),
+(12, 6),
+(19, 16),
+(22, 2),
+(16, 12),
+(11, 15),
+(14, 4);
 
-INSERT INTO SUBJECT_TEACHERS(user_ID,subject_ID) VALUES
+INSERT INTO SUBJECT_TEACHER(user_ID,subject_ID) VALUES
 (2, 2),
-(3, 2);
-
+(3, 2),
+(45, 49),
+(9, 10),
+(53, 7),
+(49, 7),
+(14, 8),
+(41, 12),
+(7, 11),
+(53, 5),
+(2, 4),
+(50, 14),
+(11, 3),
+(39, 6),
+(13, 2),
+(56, 10),
+(6, 13),
+(46, 9),
+(3, 12),
+(38, 1);

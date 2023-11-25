@@ -235,8 +235,8 @@ if (isset($_GET['subject_id'])) {
                     </label>
                     <br>
                     <p id="dialog_notification" style="color: green; display: none;"></p>
-                    <input type="submit" value="Save Changes">
-                    <button type="button" onclick="hideDialog()">Cancel</button>
+                    <input type="submit" class="save-btn" value="Save Changes">
+                    <button type="button" class="save-btn" onclick="hideDialog()">Cancel</button>
                 </form>
             </div>
             <!--Add activity dialog -->
@@ -282,8 +282,8 @@ if (isset($_GET['subject_id'])) {
                     </label>
                     <br>
                     <p id="add_dialog_notification" style="color: green; display: none;"></p>
-                    <input type="submit" value="Add Activity">
-                    <button type="button" onclick="hideDialog()">Cancel</button>
+                    <input type="submit" class="save-btn" value="Add Activity">
+                    <button type="button" class="save-btn" onclick="hideDialog()">Cancel</button>
                 </form>
             </div>
         </div>

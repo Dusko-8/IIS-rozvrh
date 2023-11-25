@@ -56,7 +56,8 @@ $stmtRooms = $pdo->query("SELECT room_ID, room_location FROM ROOM");
 $roomLocations = $stmtRooms->fetchAll(PDO::FETCH_ASSOC);
 
 // Fetch usernames for dropdown
-$stmtUsers = $pdo->query("SELECT user_ID, username FROM USERS WHERE user_role IN ('Guarantor', 'Teacher')");
+$stmtUsers = $pdo->prepare("SELECT user_ID, username FROM USERS NATURAL JOIN SUBJECT_TEACHER WHERE subject_ID = ?");
+$stmtUsers->execute([$subjectID]);
 $usernames = $stmtUsers->fetchAll(PDO::FETCH_ASSOC);
 
 // Define week days
@@ -218,8 +219,8 @@ $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
                     </label>
                     <br>
                     <p id="dialog_notification" style="color: green; display: none;"></p>
-                    <input type="submit" value="Save Changes">
-                    <button type="button" onclick="hideDialog()">Cancel</button>
+                    <input type="submit" class="save-btn" value="Save Changes">
+                    <button type="button" class="save-btn" onclick="hideDialog()">Cancel</button>
                 </form>
             </div>
             <!-- New Preferecne Dialog -->
@@ -295,8 +296,8 @@ $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
                     <br>
 
                     <p id="add_dialog_notification" style="color: green; display: none;"></p>
-                    <input type="submit" value="Add Preference">
-                    <button type="button" onclick="hideDialog()">Cancel</button>
+                    <input type="submit" class="save-btn" value="Add Preference">
+                    <button type="button" class="save-btn" onclick="hideDialog()">Cancel</button>
                 </form>
             </div>
         </div>

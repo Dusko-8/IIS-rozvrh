@@ -90,6 +90,7 @@ table td a:hover {
 
 .main-container {
     display: flex;
+    height: 100%
 }
 
 body {
@@ -100,4 +101,5 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%
 }
