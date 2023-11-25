@@ -28,8 +28,32 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Main Page</title>
         <link rel="stylesheet" href="../../Styles/teacher_style.css">
+        <link rel="stylesheet" href="../../Styles/sidebar_style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>   
+
+    <?php include '../../Components/sidebar_component.php'; ?>
+    <!-- Sidebar Toggle Icon -->
+    <div class="sidebar-header">
+        <!-- Sidebar Toggle -->
+        <div class="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </div>
+    <!-- Overlay -->
+    <div class="overlay hidden" onclick="toggleSidebar()"></div>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+
+            sidebar.classList.toggle('hidden');
+            // Toggle the 'show' class for the overlay
+            overlay.classList.toggle('show');
+        }
+    </script>
+
 
     <?php if (isset($_SESSION['success'])): ?>
         <div class="alert alert-success">
@@ -54,6 +78,8 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
         </script>
         <?php unset($_SESSION['errorAlert']); ?>
     <?php endif; ?>
+
+
     <div class="horizontal-container" style="gap: 100px;  align-items: flex-start;">
         <div class="vertical-container">
             <h2>Add Preference</h2>
@@ -97,10 +123,6 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
                 <br>
                 <button type="submit" class="styled-button">Add Preference</button>
             </form>
-            <?php if (isset($_SESSION['error'])): ?>
-                <div class="error"><?php echo $_SESSION['error']; ?></div>
-            <?php unset($_SESSION['error']);?>
-            <?php endif; ?>
         </div>
         <div class="vertical-container">
             <h2>Remove Preference</h2>
@@ -118,6 +140,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
             </div>
     </div>
     
+
     <table>
         <thead>
             <tr>
@@ -180,6 +203,7 @@ $preferences = $stmt->fetchall(PDO::FETCH_ASSOC);
             ?>
         </tbody>
     </table>
+
 
     <script>
         const slider = document.getElementById('slider');
