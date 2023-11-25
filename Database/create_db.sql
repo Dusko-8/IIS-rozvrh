@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `PREFERED_SLOTS_TEACHER`;
 DROP TABLE IF EXISTS `PREFERED_SLOTS_ACTIVITY`;
 DROP TABLE IF EXISTS `DAY_TIME`;
 DROP TABLE IF EXISTS `STUDENT_ACTIVITIES`;
+DROP TABLE IF EXISTS `SUBJECT_TEACHERS`;
 
 CREATE TABLE USERS (
     /*PK*/
@@ -75,7 +76,7 @@ CREATE TABLE ACTIVITY (
     duration INT NOT NULL,
     repetition ENUM ('everyWeek', 'evenWeek', 'oddWeek', 'oneTime') NOT NULL,
     activity_date DATE NULL, -- YYYY-MM-DD
-    activity_type VARCHAR(150) NOT NULL
+    activity_type ENUM ('Lecture', 'Tutorial', 'Seminar', 'Exam', 'Consultation', 'Exercise', 'Demo') NOT NULL
 );
 
 CREATE TABLE PREFERED_SLOTS_ACTIVITY (
@@ -97,7 +98,6 @@ INSERT INTO USERS(username, hashed_password, email, user_role) VALUES
 ('Teacher', '$2y$10$iPVH5GDLM3YYMD5v53xrWu9qoNEyV11SzAzi4sWhJzAxQN/ZgPnqu', 'user3@email.com', 'Teacher'),   /*password3*/
 ('Scheduler', '$2y$10$m3D3CAvaD9AjCla2qtnrNu4bHwFxn93ufVqBcFlTAUANzwMwVbeYG', 'user4@email.com', 'Scheduler'),  /*password4*/
 ('Student', '$2y$10$BjA2J9QWBIqO49t5JEi3n.0ihgNljwGN4ZrJyhFzdr/KkMVPBaie2', 'user5@email.com', 'Student'),  /*password5*/
-
 
 -- Inserting mock data into ROOM
 INSERT INTO ROOM (room_name, capacity, room_location) VALUES
@@ -171,3 +171,8 @@ INSERT INTO STUDENT_ACTIVITIES(student_ID, activity_ID) VALUES
 (5, 1),
 (5, 2),
 (5, 3);
+
+INSERT INTO SUBJECT_TEACHERS(user_ID,subject_ID) VALUES
+(2, 2),
+(3, 2);
+
