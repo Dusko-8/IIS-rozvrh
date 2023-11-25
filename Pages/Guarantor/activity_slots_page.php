@@ -6,6 +6,15 @@ require '../../Database/db_connect.php';
 $selectedActID = null;
 $subjectID = null;
 
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: ../../Pages/login_page.php');
+    exit;
+}
+
+if ($_SESSION['user_role'] !== 'Admin' and $_SESSION['user_role'] !== 'Guarantor') {
+    header('Location: ../../Pages/User/anotations_page.php');
+    exit;
+}
 if (isset($_POST['selected_activity'])) {
     $selectedActID = $_POST['selected_activity'];
 } else if (isset($_SESSION['post_data'])) {

@@ -20,7 +20,6 @@
             <li><a href="../../Pages/Scheduler/scheduler_main.php">Manage Activities</a></li>
         <?php } ?>
         <li><a href="../../Pages/User/anotations_page.php">Subjects anotations</a></li>
-
     </ul>
     <div class="logout-btn">
         <a href="../../Process/UserProcess/process_logout.php">Logout</a>
