@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/jakub/Downloads/professor_IMP_cvika/xsporn01/cv3",
-      "program": "c:/Users/jakub/Downloads/professor_IMP_cvika/xsporn01/cv3/build/Debug/outDebug",
+      "cwd": "c:/Users/jakub/AppData/Local/Temp/7efe9169-d218-448b-94b3-3a14d8ad0280_IMP_projekt_had_tabule_test.zip.280/test/Sources",
+      "program": "c:/Users/jakub/AppData/Local/Temp/7efe9169-d218-448b-94b3-3a14d8ad0280_IMP_projekt_had_tabule_test.zip.280/test/Sources/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

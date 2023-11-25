@@ -2,6 +2,7 @@
 session_start();
 require '../../Database/db_connect.php';
 
+//SET RETURN LOCATION DEPENDING WHERE WE GOT HERE FROM
 if($_SESSION['pageNum'] == 1){
     $return = 'Location: ../../Pages/Student/student_weekly.php';
 }else{
@@ -9,16 +10,18 @@ if($_SESSION['pageNum'] == 1){
 }
 unset($_SESSION['pageNum']);
 
+//CHECK PRIVILAGES
 if($_SESSION['user_role'] != 'Student'  && $_SESSION['user_role'] != 'Admin'){
     $_SESSION['error'] = "You don't have rights to add activities. Please log in with Student account";
     header($return);
     exit;
 }
 
+//CHECK REQUEST METHOD
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if(isset($_POST['activity']) && isset($_SESSION['user_ID'])){
-        
+        //CHECK DATA CORRECTNESS
         $userId = $_SESSION['user_ID'];
         $userId = filter_var($userId, FILTER_VALIDATE_INT);
         $activityID = $_POST['activity'];
@@ -36,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
 
+        //CHECK IF ACTIVITY IS NOT YET REGISTERED
         $stmt = $pdo->prepare("SELECT * FROM STUDENT_ACTIVITIES WHERE student_ID = :student AND activity_ID = :activity");
         $stmt->execute([
             ':student' => $userId,
@@ -47,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
 
+        //INSERT NEW ACTIVITY FOR STUDENT
         $stmt = $pdo->prepare("INSERT INTO STUDENT_ACTIVITIES(student_ID, activity_ID) VALUES (:student, :activity)");
         $stmt->execute([
             ':student' => $userId,
@@ -78,6 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 
+
+//CHECK VALIDITY OF IDs
 function isUserValid($user_ID, $pdo) {
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM USERS WHERE user_ID = ? AND user_role = 'Student'");
     $stmt->execute([$user_ID]);

@@ -72,6 +72,7 @@ foreach($timesToCheck as $time){
             $updateTime = $time['time_range'];
         }
     }else{
+        //ERROR IF RANGES OVERLAP BUT PREFERENCES ARE DIFFERENT
         if(rangesOverlap($time['time_range'], $timeRange, false)){
             
             $_SESSION['errorAlert'] = 'You can not prefer and disprefer the same time. Please pick one.';
@@ -81,6 +82,7 @@ foreach($timesToCheck as $time){
     }
 }
 
+//UPDATE IF RANGES OVERLAP BUT PREFERENCE IS THE SAME
 if($update == true){
     $stmt = $pdo->prepare("UPDATE DAY_TIME SET time_range = :newRange WHERE day_time_ID = :id");
     $stmt->execute([
@@ -96,6 +98,7 @@ if($update == true){
     $_SESSION['success'] = 'Preference was updated successfully.';
     header('Location: ../../Pages/Teacher/teacher_main.php');
     exit;
+//CREATE NEW DAY TIME IF NO RANGES OVERLAP
 }else{
     $stmt = $pdo->prepare("INSERT INTO DAY_TIME (week_day, time_range) VALUES (:day, :timeRange)");
     $stmt->execute([
@@ -111,6 +114,7 @@ if($update == true){
     $dayTimeID = $pdo->lastInsertId();
 }
 
+//CREATE NEW PREFERENCE
 $stmt = $pdo->prepare("INSERT INTO PREFERED_SLOTS_TEACHER (user_ID, day_time_ID, preference) VALUES (:user, :dt, :pref)");
 $stmt->execute([
     ':user' => $userID,
@@ -128,6 +132,7 @@ $_SESSION['success'] = 'Preference was created successfully.';
 header('Location: ../../Pages/Teacher/teacher_main.php');
 exit;
 
+//RETURNS NEW RANGE => IF RANGES OVERLAP, THIS RANGE IS USED AS NEW RANGE 
 function updatedRange($dbRange, $userRange) {
     list($dbStart, $dbEnd) = explode('-', $dbRange);
     list($userStart, $userEnd) = explode('-', $userRange);
@@ -145,6 +150,8 @@ function updatedRange($dbRange, $userRange) {
     return $updatedRange;
 }
 
+
+//CHECK IF RANGES OVERLAP
 function rangesOverlap($dbRange, $userRange, $include) {
     list($start1, $end1) = explode('-', $dbRange);
     list($start2, $end2) = explode('-', $userRange);
