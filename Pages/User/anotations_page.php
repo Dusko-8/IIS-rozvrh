@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
-require '../Database/db_connect.php';
-require_once '../Process/process_session_check.php';
+require '../../Database/db_connect.php';
+require_once '../../Process/UserProcess/process_session_check.php';
 
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : "";
 $subjects = [];
@@ -24,8 +24,8 @@ if (!empty($searchQuery)) {
 <head>
     <meta charset="UTF-8">
     <title>Subjects Overview</title>
-    <link rel="stylesheet" href="../Styles/anotations_style.css">
-    <link rel="stylesheet" href="../Styles/sidebar_style.css">
+    <link rel="stylesheet" href="../../Styles/anotations_style.css">
+    <link rel="stylesheet" href="../../Styles/sidebar_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -35,7 +35,7 @@ if (!empty($searchQuery)) {
 <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
     <!-- Log In Button -->
     <div class="login-button-container">
-        <a href="../Pages/login_page.php" class="login-button">Log In</a>
+        <a href="../../Pages/User/login_page.php" class="login-button">Log In</a>
     </div>
 <?php else: ?>
     <!-- Sidebar Toggle Icon -->
@@ -43,7 +43,7 @@ if (!empty($searchQuery)) {
         <i class="fa-solid fa-bars"></i>
     </div>
     <!-- Include Sidebar Component -->
-    <?php include '../Components/sidebar_component.php'; ?>
+    <?php include '../../Components/sidebar_component.php'; ?>
 <?php endif; ?>
 <div class="title">Subjects anotations</div>
 <div class="search-form">
@@ -72,7 +72,7 @@ if (!empty($searchQuery)) {
     <script>
         function searchUser() {
             const query = document.getElementById('searchBox').value;
-            window.location.href = `../Pages/anotations_page.php?search=${encodeURIComponent(query)}`;
+            window.location.href = `../../Pages/User/anotations_page.php?search=${encodeURIComponent(query)}`;
         }
         function clearAndSearch() {
             document.getElementById('searchBox').value = '';

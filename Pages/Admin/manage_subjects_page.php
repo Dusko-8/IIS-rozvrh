@@ -1,11 +1,11 @@
 ﻿<?php
 session_start();
 
-require '../Database/db_connect.php';
-require_once '../Process/process_session_check.php';
+require '../../Database/db_connect.php';
+require_once '../../Process/UserProcess/process_session_check.php';
 // Access Control Checks
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['user_role'] !== 'Admin') {
-    header('Location: ../Pages/login_page.php');
+    header('Location: ../../Pages/login_page.php');
     exit;
 }
 
@@ -36,8 +36,8 @@ if (!empty($searchQuery)) {
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Subjects</title>
-    <link rel="stylesheet" href="../Styles/style.css">
-    <link rel="stylesheet" href="../Styles/manage_subjects_style.css">
+    <link rel="stylesheet" href="../../Styles/style.css">
+    <link rel="stylesheet" href="../../Styles/manage_subjects_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -51,7 +51,7 @@ if (!empty($searchQuery)) {
 
     <div class="main-container">
         <!-- Sidebar Menu -->
-        <?php include '../Components/sidebar_component.php'; ?>
+        <?php include '../../Components/sidebar_component.php'; ?>
 
         <!-- Content Area -->
         <div class="content">
@@ -128,13 +128,13 @@ if (!empty($searchQuery)) {
                         <input type="hidden" name="subjectId" id="modal_subjectId">
 
                         <label for="modal_title">* Title</label>
-                        <input type="text" name="title" placeholder="Title" id="modal_title" required maxlength="50">
+                        <input type="text" name="title" placeholder="Title" id="modal_title"  maxlength="50">
 
                         <label for="modal_abbervation">* Abbreviation</label>
-                        <input type="text" name="abbervation" placeholder="Abbreviation (e.g., MATH)" id="modal_abbervation" required pattern="[A-Z]{3,4}" maxlength="4">
+                        <input type="text" name="abbervation" placeholder="Abbreviation (e.g., MATH)" id="modal_abbervation"  pattern="[A-Z]{3,4}" maxlength="4">
                         
                         <label for="modal_credits">* Credits</label>
-                        <input type="number" name="credits" placeholder="Credits" id="modal_credits" required min="1">
+                        <input type="number" name="credits" placeholder="Credits" id="modal_credits"  min="1">
 
                         <label for="modal_guarantor">Guarantor</label>
                         <select name="guarantor_ID" id="modal_guarantor">
@@ -215,7 +215,7 @@ if (!empty($searchQuery)) {
 
                 function searchSubject() {
                     const query = document.getElementById('searchBox').value;
-                    window.location.href = `../Pages/manage_subjects_page.php?search=${encodeURIComponent(query)}`;
+                    window.location.href = `../../Pages/Admin/manage_subjects_page.php?search=${encodeURIComponent(query)}`;
                 }
 
                 function clearAndSearch() {
@@ -225,13 +225,13 @@ if (!empty($searchQuery)) {
 
                 function deleteSubject(subjectId) {
                     if (confirm('Are you sure you want to delete this subject?')) {
-                        window.location.href = `../Process/process_delete_subject.php?id=${subjectId}`;
+                        window.location.href = `../../Process/AdminProcess/process_delete_subject.php?id=${subjectId}`;
                     }
                 }
 
                 function openEditModal(subjectId) {
                     // Fetch subject data from the server
-                    fetch(`../Process/process_subject_by_id.php?id=${subjectId}`)
+                    fetch(`../../Process/AdminProcess/process_subject_by_id.php?id=${subjectId}`)
                         .then(response => response.json())
                         .then(subject => {
                             console.log("Retrieved subject:", subject);
@@ -321,7 +321,7 @@ if (!empty($searchQuery)) {
                     ) {
                         console.log('Changes detected, saving...');
                     
-                        fetch('../Process/process_edit_subject.php', {
+                        fetch('../../Process/AdminProcess/process_edit_subject.php', {
                             method: 'POST',
                             body: formData,
                         })
@@ -362,7 +362,7 @@ if (!empty($searchQuery)) {
                     if (selectedGuarantor !== '') {
                         formData.append('guarantor_ID', selectedGuarantor);
                     }
-                    fetch('../Process/process_add_subject.php', {
+                    fetch('../../Process/AdminProcess/process_add_subject.php', {
                         method: 'POST',
                         body: formData
                     })

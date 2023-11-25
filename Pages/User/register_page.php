@@ -1,6 +1,6 @@
 ﻿<?php
 session_start();
-require '../Database/db_connect.php';
+require '../../Database/db_connect.php';
 
 $username = $password = $email = $user_role = '';
 $error = '';
@@ -20,8 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
     
-    $validRoles = ['Teacher', 'Scheduler', 'Guarantor', 'Student', 'Admin'];
-    if (!in_array($userRole, $validRoles)) {
+    $validRoles = ['Teacher', 'Scheduler', 'Student'];
+    if (!in_array($user_role, $validRoles)) {
         echo json_encode(["error" => "Invalid user role"]);
         exit;
     }
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $pdo->prepare('INSERT INTO USERS (username, hashed_password, email, user_role) VALUES (?, ?, ?, ?)');
             $stmt->execute([$username, $hashed_password, $email, $user_role]);
             $_SESSION['message'] = "Registration successful!";
-            header('Location: login_page.php');
+            header('Location: ../../Pages/User/login_page.php');
             exit();
         } catch (PDOException $e) {
             $error = "Registration failed: " . $e->getMessage();
@@ -60,14 +60,14 @@ function isValidPassword($password) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
-    <link rel="stylesheet" href="../Styles/style.css">
-    <link rel="stylesheet" href="../Styles/register_page_style.css">
+    <link rel="stylesheet" href="../../Styles/style.css">
+    <link rel="stylesheet" href="../../Styles/register_page_style.css">
 </head>
 
 <body>
     <div class="register-container">
     <div class="login-button-container">
-        <a href="../Pages/login_page.php" class="login-button">Log In</a>
+        <a href="../../Pages/User/login_page.php" class="login-button">Log In</a>
     </div>
         <h2>Register</h2>
         <?php if($error): ?>

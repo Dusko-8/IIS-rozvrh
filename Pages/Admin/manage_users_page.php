@@ -1,17 +1,17 @@
 ﻿<?php
 session_start();
 
-require '../Database/db_connect.php';
-require_once '../Process/process_session_check.php';
+require '../../Database/db_connect.php';
+require_once '../../Process/UserProcess/process_session_check.php';
 // Check if the user is not logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: ../Pages/login_page.php');
+    header('Location: ../../Pages/login_page.php');
     exit;
 }
 
 // Check if the user role is not Admin
 if ($_SESSION['user_role'] !== 'Admin') {
-    header('Location: ../Pages/main_page.php');
+    header('Location: ../../Pages/User/anotations_page.php');
     exit;
 }
 
@@ -35,8 +35,8 @@ if (!empty($searchQuery)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
-    <link rel="stylesheet" href="../Styles/style.css">
-    <link rel="stylesheet" href="../Styles/manage_users_style.css">
+    <link rel="stylesheet" href="../../Styles/style.css">
+    <link rel="stylesheet" href="../../Styles/manage_users_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -50,7 +50,7 @@ if (!empty($searchQuery)) {
 
     <div class="main-container">
         <!-- Sidebar Menu -->
-        <?php include '../Components/sidebar_component.php'; ?>
+        <?php include '../../Components/sidebar_component.php'; ?>
          <!-- Content Area -->
         <div class="content">
             <div class="title">Manage Users</div>
@@ -123,7 +123,7 @@ if (!empty($searchQuery)) {
                         <input type="password" name="password" placeholder="Password" id="modal_password" maxlength="255">
                         
                         <label for="modal_password_confirmation">* Confirm Password</label>
-                        <input type="password" id="modal_password_conf" name="password_confirmation" placeholder="Confirm Password" required maxlength="255">
+                        <input type="password" id="modal_password_conf" name="password_confirmation" placeholder="Confirm Password"  maxlength="255">
 
                         <label for="modal_email">* Email</label>
                         <input type="email" name="email" placeholder="Email" id="modal_email" required maxlength="50">
@@ -163,7 +163,7 @@ if (!empty($searchQuery)) {
         }
         function searchUser() {
             const query = document.getElementById('searchBox').value;
-            window.location.href = `../Pages/manage_users_page.php?search=${encodeURIComponent(query)}`;
+            window.location.href = `../../Pages/Admin/manage_users_page.php?search=${encodeURIComponent(query)}`;
         }
         function clearAndSearch() {
             document.getElementById('searchBox').value = '';
@@ -171,12 +171,12 @@ if (!empty($searchQuery)) {
         }
         function deleteUser(userId) {
             if (confirm('Are you sure you want to delete this user?')) {
-                window.location.href = `../Process/process_delete_user.php?id=${userId}`;
+                window.location.href = `../../Process/AdminProcess/process_delete_user.php?id=${userId}`;
             }
         }
         function openEditModal(userId) {
             // Fetch user data from the server
-            fetch(`../Process/process_user_by_id.php?id=${userId}`)
+            fetch(`../../Process/AdminProcess/process_user_by_id.php?id=${userId}`)
                 .then(response => response.json())
                 .then(user => {    
                     console.log("Retrieved user:", user);
@@ -234,7 +234,7 @@ if (!empty($searchQuery)) {
                 console.log('Changes detected, saving...');
                 console.log(formData.get('user_Id'));
 
-                fetch('../Process/process_edit_user.php', {
+                fetch('../../Process/AdminProcess/process_edit_user.php', {
                     method: 'POST',
                     body: formData
                 })

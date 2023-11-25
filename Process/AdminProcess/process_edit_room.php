@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../Database/db_connect.php';
+require '../../Database/db_connect.php';
 
 header('Content-Type: application/json');
 
@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $roomLocation = $_POST['roomLocation'];
 
 
-    // Ensure capacity is a number
     $capacity = filter_var($_POST['capacity'], FILTER_VALIDATE_INT, ["options" => ["min_range" => 2]]);
     if (!$capacity) {
         echo json_encode(["error" => "Capacity must be an integer greater than or equal to 2"]);
