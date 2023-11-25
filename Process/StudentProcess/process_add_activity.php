@@ -9,7 +9,7 @@ if($_SESSION['pageNum'] == 1){
 }
 unset($_SESSION['pageNum']);
 
-if($_SESSION['user_role'] != 'Student'){
+if($_SESSION['user_role'] != 'Student'  && $_SESSION['user_role'] != 'Admin'){
     $_SESSION['error'] = "You don't have rights to add activities. Please log in with Student account";
     header($return);
     exit;

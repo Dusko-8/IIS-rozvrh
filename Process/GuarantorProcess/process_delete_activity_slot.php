@@ -1,17 +1,21 @@
 <?php
 session_start();
 
-require '../Database/db_connect.php';
+require '../../Database/db_connect.php';
 
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: ../Pages/login_page.php');
+// Check if the user is logged in and is an Admin or Guarantor
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || ($_SESSION['user_role'] !== 'Admin' && $_SESSION['user_role'] !== 'Guarantor')) {
+    echo json_encode(["error" => "Unauthorized access"]);
     exit;
 }
 
-if ($_SESSION['user_role'] !== 'Admin' && $_SESSION['user_role'] !== 'Guarantor') {
-    header('Location: ../Pages/main_page.php');
+// Check if the required parameters are present in the POST request
+if (!isset($_POST['subjectID']) || !isset($_POST['selectedActID']) || !isset($_POST['activitySlotID'])) {
+    echo json_encode(["error" => "Missing parameters"]);
     exit;
 }
+
+header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['activitySlotID'], $_POST['selectedActID'], $_POST['subjectID'])) {
@@ -28,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'subjectID' => $subjectID
         );
 
-        header('Location: ../Pages/activity_slots_page.php');
+        header('Location: ../../Pages/Guarantor/activity_slots_page.php');
         exit;
     }
 }
