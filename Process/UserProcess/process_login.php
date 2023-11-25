@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
         } else {
             $_SESSION['error'] = "Invalid username or password!";
-            header('Location: ../../Pages/login_page.php');
+            header('Location: ../../Pages/User/login_page.php');
             exit;
         }
     } else {
