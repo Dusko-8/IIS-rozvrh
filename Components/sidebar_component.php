@@ -10,14 +10,14 @@
             <li><a href="../../Pages/Guarantor/guaranted_sub_page.php">Guaranted Subjects</a></li>
         <?php } ?>
         <?php if ($_SESSION['user_role'] == "Teacher" or $_SESSION['user_role'] == "Admin") { ?>
-            <li><a href="../Pages/Teacher/teacher_main.php">Manage Preferences</a></li>
+            <li><a href="../../Pages/Teacher/teacher_main.php">Manage Preferences</a></li>
         <?php } ?>
         <?php if ($_SESSION['user_role'] == "Student" or $_SESSION['user_role'] == "Admin") { ?>
-            <li><a href="../Pages/Student/student_weekly.php">See Weekly Schedule</a></li>
-            <li><a href="../Pages/Student/student_yearly.php">See Yearly Schedule</a></li>
+            <li><a href="../../Pages/Student/student_weekly.php">See Weekly Schedule</a></li>
+            <li><a href="../../Pages/Student/student_yearly.php">See Yearly Schedule</a></li>
         <?php } ?>
         <?php if ($_SESSION['user_role'] == "Scheduler" or $_SESSION['user_role'] == "Admin") { ?>
-            <li><a href="../Pages/Scheduler/scheduler_main.php">Manage Activities</a></li>
+            <li><a href="../../Pages/Scheduler/scheduler_main.php">Manage Activities</a></li>
         <?php } ?>
         <li><a href="../../Pages/User/anotations_page.php">Subjects anotations</a></li>
 
