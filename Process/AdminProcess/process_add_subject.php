@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../Database/db_connect.php';
+require '../../Database/db_connect.php';
 
 header('Content-Type: application/json');
 
@@ -12,14 +12,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION
 
 // Check if the request is a POST request
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $subjectId = $_POST['subjectId'];
     $title = $_POST['title'];
     $abbervation = $_POST['abbervation'];
     $credits = $_POST['credits'];
-    $subj_description = $_POST['subj_description'];
+    $subj_description = $_POST['description'];
     $guarantor_ID = $_POST['guarantor_ID'];
 
-    // Ensure guarantor_ID is an integer and exists in the USERS table
+    // Ensure credits is a number
+    $credits = filter_var($credits, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
+    if (!$credits) {
+        echo json_encode(["error" => "Credits must be a positive integer greater than zero"]);
+        exit;
+    }
+
     $guarantor_ID = isset($_POST['guarantor_ID']) && $_POST['guarantor_ID'] !== '' ? $_POST['guarantor_ID'] : null;
     // Ensure guarantor_ID is either an integer or null
     if ($guarantor_ID !== null) {
@@ -29,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
     }
-    if (empty($title) || strlen($title) > 50) { // Adjust the length as per your requirements
+    if (strlen($title) > 50) { 
         echo json_encode(["error" => "Invalid title format max 50 characters"]);
         exit;
     }
@@ -41,33 +46,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(["error" => "Description must be 500 characters or fewer"]);
         exit;
     }
-    // Ensure credits is a number
-    $credits = filter_var($credits, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]]);
-    if (!$credits) {
-        echo json_encode(["error" => "Credits must be a positive integer greater than zero"]);
-        exit;
-    }
     // Cast credits to an integer to ensure it matches the database type
     $credits = (int) $credits;
 
     // Validate that no input is empty
-    if (empty($subjectId) || empty($title) || empty($abbervation) || empty($credits)) {
+    if (empty($title) || empty($abbervation) || empty($credits)) {
         echo json_encode(["error" => "All fields are required"]);
         exit;
     }
-    
-    // Validate subject title and abbervation
-    if (!isValidSubjectTitle($subjectId, $title, $pdo) ) {
+
+    // Validate subject title
+    if (!isValidSubjectTitle($title, $pdo)) {
         echo json_encode(["error" => "Subject title already exists. Please choose another."]);
         exit;
     }
 
-    // Update the subject data in the database
+    // Insert the new subject data into the database
     try {
         $pdo->beginTransaction();
-        $updateQuery = "UPDATE SUBJECTS SET title = :title, abbervation = :abbervation, credits = :credits, subj_description = :subj_description, guarantor_ID = :guarantor_ID WHERE subject_ID = :subjectId";
-        $stmt = $pdo->prepare($updateQuery);
-        $stmt->execute(['title' => $title, 'abbervation' => $abbervation, 'credits' => $credits, 'subj_description' => $subj_description, 'guarantor_ID' => $guarantor_ID, 'subjectId' => $subjectId]);
+
+        $insertQuery = "INSERT INTO SUBJECTS (title, abbervation, credits, subj_description, guarantor_ID) VALUES (:title, :abbervation, :credits, :subj_description, :guarantor_ID)";
+        $stmt = $pdo->prepare($insertQuery);
+        $stmt->execute(['title' => $title, 'abbervation' => $abbervation, 'credits' => $credits, 'subj_description' => $subj_description, 'guarantor_ID' => $guarantor_ID]);
+    
 
         if ($stmt->errorInfo()[0] != '00000') {
             echo json_encode(["error" => "SQL error: " . implode(", ", $stmt->errorInfo())]);
@@ -76,19 +77,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $pdo->commit();
-        echo json_encode(["success" => "Subject updated successfully"]);
+        $_SESSION['alert_success'] = "Subject added successfully";
+        echo json_encode(["success" => "Subject added successfully"]);
     } catch (PDOException $e) {
         $pdo->rollBack();
-        echo json_encode(["error" => "Failed to update subject: " . $e->getMessage()]);
+        echo json_encode(["error" => "Failed to add subject: " . $e->getMessage()]);
     }
 } else {
     echo json_encode(["error" => "Invalid request method"]);
 }
 
 // Function to validate subject title
-function isValidSubjectTitle($subjectId, $title, $pdo) {
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM SUBJECTS WHERE title = ? AND subject_ID != ?");
-    $stmt->execute([$title, $subjectId]);
+function isValidSubjectTitle($title, $pdo) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM SUBJECTS WHERE title = ?");
+    $stmt->execute([$title]);
     return $stmt->fetchColumn() == 0;
 }
 
@@ -97,5 +99,4 @@ function isValidGuarantor($guarantor_ID, $pdo) {
     $stmt->execute([$guarantor_ID]);
     return $stmt->fetchColumn() > 0;
 }
-
 ?>

@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-require '../Database/db_connect.php';
-require_once '../Process/process_session_check.php';
+require '../../Database/db_connect.php';
+require_once '../../Process/UserProcess/process_session_check.php';
 // Access Control Checks
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['user_role'] !== 'Admin') {
-    header('Location: ../Pages/login_page.php');
+    header('Location: ../../Pages/login_page.php');
     exit;
 }
 
@@ -30,8 +30,8 @@ if (!empty($searchQuery)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Rooms</title>
-    <link rel="stylesheet" href="../Styles/style.css">
-    <link rel="stylesheet" href="../Styles/manage_rooms_style.css">
+    <link rel="stylesheet" href="../../Styles/style.css">
+    <link rel="stylesheet" href="../../Styles/manage_rooms_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -45,7 +45,7 @@ if (!empty($searchQuery)) {
 
     <div class="main-container">
         <!-- Sidebar Menu -->
-        <?php include '../Components/sidebar_component.php'; ?>
+        <?php include '../../Components/sidebar_component.php'; ?>
 
         <!-- Content Area -->
         <div class="content">
@@ -63,7 +63,6 @@ if (!empty($searchQuery)) {
                     <?= $_SESSION['alert_success']; ?>
                 </div>
                 <script>
-                    // Automatically close the success message after 5 seconds
                     setTimeout(function () {
                         document.querySelector('.alert-success').style.display = 'none';
                     }, 5000); // 5000 milliseconds (5 seconds)
@@ -173,7 +172,7 @@ if (!empty($searchQuery)) {
 
         function searchRoom() {
             const query = document.getElementById('searchBox').value;
-            window.location.href = `../Pages/manage_rooms_page.php?search=${encodeURIComponent(query)}`;
+            window.location.href = `../../Pages/Admin/manage_rooms_page.php?search=${encodeURIComponent(query)}`;
         }
 
         function clearAndSearch() {
@@ -183,13 +182,13 @@ if (!empty($searchQuery)) {
 
         function deleteRoom(roomId) {
             if (confirm('Are you sure you want to delete this room?')) {
-                window.location.href = `../Process/process_delete_room.php?id=${roomId}`;
+                window.location.href = `../../Process/AdminProcess/process_delete_room.php?id=${roomId}`;
             }
         }
         
         function openEditModal(roomId) {
             // Fetch room data from the server
-            fetch(`../Process/process_room_by_id.php?id=${roomId}`)
+            fetch(`../../Process/AdminProcess/process_room_by_id.php?id=${roomId}`)
                 .then(response => response.json())
                 .then(room => {    
                     console.log("Retrieved room:", room);
@@ -241,7 +240,7 @@ if (!empty($searchQuery)) {
             
             console.log('Changes detected, saving...');
 
-                fetch('../Process/process_edit_room.php', {
+                fetch('../../Process/AdminProcess/process_edit_room.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -290,7 +289,7 @@ if (!empty($searchQuery)) {
         function addNewRoom() {
             const formData = new FormData(document.getElementById('addRoomForm'));
 
-            fetch('../Process/process_add_room.php', {
+            fetch('../../Process/AdminProcess/process_add_room.php', {
                 method: 'POST',
                 body: formData
             })
