@@ -30,6 +30,7 @@ th {
     justify-content: space-around;
     padding: 20px;
 }
+
 .sub-window {
     border: 1px solid #ccc;
     background-color: #fff;
@@ -43,9 +44,11 @@ th {
     flex-direction: column;
     justify-content: space-between;
 }
+
 .button-container {
     margin-top: 10px;
 }
+
 .sub-btn {
     display: block;
     padding: 8px 12px;
@@ -60,6 +63,40 @@ th {
     border-radius: 4px;
     transition: background-color 0.3s ease-in-out;
 }
+
 .sub-btn:hover {
     background-color: #45a049;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    width: 200px;
+}
+
+select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+select:hover {
+    border-color: #555;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }

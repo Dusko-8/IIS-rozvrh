@@ -1,0 +1,103 @@
+/* Table Styles */
+.table-responsive {
+    max-width: 80%;
+    overflow-y: auto;
+    /* Enable vertical scroll */
+    display: block;
+    max-height: 480px;
+    z-index: 2;
+}
+
+table {
+    width: 80%;
+    border-collapse: separate;
+    border-spacing: 0 4px;
+    margin-top: 16px;
+    background-color: transparent;
+    box-shadow: 0 3.2px 4.8px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    /* To ensure border-radius works with the inner table */
+}
+
+table th,
+table td {
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    min-width: 100px;
+    width: 16%;
+    overflow: hidden;
+    /* Hide the overflow */
+    text-overflow: ellipsis;
+    /* Add ellipsis for overflow texts */
+    white-space: nowrap;
+    /* Prevents the text from breaking into the next line */
+}
+
+table th {
+    background-color: #007BFF;
+    position: sticky;
+    color: #ffffff;
+    font-weight: 500;
+    /* Medium weight font */
+    font-size: 0.88em;
+    z-index: 1;
+}
+
+table tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) {
+    background-color: #e6e6e6;
+}
+
+table td a {
+    color: #007BFF;
+    text-decoration: none;
+    margin-right: 8px;
+}
+
+table td a:last-child {
+    margin-right: 0;
+}
+
+table td a:hover {
+    text-decoration: underline;
+}
+
+.prefBtn {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #4cbb17;
+    color: #ffffff;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.prefBtn:hover{
+    background-color: #3C9512;
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.main-container {
+    display: flex;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #9dc5eb, #f0f0f0);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

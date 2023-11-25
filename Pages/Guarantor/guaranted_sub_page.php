@@ -13,7 +13,7 @@ if ($_SESSION['user_role'] !== 'Admin' and $_SESSION['user_role'] !== 'Guarantor
 
 $subs = [];
 
-require '../Database/db_connect.php';
+require '../../Database/db_connect.php';
 $stmt = $pdo->prepare("SELECT username, title, subj_description, subject_ID FROM SUBJECTS AS s JOIN USERS AS u ON s.guarantor_ID = u.user_ID WHERE username = ?");
 $stmt->execute([$_SESSION['username']]);
 $subs = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,10 +30,10 @@ if (isset($_SESSION['post_data'])) {
 <head>
     <meta charset="UTF-8">
     <title>Subjects Overview</title>
-    <link rel="stylesheet" href="../Styles/style.css">
-    <link rel="stylesheet" href="../Styles/guarant_style.css">
-    <link rel="stylesheet" href="../Styles/anotations_style.css">
-    <link rel="stylesheet" href="../Styles/sidebar_style.css">
+    <link rel="stylesheet" href="../../Styles/style.css">
+    <link rel="stylesheet" href="../../Styles/guarant_style.css">
+    <link rel="stylesheet" href="../../Styles/anotations_style.css">
+    <link rel="stylesheet" href="../../Styles/sidebar_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -51,26 +51,33 @@ if (isset($_SESSION['post_data'])) {
             <i class="fa-solid fa-bars"></i>
         </div>
         <!-- Include Sidebar Component -->
-        <?php include '../Components/sidebar_component.php'; ?>
+        <?php include '../../Components/sidebar_component.php'; ?>
     <?php endif; ?>
 
-    <div class="sub-container">
+    <div class="main-container">
+        <!-- Content Area -->
+        <div class="container">
+        <div class="title">Guaranted Subjects</div>
 
-        <?php
-        foreach ($subs as $row) :
-        ?>
-            <div class="sub-window">
-                <h3><?= $row['title'] ?></h3>
-                <p><?= $row['subj_description'] ?></p>
-                <div class="button-container">
-                    <a href="activity_page.php?subject_id=<?= $row['subject_ID'] ?>" class="sub-btn">Activities</a>
-                    <a href="teacher_pref_page.php?subject_id=<?= $row['subject_ID'] ?>" class="sub-btn">Teacher Preferences</a>
-                </div>
+        
+            <div class="sub-container">
+
+                <?php
+                foreach ($subs as $row) :
+                ?>
+                    <div class="sub-window">
+                        <h3><?= $row['title'] ?></h3>
+                        <p><?= $row['subj_description'] ?></p>
+                        <div class="button-container">
+                            <a href="activity_page.php?subject_id=<?= $row['subject_ID'] ?>" class="sub-btn">Activities</a>
+                        </div>
+                    </div>
+                <?php
+                endforeach;
+                ?>
+
             </div>
-        <?php
-        endforeach;
-        ?>
-
+        </div>
     </div>
     <script>
         function toggleSidebar() {

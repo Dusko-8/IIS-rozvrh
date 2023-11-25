@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../Database/db_connect.php';
+require '../../Database/db_connect.php';
 
 
 $selectedActID = null;
@@ -14,6 +14,10 @@ if (isset($_POST['selected_activity'])) {
     $subjectID = $post_data['subjectID'];
 }
 
+if (isset($_POST['subjectID'])) {
+    $subjectID = $_POST['subjectID'];
+}
+
 $stmt = $pdo->prepare("SELECT DISTINCT * FROM PREFERED_SLOTS_ACTIVITY
     JOIN DAY_TIME ON PREFERED_SLOTS_ACTIVITY.day_time_ID = DAY_TIME.day_time_ID
     JOIN ROOM ON PREFERED_SLOTS_ACTIVITY.room_ID = ROOM.room_ID
@@ -22,9 +26,7 @@ $stmt = $pdo->prepare("SELECT DISTINCT * FROM PREFERED_SLOTS_ACTIVITY
 $stmt->execute([$selectedActID]);
 $preferedSlots = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if (isset($_POST['subjectID'])) {
-    $subjectID = $_POST['subjectID'];
-}
+
 
 $stmtSubj = $pdo->prepare("SELECT abbervation FROM subjects WHERE subject_ID = ?");
 $stmtSubj->execute([$subjectID]);
@@ -49,7 +51,7 @@ $stmtUsers = $pdo->query("SELECT user_ID, username FROM USERS WHERE user_role IN
 $usernames = $stmtUsers->fetchAll(PDO::FETCH_ASSOC);
 
 // Define week days
-$weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ňedeľa'];
+$weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 ?>
 
@@ -59,8 +61,8 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/style.css">
-    <link rel="stylesheet" href="../Styles/guarant_style.css">
+    <link rel="stylesheet" href="../../Styles/style.css">
+    <link rel="stylesheet" href="../../Styles/guarant_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Edit Activity Slots</title>
     <style>
@@ -97,6 +99,7 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
+            margin-right: 9%;
         }
     </style>
 </head>
@@ -106,8 +109,7 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
         <!-- Content Area -->
         <div class="content">
             <button class="up_button" onclick="goBack(<?php echo $subjectID; ?>)">Back</button>
-            <button class="up_button" style="position: absolute; top: 20px; right: 20px;" 
-            onclick="showAddPreferenceDialog()">Add New Preference</button>
+            <button class="up_button" style="position: absolute; top: 20px; right: 20px;" onclick="showAddPreferenceDialog()">Add New Preference</button>
             <div class="title">Manage Preferences of <?php echo isset($subjName) ? htmlspecialchars($subjName) : "Unknown Subject" ?> - <?php echo htmlspecialchars($type['activity_type']) ?></div>
 
             <table border="1">
@@ -148,107 +150,37 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
             <div id="editDialog" class="dialog">
                 <form method="post" id="editActivityForm" action="">
                     <input type="hidden" id="editActivitySlotID" name="activity_slot_ID" value="">
-                    <label>Room Location:
-                        <select name="room_location" id="EditRoom_location">
-                            <?php foreach ($roomLocations as $room) : ?>
-                                <option value="<?php echo $room['room_ID']; ?>"><?php echo $room['room_location']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </label>
-                    <br>
-                    <label>Teacher Username:
-                        <select name="username" id="EditUsername">
-                            <?php foreach ($usernames as $username) : ?>
-                                <option value="<?php echo $username['user_ID']; ?>"><?php echo $username['username']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </label>
-                    <br>
-                    <label>Day:
-                        <select name="week_day" id="EditWeek_Day">
-                            <?php foreach ($weekDays as $day) : ?>
-                                <option value="<?php echo $day; ?>"><?php echo $day; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </label>
-                    <br>
-                    <label>Time Range:
-                        <select name="start_hour" id="EditStart_hour">
-                            <?php
-                            $selectedStart = date('H', strtotime($row['time_range']));
-                            for ($i = 8; $i <= 20; $i++) {
-                                $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
-                                echo "<option value=\"$hour\">$hour:00</option>";
-                            }
-                            ?>
-                        </select>
-                        -
-                        <select name="end_hour" id="EditEnd_hour">
-                            <?php
-                            $selectedEnd = date('H', strtotime($row['time_range_end']));
-                            for ($i = 9; $i <= 20; $i++) {
-                                $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
-                                echo "<option value=\"$hour\">$hour:00</option>";
-                            }
-                            ?>
-                        </select>
-                    </label>
-                    <br>
-                    <label>Preference:
-                        <select name="preference" id="EditPreference">
-                            <option value="Preferuje">Preferuje</option>
-                            <option value="Nepreferuje">Nepreferuje</option>
-                        </select>
-                    </label>
-                    <br>
-                    <p id="dialog_notification" style="color: green; display: none;"></p>
-                    <input type="submit" value="Save Changes">
-                    <button type="button" onclick="hideDialog()">Cancel</button>
-                </form>
-            </div>
-            <!-- New Preferecne Dialog -->
-            <div id="addPreferenceDialog" class="dialog">
-                <form method="post" id="addPreferenceForm" action="">
-                <input type="hidden" id="editActivitySlotID" name="activity_ID" value="<?php echo $selectedActID ?>">
-                    <label>Room Location:
+                    <label>*Room Location:
                         <select name="room_location" id="EditRoom_location" required>
-                            <option value="" disabled selected>Select Room</option>
                             <?php foreach ($roomLocations as $room) : ?>
                                 <option value="<?php echo $room['room_ID']; ?>"><?php echo $room['room_location']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </label>
                     <br>
-                    <label>Teacher Username:
+                    <label>*Teacher Username:
                         <select name="username" id="EditUsername" required>
-                            <option value="" disabled selected>Select Teacher</option>
                             <?php foreach ($usernames as $username) : ?>
                                 <option value="<?php echo $username['user_ID']; ?>"><?php echo $username['username']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </label>
                     <br>
-                    <label>Day:
+                    <label>*Day:
                         <select name="week_day" id="EditWeek_Day" required>
-                            <option value="" disabled selected>Select Day</option>
                             <?php foreach ($weekDays as $day) : ?>
                                 <option value="<?php echo $day; ?>"><?php echo $day; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </label>
                     <br>
-                    <label>Time Range:
+                    <label>*Time Range:
                         <select name="start_hour" id="EditStart_hour" required>
                             <?php
                             $selectedStart = date('H', strtotime($row['time_range']));
-                            for ($i = 8; $i <= 20; $i++) {
-                                if ($i == 8) {
-                                    $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
-                                    echo "<option value=\"$hour\" selected >$hour:00</option>";
-                                } else {
-                                    $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
-                                    echo "<option value=\"$hour\">$hour:00</option>";
-                                }
+                            for ($i = 8; $i <= 16; $i++) {
+                                $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
+                                echo "<option value=\"$hour\">$hour:00</option>";
                             }
                             ?>
                         </select>
@@ -256,7 +188,7 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
                         <select name="end_hour" id="EditEnd_hour" required>
                             <?php
                             $selectedEnd = date('H', strtotime($row['time_range_end']));
-                            for ($i = 9; $i <= 20; $i++) {
+                            for ($i = 9; $i <= 17; $i++) {
                                 if ($i == 10) {
                                     $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
                                     echo "<option value=\"$hour\" selected >$hour:00</option>";
@@ -269,11 +201,86 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
                         </select>
                     </label>
                     <br>
-                    <label>Preference:
+                    <label>*Preference:
+                        <select name="preference" id="EditPreference" required>
+                            <option value="Prefers">Prefers</option>
+                            <option value="Disprefers">Disprefers</option>
+                        </select>
+                    </label>
+                    <br>
+                    <p id="dialog_notification" style="color: green; display: none;"></p>
+                    <input type="submit" value="Save Changes">
+                    <button type="button" onclick="hideDialog()">Cancel</button>
+                </form>
+            </div>
+            <!-- New Preferecne Dialog -->
+            <div id="addPreferenceDialog" class="dialog">
+                <form method="post" id="addPreferenceForm" action="">
+                    <input type="hidden" id="editActivitySlotID" name="activity_ID" value="<?php echo $selectedActID ?>">
+                    <label>*Room Location:
+                        <select name="room_location" id="EditRoom_location" required>
+                            <option value="" disabled selected>Select Room</option>
+                            <?php foreach ($roomLocations as $room) : ?>
+                                <option value="<?php echo $room['room_ID']; ?>"><?php echo $room['room_location']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </label>
+                    <br>
+                    <label>*Teacher Username:
+                        <select name="username" id="EditUsername" required>
+                            <option value="" disabled selected>Select Teacher</option>
+                            <?php foreach ($usernames as $username) : ?>
+                                <option value="<?php echo $username['user_ID']; ?>"><?php echo $username['username']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </label>
+                    <br>
+                    <label>*Day:
+                        <select name="week_day" id="EditWeek_Day" required>
+                            <option value="" disabled selected>Select Day</option>
+                            <?php foreach ($weekDays as $day) : ?>
+                                <option value="<?php echo $day; ?>"><?php echo $day; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </label>
+                    <br>
+                    <label>*Time Range:
+                        <select name="start_hour" id="SetStart_hour" required>
+                            <?php
+                            $selectedStart = date('H', strtotime($row['time_range']));
+                            for ($i = 8; $i <= 16; $i++) {
+                                if ($i == 8) {
+                                    $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
+                                    echo "<option value=\"$hour\" selected >$hour:00</option>";
+                                } else {
+                                    $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
+                                    echo "<option value=\"$hour\">$hour:00</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                        -
+                        <select name="end_hour" id="SetEnd_hour" required>
+                            <?php
+                            $selectedEnd = date('H', strtotime($row['time_range_end']));
+                            for ($i = 9; $i <= 17; $i++) {
+                                if ($i == 10) {
+                                    $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
+                                    echo "<option value=\"$hour\" selected >$hour:00</option>";
+                                } else {
+                                    $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
+                                    echo "<option value=\"$hour\">$hour:00</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                    </label>
+                    <br>
+                    <label>*Preference:
                         <select name="preference" id="EditPreference" required>
                             <option value="" disabled selected>Select Preference</option>
-                            <option value="Preferuje">Preffers</option>
-                            <option value="Nepreferuje">Not preffers</option>
+                            <option value="Prefers">Prefers</option>
+                            <option value="Disprefers">Disprefers</option>
                         </select>
                     </label>
                     <br>
@@ -337,7 +344,7 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
             if (confirm('Are you sure you want to delete this activity slot?')) {
                 var form = document.createElement('form');
                 form.method = 'post';
-                form.action = '../Process/process_delete_activity_slot.php';
+                form.action = '../../Process/GuarantorProcess/process_delete_activity_slot.php';
 
                 // Append the necessary POST data as hidden input fields
                 var inputActivitySlotID = document.createElement('input');
@@ -393,7 +400,7 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
                 console.log('Changes detected, saving...');
                 console.log(formData.get('activity_slot_ID'));
 
-                fetch('../Process/process_edit_activity.php', {
+                fetch('../../Process/GuarantorProcess/process_edit_activity_slot.php', {
                         method: 'POST',
                         body: formData
                     })
@@ -427,7 +434,7 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
         }
 
         function goBack(subjectID) {
-            window.location.href = '../Pages/activity_page.php?subject_id=' + subjectID;
+            window.location.href = '../../Pages/Guarantor/activity_page.php?subject_id=' + subjectID;
         }
 
         function showAddPreferenceDialog() {
@@ -442,7 +449,7 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
 
 
         function addNewPreference() {
-            fetch('../Process/process_new_preference.php', {
+            fetch('../../Process/GuarantorProcess/process_new_preference.php', {
                     method: 'POST',
                     body: new FormData(document.getElementById('addPreferenceForm'))
                 })
@@ -460,6 +467,80 @@ $weekDays = ['Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota', 'Ň
                     document.getElementById('add_dialog_notification').style.display = 'block';
                 });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get references to the start and end hour dropdowns
+            var startHourDropdown = document.getElementById("EditStart_hour");
+            var endHourDropdown = document.getElementById("EditEnd_hour");
+
+            // Add onchange event listener to the start hour dropdown
+            startHourDropdown.addEventListener("change", function() {
+                // Get the selected start hour value
+                var selectedStartHour = parseInt(startHourDropdown.value);
+
+                // Update the options in the end hour dropdown
+                updateEndHourOptions(selectedStartHour);
+            });
+
+            // Function to update the options in the end hour dropdown
+            function updateEndHourOptions(selectedStartHour) {
+                // Clear existing options in the end hour dropdown
+                endHourDropdown.innerHTML = "";
+
+                // Add default option
+                var defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.text = "End Hour";
+                endHourDropdown.add(defaultOption);
+
+                // Populate end hour dropdown with valid options
+                for (var i = selectedStartHour + 1; i <= 17; i++) {
+                    var hour = ("0" + i).slice(-2); // Pad with leading zero if needed
+                    var option = document.createElement("option");
+                    option.value = hour;
+                    option.text = hour + ":00";
+                    endHourDropdown.add(option);
+                }
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get references to the start and end hour dropdowns
+            var startHourDropdown = document.getElementById("SetStart_hour");
+            var endHourDropdown = document.getElementById("SetEnd_hour");
+
+            // Add onchange event listener to the start hour dropdown
+            startHourDropdown.addEventListener("change", function() {
+                // Get the selected start hour value
+                var selectedStartHour = parseInt(startHourDropdown.value);
+
+                // Update the options in the end hour dropdown
+                updateEndHourOptions(selectedStartHour);
+            });
+
+            // Function to update the options in the end hour dropdown
+            function updateEndHourOptions(selectedStartHour) {
+                // Clear existing options in the end hour dropdown
+                endHourDropdown.innerHTML = "";
+
+                // Add default option
+                var defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.text = "End Hour";
+                endHourDropdown.add(defaultOption);
+
+                // Populate end hour dropdown with valid options
+                for (var i = selectedStartHour + 1; i <= 17; i++) {
+                    var hour = ("0" + i).slice(-2); // Pad with leading zero if needed
+                    var option = document.createElement("option");
+                    option.value = hour;
+                    option.text = hour + ":00";
+                    endHourDropdown.add(option);
+                }
+            }
+
+
+        });
     </script>
 </body>
 

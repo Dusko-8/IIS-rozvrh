@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `PREFERED_SLOTS_TEACHER`;
 DROP TABLE IF EXISTS `PREFERED_SLOTS_ACTIVITY`;
 DROP TABLE IF EXISTS `DAY_TIME`;
 DROP TABLE IF EXISTS `STUDENT_ACTIVITIES`;
+DROP TABLE IF EXISTS `SUBJECT_TEACHERS`;
 
 CREATE TABLE USERS (
     /*PK*/
@@ -37,7 +38,7 @@ CREATE TABLE PREFERED_SLOTS_TEACHER (
     /*PK*/
     teacher_slot_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     /*FK*/
-    guarantor_ID INT REFERENCES USER(user_ID),
+    user_ID INT REFERENCES USER(user_ID),
     day_time_ID INT REFERENCES DAY_TIME(day_time_ID),
     /*Attributes*/
     preference ENUM('Prefers', 'Disprefers')NOT NULL
@@ -75,7 +76,7 @@ CREATE TABLE ACTIVITY (
     duration INT NOT NULL,
     repetition ENUM ('everyWeek', 'evenWeek', 'oddWeek', 'oneTime') NOT NULL,
     activity_date DATE NULL, -- YYYY-MM-DD
-    activity_type VARCHAR(150) NOT NULL
+    activity_type ENUM ('Lecture', 'Tutorial', 'Seminar', 'Exam', 'Consultation', 'Exercise', 'Demo') NOT NULL
 );
 
 CREATE TABLE PREFERED_SLOTS_ACTIVITY (
@@ -84,10 +85,18 @@ CREATE TABLE PREFERED_SLOTS_ACTIVITY (
     /*FK*/
     activity_ID INT REFERENCES ACTIVITY(activity_ID),
     room_ID INT REFERENCES ROOM(room_ID),
-    teacher_ID INT REFERENCES USER(user_ID),
+    teacher_ID INT REFERENCES USERS(user_ID),
     day_time_ID INT REFERENCES DAY_TIME(day_time_ID),
     /*Attributes*/
     preference ENUM('Prefers', 'Disprefers')NOT NULL
+);
+
+CREATE TABLE SUBJECT_TEACHERS (
+    /*PK*/
+    sub_teach_ID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    /*FK*/
+    user_ID INT REFERENCES USERS(user_ID),
+    subject_ID INT REFERENCES SUBJECTS(subject_ID)
 );
 
 -- Inserting mock data into USER
@@ -95,6 +104,7 @@ INSERT INTO USERS(username, hashed_password, email, user_role) VALUES
 ('user1', '$2y$10$9mSWZYKjJW9YW9tgdYZa9uUuNVr9zhzcT0iOzruQo9w5KGqizrAv2', 'user1@email.com', 'Admin'),     /*password1*/
 ('user2', '$2y$10$KJYI.m9s/DRAtarK3SVD3efnyNygYdyjKFf1XoFNZdQEphb1/lLtG', 'user2@email.com', 'Guarantor'), /*password2*/
 ('user3', '$2y$10$iPVH5GDLM3YYMD5v53xrWu9qoNEyV11SzAzi4sWhJzAxQN/ZgPnqu', 'user3@email.com', 'Teacher'),   /*password3*/
+('user7', '$2y$10$iPVH5GDLM3YYMD5v53xrWu9qoNEyV11SzAzi4sWhJzAxQN/ZgPnqu', 'user7@email.com', 'Teacher'),   /*password3*/
 ('user4', '$2y$10$m3D3CAvaD9AjCla2qtnrNu4bHwFxn93ufVqBcFlTAUANzwMwVbeYG', 'user4@email.com', 'Scheduler'),  /*password4*/
 ('user5', '$2y$10$BjA2J9QWBIqO49t5JEi3n.0ihgNljwGN4ZrJyhFzdr/KkMVPBaie2', 'user5@email.com', 'Student'),  /*password5*/
 ('user6', '$2y$10$w9/9kGvCHssBMQUOUmJjyuOVYgOq4durbCIOXI6gpY3hz/4SGYswe', 'user6@email.com', 'Unregistered');  /*password6*/
@@ -141,7 +151,7 @@ INSERT INTO SUBJECTS(guarantor_ID, title, abbervation, credits, subj_description
 (9, 'Psychology', 'PSYC', 3, 'Introduction to mental processes and behavior studies'),
 (10, 'Chemistry', 'CHEM', 2, 'Introduction to chemical reactions and compounds');
 -- Inserting mock data into PREFERED_SLOTS_TEACHER
-INSERT INTO PREFERED_SLOTS_TEACHER(guarantor_ID, day_time_ID, preference) VALUES
+INSERT INTO PREFERED_SLOTS_TEACHER(user_ID, day_time_ID, preference) VALUES
 (1, 1, 'Prefers'),
 (2, 2, 'Disprefers'),
 (1, 3, 'Prefers');
@@ -171,3 +181,8 @@ INSERT INTO STUDENT_ACTIVITIES(student_ID, activity_ID) VALUES
 (5, 1),
 (5, 2),
 (5, 3);
+
+INSERT INTO SUBJECT_TEACHERS(user_ID,subject_ID) VALUES
+(2, 2),
+(3, 2);
+
