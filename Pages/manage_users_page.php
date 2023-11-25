@@ -2,7 +2,7 @@
 session_start();
 
 require '../Database/db_connect.php';
-
+require_once '../Process/process_session_check.php';
 // Check if the user is not logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: ../Pages/login_page.php');
@@ -116,19 +116,23 @@ if (!empty($searchQuery)) {
                         <h2 class="modal-title">Edit User Details</h2>
                         <input type="hidden" name="userId" id="modal_userId">
                                     
-                        <label for="modal_username">Username</label>
-                        <input type="text" name="username" placeholder="Username" id="modal_username" required>
+                        <label for="modal_username">* Username</label>
+                        <input type="text" name="username" placeholder="Username" id="modal_username" required maxlength="50">
                                     
-                        <label for="modal_password">Password</label>
-                        <input type="password" name="password" placeholder="Password" id="modal_password">
-                                    
-                        <label for="modal_email">Email</label>
-                        <input type="email" name="email" placeholder="Email" id="modal_email" required>
-                                    
-                        <label for="modal_role">User Role</label>
+                        <label for="modal_password">* Password</label>
+                        <input type="password" name="password" placeholder="Password" id="modal_password" maxlength="255">
+                        
+                        <label for="modal_password_confirmation">* Confirm Password</label>
+                        <input type="password" id="modal_password_conf" name="password_confirmation" placeholder="Confirm Password" required maxlength="255">
+
+                        <label for="modal_email">* Email</label>
+                        <input type="email" name="email" placeholder="Email" id="modal_email" required maxlength="50">
+            
+                        <label for="modal_role">* User Role</label>
                         <select name="user_role" id="modal_role" required>
                             <option value="Teacher">Teacher</option>
                             <option value="Scheduler">Scheduler</option>
+                            <option value="Guarantor">Guarantor</option>
                             <option value="Student">Student</option>
                             <option value="Admin">Admin</option>
                         </select>
@@ -211,7 +215,11 @@ if (!empty($searchQuery)) {
         
         function saveChanges() {
             const formData = new FormData(document.getElementById('editUserForm'));
-
+            if (!validatePasswordMatch()) {
+                document.getElementById('modal_notification').innerText = 'Passwords do not match';
+                document.getElementById('modal_notification').style.display = 'block';
+                return; 
+            }
             // Check if any changes were made
             const currentUsername = formData.get('username');
             const currentEmail = formData.get('email');
@@ -254,6 +262,15 @@ if (!empty($searchQuery)) {
             }
         }
 
+        function validatePasswordMatch() {
+            var password = document.getElementById('modal_password').value;
+            var confirmPassword = document.getElementById('modal_password_conf').value;
+
+            if (password !== confirmPassword) {
+                return false; // Prevents form submission
+            }
+            return true;
+        }
         </script>
 
     </div>

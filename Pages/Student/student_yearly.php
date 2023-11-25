@@ -19,7 +19,8 @@ try {
 
     if ($result) {
         $user_id = $result['user_ID'];
-
+        $_SESSION['user_ID'] = $user_id;
+        
         $stmt = $pdo->prepare("SELECT SUBJECTS.abbervation, ACTIVITY.repetition, ACTIVITY.activity_ID, ACTIVITY.activity_type, DAY_TIME.week_day, DAY_TIME.time_range
                                 FROM ACTIVITY 
                                 JOIN STUDENT_ACTIVITIES ON STUDENT_ACTIVITIES.activity_ID = ACTIVITY.activity_ID
@@ -48,8 +49,43 @@ try {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Main Page</title>
         <link rel="stylesheet" href="../../Styles/table_style.css">
+        <link rel="stylesheet" href="../../Styles/sidebar_style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>
+    <?php include '../../Components/sidebar_component.php'; ?>
+    <!-- Sidebar Toggle Icon -->
+    <div class="sidebar-header">
+        <!-- Sidebar Toggle -->
+        <div class="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </div>
+    <!-- Overlay -->
+    <div class="overlay hidden" onclick="toggleSidebar()"></div>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+
+            sidebar.classList.toggle('hidden');
+            // Toggle the 'show' class for the overlay
+            overlay.classList.toggle('show');
+        }
+    </script>
+
+    
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success">
+            <?= $_SESSION['success']; ?>
+        </div>
+        <script>
+            setTimeout(function () {
+                document.querySelector('.alert-success').style.display = 'none';
+            }, 5000);
+        </script>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
     <h2>Yearly Calendar</h2>
 
     <div class="buttons-container">

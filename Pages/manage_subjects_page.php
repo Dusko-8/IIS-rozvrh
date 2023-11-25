@@ -2,7 +2,7 @@
 session_start();
 
 require '../Database/db_connect.php';
-
+require_once '../Process/process_session_check.php';
 // Access Control Checks
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['user_role'] !== 'Admin') {
     header('Location: ../Pages/login_page.php');
@@ -127,12 +127,15 @@ if (!empty($searchQuery)) {
                         <h2 class="modal-title">Edit Subject Details</h2>
                         <input type="hidden" name="subjectId" id="modal_subjectId">
 
-                        <label for="modal_title">Title</label>
-                        <input type="text" name="title" placeholder="Title" id="modal_title" required>
+                        <label for="modal_title">* Title</label>
+                        <input type="text" name="title" placeholder="Title" id="modal_title" required maxlength="50">
 
-                        <label for="modal_abbervation">Abbreviation</label>
-                        <input type="text" name="abbervation" placeholder="Abbreviation" id="modal_abbervation" required>
+                        <label for="modal_abbervation">* Abbreviation</label>
+                        <input type="text" name="abbervation" placeholder="Abbreviation (e.g., MATH)" id="modal_abbervation" required pattern="[A-Z]{3,4}" maxlength="4">
                         
+                        <label for="modal_credits">* Credits</label>
+                        <input type="number" name="credits" placeholder="Credits" id="modal_credits" required min="1">
+
                         <label for="modal_guarantor">Guarantor</label>
                         <select name="guarantor_ID" id="modal_guarantor">
                             <option value="">No Guarantor</option>
@@ -143,11 +146,8 @@ if (!empty($searchQuery)) {
                             <?php } ?>
                         </select>
 
-                        <label for="modal_credits">Credits</label>
-                        <input type="number" name="credits" placeholder="Credits" id="modal_credits" required min="1">
-
                         <label for="modal_description">Description</label>
-                        <textarea name="subj_description" placeholder="Description" id="modal_description"></textarea>
+                        <textarea name="subj_description" placeholder="Description" id="modal_description" maxlength="500"></textarea>
 
                         <p id="modal_notification" style="color: green; display: none;"></p>
 
@@ -162,13 +162,13 @@ if (!empty($searchQuery)) {
                     <form id="addSubjectForm">
                         <h2 class="modal-title">Add New Subject</h2>
 
-                        <label for="add_title">Title</label>
-                        <input type="text" name="title" placeholder="Title" id="add_title" required>
+                        <label for="add_title">* Title</label>
+                        <input type="text" name="title" placeholder="Title" id="add_title" required maxlength="50">
 
-                        <label for="add_abbervation">Abbreviation</label>
-                        <input type="text" name="abbervation" placeholder="Abbreviation" id="add_abbervation" required>
+                        <label for="add_abbervation">* Abbreviation</label>
+                        <input type="text" name="abbervation" placeholder="Abbreviation (e.g., MATH)" id="add_abbervation" required pattern="[A-Z]{3,4}" maxlength="250">
 
-                        <label for="add_credits">Credits</label>
+                        <label for="add_credits">* Credits</label>
                         <input type="number" name="credits" placeholder="Credits" id="add_credits" required min="1">
 
                         <label for="add_guarantor">Guarantor</label>
@@ -182,7 +182,7 @@ if (!empty($searchQuery)) {
                         </select>
                             
                         <label for="add_description">Description</label>
-                        <textarea name="description" placeholder="Description" id="add_description"></textarea>
+                        <textarea name="description" placeholder="Description" id="add_description" maxlength="500"></textarea>
                             
                         <p id="add_modal_notification" style="color: green; display: none;"></p>
                             

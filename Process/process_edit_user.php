@@ -32,10 +32,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
     }
+    
+    if (strlen($username) > 50) {
+        echo json_encode(["error" => "Username must be 50 characters or fewer"]);
+        exit;
+    }
 
+    // Validate email
+    if (strlen($email) > 50 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(["error" => "Invalid email format or too long"]);
+        exit;
+    }
     // Validate password if provided
-    if (!empty($password) && !isValidPassword($password)) {
-        echo json_encode(["error" => "Password must be at least 5 characters long, include a number and a capital letter."]);
+    if (!empty($password) && (strlen($password) > 255 || !isValidPassword($password))) {
+        echo json_encode(["error" => "Invalid password. Ensure it is between 5 and 255 characters, includes a number, and a capital letter."]);
+        exit;
+    }
+    
+    $validRoles = ['Teacher', 'Scheduler', 'Guarantor', 'Student', 'Admin'];
+    if (!in_array($userRole, $validRoles)) {
+        echo json_encode(["error" => "Invalid user role"]);
         exit;
     }
 

@@ -34,7 +34,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
     }
-
+    if (strlen($title) > 50) { // Adjust the length as per your requirements
+        echo json_encode(["error" => "Invalid title format max 50 characters"]);
+        exit;
+    }
+    if (!preg_match('/^[A-Z]{3,4}$/', $abbervation)) {
+        echo json_encode(["error" => "Abbreviation must be 3 or 4 uppercase letters"]);
+        exit;
+    }
+    if (strlen($subj_description) > 500) {
+        echo json_encode(["error" => "Description must be 500 characters or fewer"]);
+        exit;
+    }
     // Cast credits to an integer to ensure it matches the database type
     $credits = (int) $credits;
 
