@@ -14,8 +14,15 @@ if ($_SESSION['user_role'] !== 'Admin' and $_SESSION['user_role'] !== 'Guarantor
 $subs = [];
 
 require '../../Database/db_connect.php';
-$stmt = $pdo->prepare("SELECT username, title, subj_description, subject_ID FROM SUBJECTS AS s JOIN USERS AS u ON s.guarantor_ID = u.user_ID WHERE username = ?");
-$stmt->execute([$_SESSION['username']]);
+if($_SESSION['user_role'] == 'Guarantor'){
+    $stmt = $pdo->prepare("SELECT username, title, subj_description, subject_ID FROM SUBJECTS AS s JOIN USERS AS u ON s.guarantor_ID = u.user_ID WHERE username = ?");
+    $stmt->execute([$_SESSION['username']]);
+}
+else{
+    $stmt = $pdo->prepare("SELECT title, subj_description, subject_ID FROM SUBJECTS");
+    $stmt->execute();
+}
+
 $subs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (isset($_SESSION['post_data'])) {
@@ -35,6 +42,7 @@ if (isset($_SESSION['post_data'])) {
     <link rel="stylesheet" href="../../Styles/anotations_style.css">
     <link rel="stylesheet" href="../../Styles/sidebar_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../Styles/activity_style.css">
 </head>
 
 <body>
