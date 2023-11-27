@@ -9,7 +9,7 @@
         <?php if ($_SESSION['user_role'] == "Guarantor" or $_SESSION['user_role'] == "Admin") { ?>
             <li><a href="../../Pages/Guarantor/guaranted_sub_page.php">Guaranted Subjects</a></li>
         <?php } ?>
-        <?php if ($_SESSION['user_role'] == "Teacher" or $_SESSION['user_role'] == "Admin") { ?>
+        <?php if ($_SESSION['user_role'] == "Teacher" or $_SESSION['user_role'] == "Admin" or $_SESSION['user_role'] == "Guarantor") { ?>
             <li><a href="../../Pages/Teacher/teacher_main.php">Manage Preferences</a></li>
         <?php } ?>
         <?php if ($_SESSION['user_role'] == "Student" or $_SESSION['user_role'] == "Admin") { ?>
