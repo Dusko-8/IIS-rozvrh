@@ -247,14 +247,14 @@ INSERT INTO PREFERED_SLOTS_TEACHER(user_ID, day_time_ID, preference) VALUES
 
 -- Inserting mock data into ACTIVITY
 INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, activity_type, duration) VALUES
-(1, 1, 1, 1, 'everyWeek', 'Lecture', 2),
+(1, 1, 3, 1, 'everyWeek', 'Lecture', 2),
 (2, 2, 2, 2, 'evenWeek', 'Tutorial', 2),
-(3, 3, 1, 3, 'oddWeek', 'Lecture', 2),
-(1, 1, 1, 5, 'everyWeek', 'Lecture', 2),
+(3, 3, 2, 3, 'oddWeek', 'Lecture', 2),
+(1, 1, 2, 5, 'everyWeek', 'Lecture', 2),
 (7, 18, 51, 9, 'everyWeek', 'Seminar', 3),
 (3, 13, 44, 14, 'oddWeek', 'Consultation', 3),
 (11, 4, 42, 11, 'everyWeek', 'Exercise', 4),
-(2, 9, 49, 2, 'evenWeek', 'Tutorial', 1),
+(2, 9, 41, 2, 'evenWeek', 'Tutorial', 1),
 (5, 16, 39, 7, 'oddWeek', 'Seminar', 3),
 (8, 20, 53, 4, 'everyWeek', 'Demo', 4),
 (12, 2, 48, 10, 'evenWeek', 'Exercise', 3),
@@ -269,7 +269,7 @@ INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, a
 
 -- One time Activity
 INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, activity_type, duration, activity_date) VALUES
-(7, 1, 1, 13, 'oneTime', 'Lecture', 2, '2023-12-29'),
+(7, 1, 2, 13, 'oneTime', 'Lecture', 2, '2023-12-29'),
 (8, 15, 45, 9, 'oneTime', 'Lecture', 2, '2024-1-25'),
 (5, null, 39, null, 'oneTime', 'Exam', 3, '2024-1-26'),
 (12, 3, 51, 4, 'oneTime', 'Consultation', 1, '2024-1-30'),
@@ -277,14 +277,14 @@ INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, a
 
 -- Inserting mock data into PREFERED_SLOTS_ACTIVITY
 INSERT INTO PREFERED_SLOTS_ACTIVITY(activity_ID, room_ID, teacher_ID, day_time_ID, preference) VALUES
-(1, 1, 1, 1, 'Prefers'),
-(1, 1, 1, 2, 'Prefers'),
-(1, 1, 1, 3, 'Disprefers'),
+(1, 1, 3, 1, 'Prefers'),
+(1, 1, 2, 2, 'Prefers'),
+(1, 1, 2, 3, 'Disprefers'),
 (2, 2, 2, 2, 'Disprefers'),
-(3, 3, 1, 3, 'Prefers'),
+(3, 3, 2, 3, 'Prefers'),
 (15, 6, 54, 10, 'Prefers'),
 (8, 16, 47, 3, 'Disprefers'),
-(2, 9, 50, 12, 'Disprefers'),
+(2, 9, 41, 12, 'Disprefers'),
 (5, 11, 41, 8, 'Prefers'),
 (12, 20, 55, 14, 'Disprefers'),
 (18, 15, 52, 4, 'Disprefers'),
@@ -295,7 +295,6 @@ INSERT INTO PREFERED_SLOTS_ACTIVITY(activity_ID, room_ID, teacher_ID, day_time_I
 (14, 10, 56, 13, 'Prefers'),
 (17, 18, 51, 15, 'Disprefers'),
 (10, 5, 42, 2, 'Prefers'),
-(1, 17, 48, 5, 'Disprefers'),
 (16, 1, 49, 9, 'Prefers');
 
 -- Mock data for student's subjects
@@ -338,20 +337,23 @@ INSERT INTO SUBJECT_TEACHER(user_ID,subject_ID) VALUES
 (2, 2),
 (3, 2),
 (45, 49),
-(9, 10),
+(38, 10),
 (53, 7),
 (49, 7),
-(14, 8),
+(42, 8),
 (41, 12),
-(7, 11),
+(49, 11),
 (53, 5),
 (2, 4),
 (50, 14),
-(11, 3),
+(26, 3),
 (39, 6),
-(13, 2),
+(29, 2),
 (56, 10),
-(6, 13),
+(44, 13),
 (46, 9),
-(3, 12),
-(38, 1);
+(39, 12),
+(3, 1),
+(2, 1),
+(40, 1),
+(46, 1);

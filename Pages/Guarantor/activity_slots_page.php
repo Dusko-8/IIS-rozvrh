@@ -109,7 +109,6 @@ $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            margin-right: 9%;
         }
     </style>
 </head>
@@ -119,7 +118,7 @@ $weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
         <!-- Content Area -->
         <div class="content">
             <button class="up_button" onclick="goBack(<?php echo $subjectID; ?>)">Back</button>
-            <button class="up_button" style="position: absolute; top: 20px; right: 20px;" onclick="showAddPreferenceDialog()">Add New Preference</button>
+            <button class="up_button" style="margin-left: auto;" onclick="showAddPreferenceDialog()">Add New Preference</button>
             <div class="title">Manage Preferences of <?php echo isset($subjName) ? htmlspecialchars($subjName) : "Unknown Subject" ?> - <?php echo htmlspecialchars($type['activity_type']) ?></div>
 
             <table border="1">

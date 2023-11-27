@@ -33,7 +33,7 @@ if (isset($_GET['subject_id'])) {
     $stmtAct->execute([$subject_id]);
     $activities = $stmtAct->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmtTeach = $pdo->prepare("SELECT sub_teach_ID, user_ID, username FROM subject_teachers
+    $stmtTeach = $pdo->prepare("SELECT sub_teach_ID, user_ID, username FROM subject_teacher
                             NATURAL JOIN users WHERE subject_ID = ?");
     $stmtTeach->execute([$subject_id]);
     $subjectTeachers =  $stmtTeach->fetchAll(PDO::FETCH_ASSOC);
@@ -110,7 +110,7 @@ if (isset($_GET['subject_id'])) {
         <!-- Content Area -->
         <div class="content">
             <button class="up_button" onclick="goBack()">Back</button>
-            <button class="up_button" style="position: absolute; top: 20px; right: 20px; margin-right: 5%;" onclick="showAddActivityDialog()">Add New Activity</button>
+            <button class="up_button" style="margin-left: auto;" onclick="showAddActivityDialog()">Add New Activity</button>
             <div class="title">Activities of <?php echo  htmlspecialchars($subjName['title']) ?></div>
 
             <table>
@@ -210,7 +210,7 @@ if (isset($_GET['subject_id'])) {
                     <br>
                     <label>*Teacher Username:
                         <select name="username" id="EditUsername" required>
-                            <?php foreach ($allTeachers as $username) : ?>
+                            <?php foreach ($subjectTeachers as $username) : ?>
                                 <option value="<?php echo $username['user_ID']; ?>"><?php echo $username['username']; ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -255,7 +255,7 @@ if (isset($_GET['subject_id'])) {
                     <label>*Teacher Username:
                         <select name="username" id="AddUsername" required>
                             <option disabled selected>Select Teacher</option>
-                            <?php foreach ($allTeachers as $username) : ?>
+                            <?php foreach ($subjectTeachers as $username) : ?>
                                 <option value="<?php echo $username['user_ID']; ?>"><?php echo $username['username']; ?></option>
                             <?php endforeach; ?>
                         </select>

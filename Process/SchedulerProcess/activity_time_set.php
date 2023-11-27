@@ -33,19 +33,19 @@ $roomID = filter_var($roomID, FILTER_VALIDATE_INT);
 $activityID = filter_var($activityID, FILTER_VALIDATE_INT);
 $duration = filter_var($duration, FILTER_VALIDATE_INT);
 if(!$roomID || !$activityID || !$duration){
-    $_SESSION['alert_error'] = 'Invalid data.';
+    $_SESSION['alert_error'] = 'Invalid data.1';
     header('Location: ../../Pages/Scheduler/scheduler_main.php');
     exit;
 }
 
 $validDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 if(!in_array($day, $validDays)){
-    $_SESSION['alert_error'] = 'Invalid data.';
+    $_SESSION['alert_error'] = 'Invalid data.2';
     header('Location: ../../Pages/Scheduler/scheduler_main.php');
     exit;
 }
 
-$pattern = '/^(0[0-9]|1[0-7]):[0-5][0-9]$/';
+$pattern = '/^([0-9]|1[0-7]):[0-5][0-9]$/';
 if(!preg_match($pattern, $time)){
     $_SESSION['alert_error'] = 'Invalid data.';
     header('Location: ../../Pages/Scheduler/scheduler_main.php');
@@ -69,7 +69,7 @@ if($stmt->rowCount() > 0){
     ]);
 
     if($stmt->rowCount() == 0){
-        $_SESSION['alert_error'] = 'An error occurred while processing your request. Please try again.1';
+        $_SESSION['alert_error'] = 'There is nothing to update. Please select new time.';
         header('Location: ../../Pages/Scheduler/scheduler_main.php');
         exit;
     }
@@ -84,7 +84,7 @@ if($stmt->rowCount() > 0){
     ]);
 
     if($stmt->rowCount() == 0){
-        $_SESSION['alert_error'] = 'An error occurred while processing your request. Please try again.2';
+        $_SESSION['alert_error'] = 'An error occurred while processing your request. Please try again.' . $timeRange;
         header('Location: ../../Pages/Scheduler/scheduler_main.php');
         exit;
     }
@@ -94,15 +94,15 @@ if($stmt->rowCount() > 0){
 
 //SET <<FK>> FOR ACTIVITY
 $stmt = $pdo->prepare("UPDATE ACTIVITY SET day_time_id = :timeID, room_ID = :roomID WHERE activity_ID = :activityID");
-$stmt->execute([
+$result = $stmt->execute([
     ':timeID' => $dayTimeID,
     ':roomID' => $roomID,
     ':activityID' => $activityID,
 ]);
 
 //check if data was changed
-if($stmt->rowCount() == 0){
-    $_SESSION['alert_error'] = 'An error occurred while processing your request. Please try again.3';
+if($stmt->rowCount() == 0 && $result == false){
+    $_SESSION['alert_error'] = 'An error occurred while processing your request. Please try again.';
     header('Location: ../../Pages/Scheduler/scheduler_main.php');
     exit;
 }

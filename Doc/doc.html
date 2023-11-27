@@ -28,14 +28,15 @@
         9. Komponentu side-bar a skript pre automatické odhlasovanie.<br>
     </dd>
     <dd>Ivan Mahút
-        <br><a href="mailto:xmahut01@stud.fit.vutbr.cz">xmahut01@stud.fit.vutbr.cz</a> -
+        <a href="mailto:xmahut01@stud.fit.vutbr.cz">xmahut01@stud.fit.vutbr.cz</a> -
+        <br>
         1. Návrh databázového modelu.<br>
         2. Stránku Guaranted_sub_page a príslu¹né backend skripty.<br>
         3. Stránku Activity_slots_page a príslu¹né backend skripty.<br>
         4. Stránku Activity_page a príslu¹né backend skripty.<br>
         5. Demon¹traèné video.<br>
     </dd>
-    <dd>Tretie meno
+    <dd>Jakub Majer
         <a href="mailto:xmajer25@stud.fit.vutbr.cz">xmajer25@stud.fit.vutbr.cz</a> -
         <br>1. Stránku Student_weekly a Student_yearly a príslu¹né backend skripty.<br>
         2. Stránku Scheduler_main a príslu¹né backend skripty.<br>
@@ -44,11 +45,9 @@
     </dd>
     <dt>URL aplikácie</dt>
     <dd><a href="http://iis-scheduler.free.nf/">http://iis-scheduler.free.nf/</a></dd>
-    <dd>(ak má aplikácia viac vstupných stránok, napí¹te obdobne ïal¹ie URL)</dd>
 </dl>
 
 <h2>U¾ívatelia systému pre testovanie</h2>
-<p>Uveïte prosím existujúcich zástupcov v¹etkých rolí u¾ívateµov.</p>
 <table>
     <tbody>
         <tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
@@ -63,7 +62,10 @@
 <p>Diagram vyplýva zo zadania.</p> 
 
 <h3>Video</h3>
-<p>Pripojte odkaz na komentované video demon¹trujúce pou¾itie informaèného systému. Zamerajte sa na prípady pou¾itia definované zadáním (napr. registrácia u¾ívateµa, správa u¾ívateµov a èinnosti jednotlivých rolí). Video nahrajte napríklad na VUT Google Drive, kde ho bude mo¾né priamo spusti» z odkazu.</p> 
+<p><a href="https://drive.google.com/file/d/1svfo1h5C5HIlyP9BVgFBbwYHMnaUpANu/view?usp=sharing">https://drive.google.com/file/d/1svfo1h5C5HIlyP9BVgFBbwYHMnaUpANu/view?usp=sharing</a>
+<br> Vo videu sa zabudlo spomenú» ¾e Garant má prístup na nastavenia preferecií ako uèiteµ, pomocou sidebaru.
+
+</p> 
 
 <h2>Implementácia</h2>
 <p>Táto stránka sa zameriava na zobrazovanie a správu uèební a predmetov v rámci vzdelávacej in¹titúcie. 
@@ -87,6 +89,11 @@ Rozvrhár:
 <br>Rozvrhár má k dispozícii jednu stránku pre zadanie miestnosti a èasu pre aktivitu. Po zvolení si jednej z aktivít sa rozvrhárovi zobrazia preferncie uèi»eµa, ktorý túto aktivitu vyuèuje, preferncie samotnej aktivity
 a mo¾nos» zvoli» si miestnos» kde by sa táto aktivita mala vykonáva». Po zvolení miestnosti sa zobrazí rozvrh, ktorý znázoròuje zaplnenos» tejto miestnosti. V¹ade, kde sa aktivita neprekríva s inou aktivitou v rozvrhu,
 je zobrazené tlaèítko 'Add Here'. Po jeho stlaèení sa prepí¹e miestnos» a èas zvolenej aktivity.
+<br>
+Garant:
+<br>Pre garanta sú implementované tri stránky. Prvá zobrazuje predmety, pri ktorých figuruje ako garant. Po kliknutí na predmet, bude zobrazená stránka s aktivitami jednotlivého predmetu.
+Na tejto stránke mo¾e spravova» aktivity predmetu. Taktie¾ na tejto stránke mo¾e pridáva»/odobera» uèiteµov do kurzu. Po kliknutí na tlaèítko pri konkrétnej aktivite je zobrazená tretia stránka.
+Táto stránka obsahuje preferencie zvolenej aktivity, ktoré mo¾e spravova».
 </p>
 
 
@@ -101,17 +108,18 @@ Struène popí¹te:
     kod prelo¾i»
     Stiahnutie aplikácie Xamp verzie 1.0.0.0</li>
 <li>Predpoklad PHP verzie 8.1.
-    Na¹tartovanie serveru apach a mysql cez aplikáciu xamp.
+    Na¹tartovanie serveru apache a mysql cez aplikáciu xamp.
 </li>
 <li>
     Lokalizácia súboru create_db.sql. :/IIS-rozvrh/Database/create_db.sql
-    V aplikácií Xamp sa dosta» na http://localhost/phpmyadmin/ a tento skript spusti». 
+    V aplikácií Xamp sa dosta» na <a href="http://localhost/phpmyadmin/">http://localhost/phpmyadmin/</a> a tento skript spusti».
+    Prihlasovaciu stránku je mo¾né následne zobrazi» na <a href="http://localhost/IIS-rozvrh/Pages/User/login_page.php">http://localhost/IIS-rozvrh/Pages/User/login_page.php</a>
 </li>
 </ul>
 
 <h2>Známe problémy</h2>
-<p>Popí¹te, ktoré body zadania nie sú implementované a z akého dôvodu. Napr. ?Z èasových dôvodov nebola implementovaná správa u¾ívateµov.? Pomô¾ete tým zrýchli» hodnotenie, keï neimplementované funkcie nebudeme musie» dlho hµada».</p>
-Na stránkach pre ¹tudenta, rozvrhára a uèiteµa sú implementované rozvrhy vo forme tabuliek, ktoré mô¾u by» pre u¾ívateµa metúce. Napríklad pre predná¹ku, ktorá trvá dve hodiny a zaèína o 8:00, sú vyplnené políèka: 8:00, 9:00, 10:00. Pôvodný zámer bol
-znázorni» interval 8:00-10:00, ale nakoniec to vypadá ako keby táto predná¹ka mala tri hodiny.
-
+<p>
+Na stránkach pre ¹tudenta, rozvrhára a uèiteµa sú implementované rozvrhy vo forme tabuliek, ktoré mô¾u by» pre u¾ívateµa mätúce. Napríklad pre predná¹ku, ktorá trvá dve hodiny a zaèína o 8:00, sú vyplnené políèka: 8:00, 9:00, 10:00. Pôvodný zámer bol
+znázorni» interval 8:00-10:00, ale nakoniec to vyzerá ako keby táto predná¹ka mala tri hodiny.
+</p>
 </body></html>

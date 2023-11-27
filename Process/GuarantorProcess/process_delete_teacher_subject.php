@@ -19,7 +19,7 @@ header('Content-Type: application/json');
 $subTeachId = $_POST['sub_teach_id'];
 
 // Delete the subject teacher relationship from the database
-$stmt = $pdo->prepare("DELETE FROM SUBJECT_TEACHERS WHERE sub_teach_ID = ?");
+$stmt = $pdo->prepare("DELETE FROM SUBJECT_TEACHER WHERE sub_teach_ID = ?");
 $stmt->execute([$subTeachId]);
 
 // Check if the deletion was successful

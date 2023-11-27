@@ -33,7 +33,7 @@ if (empty($subjectID) || !isValidSubject($subjectID, $pdo)) {
 }
 
 // Insert teacher-subject into the database
-$stmt = $pdo->prepare("INSERT INTO SUBJECT_TEACHERS (user_ID, subject_ID) VALUES (?, ?)");
+$stmt = $pdo->prepare("INSERT INTO SUBJECT_TEACHER (user_ID, subject_ID) VALUES (?, ?)");
 $stmt->execute([$teacherID, $subjectID]);
 
 // Check if the insertion was successful
