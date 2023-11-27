@@ -64,8 +64,8 @@
 
 <h2>Implementácia</h2>
 <p>Táto stránka sa zameriava na zobrazovanie a správu uèební a predmetov v rámci vzdelávacej in¹titúcie. 
-	Umo¾òuje administrátorom efektívne spravova» informácie o jednotlivých miestnostiach, predmetoch,
-	 uèebniach ako sú ich názvy, kapacita a umiestnenie, názvy a ïal¹ie atribúty. Okrem toho poskytuje mo¾nos» pridávania a úprav týchto entít.
+Umo¾òuje administrátorom efektívne spravova» informácie o jednotlivých miestnostiach, predmetoch,
+uèebniach ako sú ich názvy, kapacita a umiestnenie, názvy a ïal¹ie atribúty. Okrem toho poskytuje mo¾nos» pridávania a úprav týchto entít.
 Implementované súbormi, ktoré zaèínajú "manage". U¾ívatelia sa registrujú a ich heslo je ¹ifrované. Dodr¾ané ¹tandardy autentizácie a autorizácie dát.
 Zobrazenie v¹etkých predmetov aj pre neregistrovaných u¾ívateµov.
 
@@ -82,12 +82,18 @@ Cieµom tejto stránky je zjednodu¹i» procesy správy a zvý¹i» prehµadnos» dostupný
 <img src="DB_scheme.png" alt="Databáza">
 
 <h2>In¹talácia</h2>
-Kubo:
 Struène popí¹te: 
 <ul>
-<li>postup in¹talácie na server,</li>
-<li>softwarové po¾iadavky (verzie PHP apod.),</li>
-<li>ako rozbalit, konfigurova», inicializova» databázu, ...</li>
+<li>Stiahnite kod
+    kod prelo¾i»
+    Stiahnutie aplikácie Xamp verzie 1.0.0.0</li>
+<li>Predpoklad PHP verzie 8.1.
+    Na¹tartovanie serveru apach a mysql cez aplikáciu xamp.
+</li>
+<li>
+    Lokalizácia súboru create_db.sql. :/IIS-rozvrh/Database/create_db.sql
+    V aplikácií Xamp sa dosta» na http://localhost/phpmyadmin/ a tento skript spusti». 
+</li>
 </ul>
 
 <h2>Známe problémy</h2>
