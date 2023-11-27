@@ -17,7 +17,7 @@
     <dt>Autori</dt>
     <dd>Du¹an Slúka
         <a href="mailto:xsluka00@stud.fit.vutbr.cz">xsluka00@stud.fit.vutbr.cz</a> -
-        1. Zalo¾enie a nastavenie repozitára verzovacej aplikácie.<br>
+        <br>1. Zalo¾enie a nastavenie repozitára verzovacej aplikácie.<br>
         2. Návrh a vytvorenie skriptu pre databázu.<br>
         3. Stránku Manage_rooms_page a príslu¹né backend skripty.<br>
         4. Stránku Manage_subjects_page a príslu¹né backend skripty.<br>
@@ -28,7 +28,7 @@
         9. Komponentu side-bar a skript pre automatické odhlasovanie.<br>
     </dd>
     <dd>Ivan Mahút
-        <a href="mailto:xmahut01@stud.fit.vutbr.cz">xmahut01@stud.fit.vutbr.cz</a> -
+        <br><a href="mailto:xmahut01@stud.fit.vutbr.cz">xmahut01@stud.fit.vutbr.cz</a> -
         1. Návrh databázového modelu.<br>
         2. Stránku Guaranted_sub_page a príslu¹né backend skripty.<br>
         3. Stránku Activity_slots_page a príslu¹né backend skripty.<br>
@@ -37,10 +37,13 @@
     </dd>
     <dd>Tretie meno
         <a href="mailto:xmajer25@stud.fit.vutbr.cz">xmajer25@stud.fit.vutbr.cz</a> -
-        popis èinnosti v tíme
+        <br>1. Stránku Student_weekly a Student_yearly a príslu¹né backend skripty.<br>
+        2. Stránku Scheduler_main a príslu¹né backend skripty.<br>
+        3. Stránku Teacher_main a príslu¹né backend skripty.<br>
+        4. Hosting stránky pomocou InfinityFree.<br>
     </dd>
     <dt>URL aplikácie</dt>
-    <dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
+    <dd><a href="http://iis-scheduler.free.nf/">http://iis-scheduler.free.nf/</a></dd>
     <dd>(ak má aplikácia viac vstupných stránok, napí¹te obdobne ïal¹ie URL)</dd>
 </dl>
 
@@ -68,12 +71,22 @@ Umo¾òuje administrátorom efektívne spravova» informácie o jednotlivých miestnost
 uèebniach ako sú ich názvy, kapacita a umiestnenie, názvy a ïal¹ie atribúty. Okrem toho poskytuje mo¾nos» pridávania a úprav týchto entít.
 Implementované súbormi, ktoré zaèínajú "manage". U¾ívatelia sa registrujú a ich heslo je ¹ifrované. Dodr¾ané ¹tandardy autentizácie a autorizácie dát.
 Zobrazenie v¹etkých predmetov aj pre neregistrovaných u¾ívateµov.
-
-IVO:
-KUBO:
-
 Cieµom tejto stránky je zjednodu¹i» procesy správy a zvý¹i» prehµadnos» dostupných zdrojov a predmetov pre v¹etkých zainteresovaných v rámci vzdelávacej in¹titúcie.
-
+<br>
+©tudent:
+<br>Pre ¹tudenta sú implementované dve stránky. Jedna zobrazuje rozvrh na momentálny tý¾deò a druhá na celý rok. Na oboch stránkach je mo¾nos» pridania a odobrania aktivity z rozvrhu.
+Pri pridávaní aktivity sa ¹tudentovy zobrazia v¹etky predmety. Po výbere jedného z predmetov sa mu zobrazia aktivity tohto predmetu (predná¹ky, cvièenia ai.). Po výbere aktivity si ¹tudent
+mô¾e vlo¾i» túto aktivitu do rozvrhu. Pri odoberaní aktivity z rozvrhu, sú ¹tudentovi zobrazené v¹etky jeho aktivity. Aktivitu si mô¾e vybra» a následne odstráni» z rozvrhu.
+<br>
+Uèiteµ:
+<br>Pre uèiteµa je implementovaná jedna stránka, na ktorej sú zobrazené uèiteµove preferencie a dotazníky pre vytvorenie a zru¹enie preferencie. Pre vytvorenie preferencie musí uèiteµ zada»
+deò, èas kedy preferencia zaèína, trvanie preferencie a fakt èi táto preferencia je, alebo nie je v jeho záujme. Pre zru¹enie preferencie, má uèiteµ mo¾nos» vybra» si jednu z existujúcich preferencijí
+a vymaza» ju.
+<br>
+Rozvrhár:
+<br>Rozvrhár má k dispozícii jednu stránku pre zadanie miestnosti a èasu pre aktivitu. Po zvolení si jednej z aktivít sa rozvrhárovi zobrazia preferncie uèi»eµa, ktorý túto aktivitu vyuèuje, preferncie samotnej aktivity
+a mo¾nos» zvoli» si miestnos» kde by sa táto aktivita mala vykonáva». Po zvolení miestnosti sa zobrazí rozvrh, ktorý znázoròuje zaplnenos» tejto miestnosti. V¹ade, kde sa aktivita neprekríva s inou aktivitou v rozvrhu,
+je zobrazené tlaèítko 'Add Here'. Po jeho stlaèení sa prepí¹e miestnos» a èas zvolenej aktivity.
 </p>
 
 
@@ -98,6 +111,7 @@ Struène popí¹te:
 
 <h2>Známe problémy</h2>
 <p>Popí¹te, ktoré body zadania nie sú implementované a z akého dôvodu. Napr. ?Z èasových dôvodov nebola implementovaná správa u¾ívateµov.? Pomô¾ete tým zrýchli» hodnotenie, keï neimplementované funkcie nebudeme musie» dlho hµada».</p>
-
+Na stránkach pre ¹tudenta, rozvrhára a uèiteµa sú implementované rozvrhy vo forme tabuliek, ktoré mô¾u by» pre u¾ívateµa metúce. Napríklad pre predná¹ku, ktorá trvá dve hodiny a zaèína o 8:00, sú vyplnené políèka: 8:00, 9:00, 10:00. Pôvodný zámer bol
+znázorni» interval 8:00-10:00, ale nakoniec to vypadá ako keby táto predná¹ka mala tri hodiny.
 
 </body></html>
