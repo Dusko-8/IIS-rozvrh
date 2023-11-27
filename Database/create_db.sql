@@ -269,11 +269,11 @@ INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, a
 
 -- One time Activity
 INSERT INTO ACTIVITY(subject_ID, room_ID, teacher_ID, day_time_ID, repetition, activity_type, duration, activity_date) VALUES
-(7, 1, 1, 13, 'oneTime', 'Lecture', 2, '2023-12-24'),
-(8, 15, 45, 9, 'oneTime', 'Lecture', 2, '2024-1-26'),
-(5, null, 39, null, 'oneTime', 'Exam', 3, '2024-1-27'),
-(12, 3, 51, 4, 'oneTime', 'Consultation', 1, '2024-1-28'),
-(2, null, 41, null, 'oneTime', 'Tutorial', 4, '2024-1-29');
+(7, 1, 1, 13, 'oneTime', 'Lecture', 2, '2023-12-29'),
+(8, 15, 45, 9, 'oneTime', 'Lecture', 2, '2024-1-25'),
+(5, null, 39, null, 'oneTime', 'Exam', 3, '2024-1-26'),
+(12, 3, 51, 4, 'oneTime', 'Consultation', 1, '2024-1-30'),
+(2, null, 41, null, 'oneTime', 'Tutorial', 4, '2024-1-31');
 
 -- Inserting mock data into PREFERED_SLOTS_ACTIVITY
 INSERT INTO PREFERED_SLOTS_ACTIVITY(activity_ID, room_ID, teacher_ID, day_time_ID, preference) VALUES
